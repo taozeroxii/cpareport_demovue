@@ -4,12 +4,7 @@
       color="primary"
       :disabled=" forminput == 'report_form_multipleselect.php' ||forminput == 'report_form_001.php' ||forminput == 'report_form_blood.php'? true: false"
       target="_blank"
-      :href="
-        'http://172.16.0.251/report/' +
-          forminput +
-          '?sql=' +
-          this.$route.params.sql
-      "
+      :href=" 'http://172.16.0.251/report/' + forminput +'?sql=' +this.$route.params.sql "
       >คลิ๊กเพื่อไปยังเวอร์ชั่นเดิม เมื่อปุ่มเป็นสีน้ำเงิน
       ฟอร์มรับข้อมูลปัจจุบัน {{ forminput }}
     </v-btn>
