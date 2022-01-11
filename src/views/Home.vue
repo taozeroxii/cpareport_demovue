@@ -1,0 +1,57 @@
+<template>
+  <v-container>
+    <v-row>
+      <v-col lg="12">
+        <v-form @submit.prevent="submit()">
+          <v-row>
+            <v-col lg="11">
+              <v-text-field
+                label="ค้นหารายงานที่ต้องการ"
+                type="text"
+                v-model.trim="form.select"
+              ></v-text-field>
+            </v-col>
+            <v-col lg="1">
+              <v-btn type="submit" class="success blok"  x-large><v-icon>mdi-search-web</v-icon> ค้นหา </v-btn>
+            </v-col >
+          </v-row>
+        </v-form>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <MenuCard  v-if="form.select ==''" :v-model="clicksubmit =  false" />
+      <SearchMenu v-if="clicksubmit" :searchmenu="searchmenu"  />
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import axios from "axios";
+import MenuCard from "@/components/cards/menuCard";
+import SearchMenu from "@/components/cards/searchMenu";
+
+export default {
+  name: "Home",
+  components: { MenuCard ,SearchMenu},
+  data() {
+    return {
+      form: { select: ''},
+      searchmenu:[],
+      clicksubmit:false
+    };
+  },
+  methods: {
+    submit() {
+      axios.post(`http://172.16.0.251:3000/api/menu/search`,this.form)
+        .then((result) => {
+        this.searchmenu = result.data;
+        this.clicksubmit = true;
+        // console.log(  this.searchmenu);
+     });
+    this.clicksubmit = false;
+    // console.log(this.form.select);
+    },
+  },
+};
+</script>
