@@ -78,24 +78,12 @@ router.beforeEach(async (to, from, next) => {
   const publicPages = ["/login", "/", "/about", "/dashboard", "/tableshowdata"]; //หน้าที่ไม่ต้อง login
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem("token");
-  var statuslogin = null;
-  // console.log(to.name)
 
-  if (!authRequired && !publicPages) {
-    await axios.post("http://172.18.2.2/api/admin/checkJWTexpire", "", { headers: { "x-access-token": loggedIn }, }).then((result) => {
-        if (result.status === 200) {
-          // console.log(result.status);
-          statuslogin = result.status;
-        }
-      }).catch((err) => {
-        statuslogin = err.response.status;
-      });
+  if (authRequired && to.name != "tableshowdata") {
+    await axios.post("http://172.18.2.2:3010/api/admin/checkJWTexpire", "", { headers: { "x-access-token": loggedIn }, }).then((result) => {
+       console.log(result)
+    }).catch(() => { return next("/login");});
   }
-  // console.log(statuslogin)
-  if ( authRequired && !loggedIn &&statuslogin !== 200 &&to.name != "tableshowdata") {
-    return next("/login");
-  }
-
   next();
 });
 
