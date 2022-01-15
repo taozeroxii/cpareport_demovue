@@ -8,9 +8,13 @@ import VeeValidate from 'vee-validate'
 import Vue2Filters from 'vue2-filters'
 var moment = require('moment'); // require
 
+import  'alertifyjs/build/css/alertify.css'
+import  'alertifyjs/build/css/themes/default.css'
+import * as alertify from 'alertifyjs'
 
 Vue.use(VeeValidate) //ใช้งาน validate form 
 Vue.use(Vue2Filters)
+Vue.prototype.alertify = alertify // กำหนดให้ alertify เป็นชื่อการเรียกใช้ function alertify
 
 //filter สร้าง filter เพื่อกำหนด format วันที่
 Vue.filter('date',(value)=>{

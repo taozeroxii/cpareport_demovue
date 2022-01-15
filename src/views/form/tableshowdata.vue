@@ -478,12 +478,7 @@ export default {
 
       // console.log(this.form);
 
-      axios
-        .post(
-          `http://172.16.0.251:3000/api/tableshowdata/queryfrominput`,
-          this.form
-        )
-        .then((result) => {
+      axios.post( `http://172.18.2.2:3010/api/tableshowdata/queryfrominput`, this.form).then((result) => {
           // this.getData = result.data;
           // this.headers =  [{ text: result.data.fields[0].name, value:  result.data.fields[0].name }];
           //  console.log(result.data)
@@ -519,11 +514,7 @@ export default {
           this.selectinput();
         });
 
-      axios
-        .post(
-          `http://172.16.0.251:3000/api/tableshowdata/queryfrominputsql2`,
-          this.form
-        )
+      axios.post(`http://172.18.2.2:3010/api/tableshowdata/queryfrominputsql2`,this.form)
         .then((result) => {
           var i;
           // console.log(result.data)
@@ -577,19 +568,12 @@ export default {
     },
 
     selectinput() {
-      axios
-        .get(
-          `http://172.16.0.251:3000/api/tableshowdata/menusql/${this.$route.params.sql}`
-        )
-        .then((result) => {
+      axios.get( `http://172.18.2.2:3010/api/tableshowdata/menusql/${this.$route.params.sql}` ).then((result) => {
           // console.log(result.data.menu_link);
           this.forminput = result.data.menu_link;
         });
 
-      axios
-        .get(
-          `http://172.16.0.251:3000/api/tableshowdata/sql/${this.$route.params.sql}`
-        )
+      axios .get(`http://172.18.2.2:3010/api/tableshowdata/sql/${this.$route.params.sql}` )
         .then((result) => {
           // console.log(result)
           this.sql_name = result.data.sql_head; //name 1
@@ -623,7 +607,7 @@ export default {
           if (result.data.sql_code.search("{multiple_pttype}") >= 0) {
             this.ckInput.pttype = false;
             axios
-              .get(`http://172.16.0.251:3000/api/selectinput/pttype`)
+              .get(`http://172.18.2.2:3010/api/selectinput/pttype`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -639,7 +623,7 @@ export default {
           if (result.data.sql_code.search("{multiple_spclty}") >= 0) {
             this.ckInput.spclty = false;
             axios
-              .get(`http://172.16.0.251:3000/api/selectinput/spclty`)
+              .get(`http://172.18.2.2:3010/api/selectinput/spclty`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -655,9 +639,7 @@ export default {
 
           if (result.data.sql_code.search("{multiple_room}") >= 0) {
             this.ckInput.kskdepartments = false;
-            axios
-              .get(`http://172.16.0.251:3000/api/selectinput/kskdepartments`)
-              .then((res) => {
+            axios .get(`http://172.18.2.2:3010/api/selectinput/kskdepartments`).then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
                   // console.log(res.data[i].spclty );
@@ -672,8 +654,7 @@ export default {
 
           if (result.data.sql_code.search("{multiple_ward}") >= 0) {
             this.ckInput.ward = false;
-            axios
-              .get(`http://172.16.0.251:3000/api/selectinput/ward`)
+            axios.get(`http://172.18.2.2:3010/api/selectinput/ward`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -691,7 +672,7 @@ export default {
           ) {
             this.ckInput.doctor = false;
             axios
-              .get(`http://172.16.0.251:3000/api/selectinput/doctor`)
+              .get(`http://172.18.2.2:3010/api/selectinput/doctor`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {

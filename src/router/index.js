@@ -1,43 +1,108 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
+import Router from "vue-router";
 import Home from "../views/Home.vue";
 import tableshowdata from "../views/form/tableshowdata";
+import axios from "axios";
 
-Vue.use(VueRouter);
+Vue.use(Router);
 
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path: "/dashboard",
-    name: "dashboard",
-    component: () => import("@/views/dashboard.vue"),
-  },
-  {
-    path: "/tableshowdata/:sql",
-    // meta:{ isSecured:true},
-    name: "tableshowdata",
-    component: tableshowdata,
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  },
-  {
-    path: "*",
-    redirect: "/",
-  },
-];
-
-const router = new VueRouter({
+export const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes: [
+    {
+      path: "/",
+      name: "Home",
+      component: Home,
+    },
+    {
+      path: "/dashboard",
+      name: "dashboard",
+      component: () => import("@/views/dashboard.vue"),
+    },
+    {
+      path: "/tableshowdata/:sql",
+      name: "tableshowdata",
+      component: tableshowdata,
+    },
+    {
+      path: "/about",
+      name: "About",
+      component: () => import("../views/About.vue"),
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("@/views/Login.vue"),
+    },
+    {
+      path: "/admin",
+      name: "admin",
+      component: () => import("../views/admin/admin.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/admin/register",
+      name: "register",
+      component: () => import("../views/admin/register.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/admin/addquery",
+      name: "addquery",
+      component: () => import("../views/admin/Addquery.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/admin/menuEditquery",
+      name: "menuEditquery",
+      component: () => import("../views/admin/menuEditquery.vue"),
+      meta: { requiresAuth: true },
+    },
+    // {
+    //   path: "/admin/tableuser",
+    //   name: "menuEditquery",
+    //   component: () => import("../views/admin/tableuser.vue"),
+    //   meta: { requiresAuth: true },
+    // },
+
+    {
+      path: "*",
+      redirect: "/",
+    },
+  ],
 });
+
+router.beforeEach(async (to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ["/login", "/", "/about", "/dashboard", "/tableshowdata"]; //หน้าที่ไม่ต้อง login
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem("token");
+  var statuslogin = null;
+  // console.log(to.name)
+
+  if (!authRequired && !publicPages) {
+    await axios.post("http://172.18.2.2/api/admin/checkJWTexpire", "", { headers: { "x-access-token": loggedIn }, }).then((result) => {
+        if (result.status === 200) {
+          // console.log(result.status);
+          statuslogin = result.status;
+        }
+      }).catch((err) => {
+        statuslogin = err.response.status;
+      });
+  }
+  // console.log(statuslogin)
+  if ( authRequired && !loggedIn &&statuslogin !== 200 &&to.name != "tableshowdata") {
+    return next("/login");
+  }
+
+  next();
+});
+
+// const router = new VueRouter({
+//   mode: "history",
+//   base: process.env.BASE_URL,
+//   routes,
+// });
 
 export default router;

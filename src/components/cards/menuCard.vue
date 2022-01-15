@@ -46,8 +46,7 @@ export default {
 
   async mounted() {
     // console.log("menu");
-    await Axios.get("http://172.16.0.251:3000/api/menu")
-      .then((result) => {
+    await Axios.get("http://172.18.2.2:3010/api/menu") .then((result) => {
         //console.log(JSON.stringify(result.data));
         this.menumain = result.data;
       })
@@ -58,7 +57,7 @@ export default {
 
   methods: {
     async showSubmenu(id) {
-      await Axios.get(`http://172.16.0.251:3000/api/menu/submenu/${id}`).then(
+      await Axios.get(`http://172.18.2.2:3010/api/menu/submenu/${id}`).then(
         (result) => {
           // console.log(JSON.stringify(result.data));
           this.menusss = result.data;

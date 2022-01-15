@@ -1,23 +1,47 @@
 <template>
   <div id="Header">
-    <v-app-bar color="accent-4" app dense >
-      <!-- <v-app-bar-nav-icon ></v-app-bar-nav-icon> -->
-
-      <v-toolbar-title>{{ version }}</v-toolbar-title>
+    <v-app-bar color="accent-4" app dense>
+      <v-toolbar-title>{{ version }} วันที่ {{datenow}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <span>Username: none</span>
-      <v-btn icon> <v-icon>mdi-export</v-icon></v-btn>
+      <v-btn icon @click="GotoLogin" class="mr-5" v-if="!isLogined">
+        &nbsp;&nbsp; LOGIN<v-icon>login </v-icon>&nbsp;</v-btn
+      >
+      <v-btn icon @click="Logout" class="mr-5" v-if="isLogined">
+        &nbsp;&nbsp;<v-icon>logout </v-icon>&nbsp; LOGOUT</v-btn
+      >
     </v-app-bar>
   </div>
 </template>
 <script>
 export default {
   name: "Header",
+  data() {
+    return {
+      isLogined: null,
+      datenow:new Date().toLocaleString()
+    };
+  },
   computed: {
     version() {
-      return process.env.VUE_APP_TITLE +' v. '+ process.env.VUE_APP_VERSION;
+      return process.env.VUE_APP_TITLE + " v. " + process.env.VUE_APP_VERSION;
     },
+  },
+  methods: {
+    GotoLogin() {
+      this.$router.push("./login").catch(() => {});
+    },
+    Logout() {
+      localStorage.clear();
+      this.alertify.warning("LOGOUT");
+      this.$router.push("/").catch(() => {});
+    },
+  },
+  mounted() {
+    setInterval(() => {
+        this.isLogined = localStorage.fname;
+        this.datenow = new Date().toLocaleString()
+    }, 1000);
   },
 };
 </script>

@@ -17,9 +17,7 @@ export default {
     Menu,
     Content,
   },
-  mounted() {
-    // this.$store.dispatch({ type: "restoreLogin" });
-    
+  mounted() { 
   },
 };
 </script>

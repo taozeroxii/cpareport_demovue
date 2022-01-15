@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     submit() {
-      axios.post(`http://172.16.0.251:3000/api/menu/search`,this.form)
+      axios.post(`http://172.18.2.2:3010/api/menu/search`,this.form)
         .then((result) => {
         this.searchmenu = result.data;
         this.clicksubmit = true;

@@ -60,6 +60,7 @@ export default {
         ["mdi-home-city", "Home Menu", "/"],
         ["mdi-account", "Dashboard", "/dashboard"],
         ["mdi-account-group-outline", "about", "/about"],
+        ["mdi-television", "admin", "/admin"],
       ],
     };
   },

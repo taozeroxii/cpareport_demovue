@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config();//config ค่าใน env ไฟล์
 var cors = require('cors')
 const server = express();
 const bodyParser = require('body-parser')
