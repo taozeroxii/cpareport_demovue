@@ -333,11 +333,12 @@
           <div class="py-3">
             SQL QUERY CODE
             <hr />
-           <v-textarea
-              outlined
-              name="input-7-4"
-              label="Outlined textarea"
-              :value="form.sql"></v-textarea>
+            <v-row>
+              <v-col lg="6">  <v-textarea  outlined  name="input-7-4"  label="SQL-1"  :value="form.sql" disabled></v-textarea></v-col>
+              <v-col lg="6">  <v-textarea  outlined  name="input-7-4"  label="SQL-2"  :value="form.sql2" disabled></v-textarea></v-col>
+            </v-row>
+         
+           <v-textarea  outlined  name="input-7-4"  label="SQL-2"  :value="form.sql2"></v-textarea>
           </div>
         </v-sheet>
       </v-bottom-sheet>
@@ -610,8 +611,7 @@ export default {
 
           if (result.data.sql_code.search("{multiple_pttype}") >= 0) {
             this.ckInput.pttype = false;
-            axios
-              .get(`http://172.18.2.2:3010/api/selectinput/pttype`)
+            axios .get(`http://172.18.2.2:3010/api/selectinput/pttype`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {

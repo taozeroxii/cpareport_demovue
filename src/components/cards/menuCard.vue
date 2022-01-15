@@ -51,7 +51,7 @@ export default {
         this.menumain = result.data;
       })
       .catch(() => {
-        this.warning = "Warning : ไม่สามารถเชื่อมต่อกับฐานข้อมูลได้โปรดตรวจสอบเครื่อง server 172.16.0.251 ";
+        this.warning = "Warning : ไม่สามารถเชื่อมต่อกับฐานข้อมูลได้โปรดตรวจสอบเครื่อง server backend ";
       });
   },
 
