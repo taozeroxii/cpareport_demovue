@@ -81,6 +81,17 @@ router.get("/getuserlist",auth,async (req, res)=>{
 
 
 
+// QUERY 
+
+router.get("/cpareportmenu-list",auth,async (req, res) => {
+  try {
+    const model =  await services.getAllqueryList();
+    if (!model) throw new Error("ไม่พบข้อมูลที่ค้นหา");
+    res.json(model);
+  } catch (ex) {
+    res.error(ex);
+  }
+});
 
 router.post("/addquery",auth, (req, res) => {
   res.json({ message: "addquery" });

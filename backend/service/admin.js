@@ -65,4 +65,20 @@ module.exports = {
   },
 
 
+  getAllqueryList(){
+    return new Promise((resolve, reject) => {
+        connection.query(
+          `SELECT cm.*,cs.sql_head 
+          from cpareport_menu  cm 
+          LEFT JOIN cpareport_sql cs on cm.menu_file = cs.sql_file Order by cm.id desc`,
+          (error, result) => {
+            // console.log(result);
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+      });
+    },
+
+
 };
