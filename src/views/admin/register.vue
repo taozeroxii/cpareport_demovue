@@ -1,6 +1,5 @@
 <template>
   <v-container>
-
     <v-row class="justify-center mt-5">
       <v-card style="width:90%;" outline>
         <v-img class="align-end" height="100px">
@@ -19,10 +18,7 @@
                   :items="items"
                   label="คำนำหน้า"
                   :rules="pnameRule"
-                  :class="{
-                    'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has(
-                      'pname'
-                    ),
+                  :class="{'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has( 'pname' ),
                   }"
                 ></v-select>
               </v-col>
@@ -33,10 +29,7 @@
                   name="fname"
                   label="ชื่อ"
                   id="fname"
-                  :class="{
-                    'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has(
-                      'fname'
-                    ),
+                  :class="{'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has('fname' ),
                   }"
                   v-model.trim="account.fname"
                   :rules="fnameRule"
@@ -51,15 +44,12 @@
                   id="lname"
                   v-model.trim="account.lname"
                   :rules="lnameRule"
-                  :class="{
-                    'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has(
-                      'lname'
-                    ),
+                  :class="{ 'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has('lname'),
                   }"
                 />
                 <!-- <span>{{ errors.first("lname") }}</span> -->
               </v-col>
-                   <v-col lg="2" cols="2">
+              <v-col lg="2" cols="2">
                 <v-text-field
                   v-validate="'required'"
                   name="niname"
@@ -67,7 +57,7 @@
                   id="niname"
                   v-model.trim="account.niname"
                   :rules="ninameRule"
-                  :class="{'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has('niname'),
+                  :class="{ 'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has( 'niname' ),
                   }"
                 />
                 <!-- <span>{{ errors.first("lname") }}</span> -->
@@ -83,7 +73,8 @@
                   label="Username"
                   id="username"
                   v-model.trim="account.username"
-                  :class="{ 'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has(  'username' ), }"
+                  :class="{ 'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has( 'username' ),
+                  }"
                   :rules="usernameRules"
                 /><!-- <span>{{ errors.first("username") }}</span>-->
               </v-col>
@@ -95,13 +86,13 @@
                   name="password"
                   label="Password"
                   id="password"
-                  :append-icon=" isShowPassword ? 'visibility' : 'visibility_off'"
+                  :append-icon="  isShowPassword ? 'visibility' : 'visibility_off' "
                   @click:append="isShowPassword = !isShowPassword"
                   :type="isShowPassword ? 'text' : 'password'"
                   counter
                   v-model.trim="account.password"
                   :rules="passwordRules"
-                  :class="{ 'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has(  'password' ),
+                  :class="{ 'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has( 'password' ),
                   }"
                 />
                 <!-- <span>{{ errors.first("password") }}</span> -->
@@ -119,7 +110,11 @@
                   item-value="id"
                   :rules="roleRules"
                   label="สิทธิการใช้งาน"
-                  :class="{'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has(  'role'),}"
+                  :class="{
+                    'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has(
+                      'role'
+                    ),
+                  }"
                 >
                 </v-select>
               </v-col>
@@ -134,7 +129,9 @@
                 </v-btn>
               </v-col>
               <v-col cols="6">
-                <v-btn block color="orange darken-2" dark @click="cancel" ><v-icon dark left> mdi-arrow-left</v-icon>ยกเลิก</v-btn >
+                <v-btn block color="orange darken-2" dark @click="cancel"
+                  ><v-icon dark left> mdi-arrow-left</v-icon>ยกเลิก</v-btn
+                >
               </v-col>
 
               <v-col>
@@ -204,7 +201,8 @@ export default {
           this.account.status = this.account.status[0];
           this.account.status = this.account.status.trim();
         }
-        Axios.post("http://localhost:3000/api/admin/register", this.account).then(() => {
+        Axios.post("http://172.18.2.2:3010/api/admin/register", this.account)
+          .then(() => {
             this.account = {
               username: null,
               password: null,
@@ -225,8 +223,8 @@ export default {
     },
   },
   created() {
-    console.log("test");
-    Axios.get("http://localhost:3000/api/admin/userrole") .then((res) => {
+    Axios.get("http://172.18.2.2:3010/api/admin/userrole")
+      .then((res) => {
         var i;
         for (i = 0; i < res.data.length; i++) {
           this.role.push(res.data[i].id + "   : " + res.data[i].user_rolename);

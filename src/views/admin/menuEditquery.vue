@@ -1,11 +1,89 @@
 <template>
   <v-container>
     <MenuTabadmin />
+    <v-card style="margin:15px">
+      <v-data-table
+        :search="search"
+        :headers="headers"
+        :items="mDataArray"
+        :loading="loaddata"
+        loading-text="Loading... Please wait"
+      >
+        <!-- table top section -->
+        <template v-slot:top>
+          <v-toolbar flat color="white">
+            <v-toolbar-title>Menu Query</v-toolbar-title>
+            <v-divider class="mx-4" inset vertical></v-divider>
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              label="Search"
+              single-line
+              hide-details
+            ></v-text-field>
+            <v-spacer></v-spacer>
+            <!-- <v-btn
+              @click="$router.push('./register')"
+              color="primary"
+              dark
+              class="mb-2"
+            >
+              <v-icon left>add</v-icon>
+              <span>เพิ่มผู้ใช้งาน</span> -->
+            <!-- </v-btn> -->
+          </v-toolbar>
+        </template>
+
+        <!-- table tr section -->
+        <template v-slot:item="{ item }">
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.menu_sub }}</td>
+            <td>{{ item.menu_link }}</td>
+            <td>{{ item.menu_title }}</td>
+            <td>{{ item.sql_head }}</td>
+            <td>{{ item.menu_userupdate }}</td>
+            <td>{{ item.menu_datetimeupdate|date }}</td>
+            <td> <v-icon class="mr-2" @click="editItem(item.id)" disabled>  edit </v-icon>
+              <!-- <span class="ma-1"></span> -->
+              <!-- <v-icon  @click="deleteItem(item)">
+                delete
+              </v-icon> -->
+            </td>
+          </tr>
+        </template>
+      </v-data-table>
+
+      <!-- <v-dialog v-model="confirmDeleteDlg" max-width="290">
+        <v-card>
+          <v-card-title primary-title>
+            Confirm Delete
+          </v-card-title>
+
+          <v-card-text class="body">
+            ต้องการลบ user Account นี้หรือไม่ ? 
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text @click="confirmDeleteDlg = false">
+              ยกเลิก
+            </v-btn>
+
+            <v-btn color="error" text @click="confirmDelete">
+              ยืนยัน
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog> -->
+    </v-card>
   </v-container>
 </template>
 
 <script>
+import axios from "axios";
 import MenuTabadmin from "@/components/cards/menuTabadmin";
+
 export default {
   name: "menuEditquery",
   components: {
@@ -13,8 +91,43 @@ export default {
   },
   data() {
     return {
-      name: null,
+      token: null,
+      search: "",
+      selectedUserId: "",
+      confirmDeleteDlg: false,
+      loaddata: true,
+      mDataArray: [],
+      headers: [
+        {
+          text: "Id",
+          align: "left",
+          sortable: false,
+          value: "id",
+        },
+        { text: "ชื่อหัวข้อย่อย", value: "menu_sub" },
+        { text: "ชื่อฟอร์ม", value: "menu_link" },
+        { text: "คำอธิบายย่อยตอน hover", value: "menu_title" },
+        { text: "คำอธิบายแสดงในหน้ารายงาน", value: "sql_head" },
+        { text: "ผู้เพิ่มรายการ", value: "menu_userupdate" },
+        { text: "วันเวลาแก้ไขล่าสุด", value: "menu_datetimeupdate" },
+        { text: "Action", value: "action" },
+      ],
     };
+  },
+  created() {
+    this.token = localStorage.token;
+  },
+  mounted() {
+    this.getallquery_menu();
+  },
+
+  methods: {
+    getallquery_menu() {
+      axios.get("http://172.18.2.2:3010/api/admin/cpareportmenu-list",{ headers: { "x-access-token": this.token }}).then((result) => {
+          this.mDataArray = result.data;
+      });
+      this.loaddata = false;
+    },
   },
 };
 </script>

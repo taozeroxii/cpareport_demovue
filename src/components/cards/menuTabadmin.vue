@@ -1,7 +1,7 @@
 <template>
   <v-tabs>
     <v-btn   dark v-for="(item, index) in cardmenu" :key="index"   @click="onClickMenu(item.link)">  {{ item.title }}  </v-btn >
-    <a href="https://trello.com/abhaihelphos/home" darktarget="_blank"> <v-btn dark>รวมปัญหาต่างๆ</v-btn></a>
+    <a href="https://trello.com/abhaihelphos/home" dark target="_blank"> <v-btn dark>รวมปัญหาต่างๆ</v-btn></a>
   </v-tabs>
 </template>
 
@@ -17,7 +17,7 @@ export default {
           link: "/admin/addquery",
         },
         {
-          title: "รายการquery(แก้ไข)",
+          title: "รายการquery",
           color: "",
           link: "/admin/menuEditquery",
         },

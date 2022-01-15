@@ -40,7 +40,7 @@
             <!-- <td>{{ item.price | currency("฿") }}</td>
             <td>{{ item.stock | number("0,0") }} pcs.</td> -->
             <td>
-              <v-icon class="mr-2" @click="editItem(item)">
+              <v-icon disabled class="mr-2" @click="editItem(item)">
                 edit
               </v-icon>
               <!-- <span class="ma-1"></span> -->
@@ -127,7 +127,7 @@ export default {
     //     this.loadUser();
     // },
     async loadUser() {
-        await axios.get(`http://localhost:3000/api/admin/getuserlist`,{ headers: { "x-access-token": this.token }} ).then((result) => {this.mDataArray = result.data;  });
+        await axios.get(`http://172.18.2.2:3010/api/admin/getuserlist`,{ headers: { "x-access-token": this.token }} ).then((result) => {this.mDataArray = result.data;  });
         this.loaddata = false;
     },
   },
