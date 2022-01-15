@@ -11,7 +11,8 @@ npm install
 npm run serve
 # backend
 สร้าง  .env ใน backend เพื้่อทำการเชื่อมต่อกับฐานข้อมูลทั้ง2ตัว 1.mysql ของระบบรายงาน 2. postgresql ของ his รพ.
-     #connection MYSQL
+   
+    #connection MYSQL
      MYSQL_HOST=
      MYSQL_USER=
      MYSQL_PASSWORD=
