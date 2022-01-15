@@ -2,6 +2,7 @@
   <v-container>
 
     <MenuTabadmin />
+    <input type="number" v-model="a"> <input type="number" v-model="b">A:{{a}}||   B:{{b}}  ||  Testcomputed A+B ={{averageScore}}
 
     <v-row class="justify-center mt-5">
       <v-card style="width:90%;" outline>
@@ -70,6 +71,7 @@ export default {
   },
   data() {
     return {
+      a:0,b:0,
       items     : ["1", "2", "3"],
       //ตัวแปรไว้รับค่าจากฟอร์มเพื่อส่งไปบันทึกลงฐานข้อมูล
       form:{},
@@ -81,12 +83,21 @@ export default {
       main_menuRule: [(v1) => !!v1 || "โปรดกรอก เลือกหัวข้อหลัก"],
     };
   },
+
+
   methods: {
     cancle() {
       this.$router.back();
     },
     getMaxmenu_id(selected_id){
       this.menu_maxid = selected_id+1;
+    }
+  },
+
+  computed: {
+    averageScore: function() {
+      var sum = parseInt(this.a) + parseInt(this.b);
+      return sum;
     }
   },
 
