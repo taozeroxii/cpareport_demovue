@@ -85,7 +85,7 @@ export default {
   },
 
 
-  methods: {
+  methods: {//ทำงานเมื่อมีการเรียกใช้งาน
     cancle() {
       this.$router.back();
     },
@@ -94,15 +94,14 @@ export default {
     }
   },
 
-  computed: {
+  computed: {//ทำงานคล้ายๆ watch ใช้เมื่อต้องการแก้ไขข้อมูลบางตัวซึ่งผูกมัดกับข้อมูลอื่น ๆ 
     averageScore: function() {
       var sum = parseInt(this.a) + parseInt(this.b);
       return sum;
     }
   },
 
-  watch: {
-    // whenever main_menu changes, this function will run
+  watch: {// watcher นั้นใช้งานหลังจากที่ข้อมูลเปลี่ยนแปลงเสร็จแล้วซึ่งจะทำการเรียกใช้งาน method ที่ต้องการได้เลยมักใช้กับงานที่ใช้ resource เยอะ ๆ เช่น ส่งข้อมูลไปยัง Server หรือ เรียก REST APIs
     main_menu: function (val) {// หากเลือกเมนูแล้วให้ส่งค่า value ขอเมนูนั้นๆมาเพเื่อเรียกใช้ฟังก์ชันต่อ
       // console.log(val)
       this.getMaxmenu_id(val)

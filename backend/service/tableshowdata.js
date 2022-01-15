@@ -10,10 +10,7 @@ const table = {
 module.exports = {
   findById(id) {
     return new Promise((resolve, reject) => {
-      connection.query(
-        `SELECT * FROM ${table.sql} WHERE sql_file = ?`,
-        [id],
-        (error, result) => {
+      connection.query(`SELECT * FROM ${table.sql} WHERE sql_file = ?`, [id],(error, result) => {
           if (error) return reject(error);
           resolve(result.length > 0 ? result[0] : null);
         }
@@ -22,11 +19,7 @@ module.exports = {
   },
 
   findMenuById(id) {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        `SELECT * FROM cpareport_menu WHERE menu_file = ?`,
-        [id],
-        (error, result) => {
+    return new Promise((resolve, reject) => {connection.query(`SELECT * FROM cpareport_menu WHERE menu_file = ?`,[id],(error, result) => {
           if (error) return reject(error);
           resolve(result.length > 0 ? result[0] : null);
         }

@@ -333,7 +333,11 @@
           <div class="py-3">
             SQL QUERY CODE
             <hr />
-            {{ form.sql }}
+           <v-textarea
+              outlined
+              name="input-7-4"
+              label="Outlined textarea"
+              :value="form.sql"></v-textarea>
           </div>
         </v-sheet>
       </v-bottom-sheet>
