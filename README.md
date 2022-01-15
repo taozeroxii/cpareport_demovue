@@ -4,6 +4,7 @@
   
   
 # fontend
+** กำหนด api url ผ่าน proxy ในการ dev แต่พออัพขึ้นproduct รันไม่ได้เลยปรับให้เรียกผ่าน url api โดยตรงทั้งหมด ** 
 หน้า src/views/form/tableshowdata จะมีส่วนการดุึงข้อมูลจาก backend 
 โดยใช้เป็น local ip 172.16.0.251 ไว้หากclone มาเปลียนเป็น http://localhost/:portที่กำหนด   ในส่วนนี้default port 3000
 npm install

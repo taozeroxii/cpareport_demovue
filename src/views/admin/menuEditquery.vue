@@ -7,7 +7,7 @@
 <script>
 import MenuTabadmin from "@/components/cards/menuTabadmin";
 export default {
-  name: "menueditquery",
+  name: "menuEditquery",
   components: {
     MenuTabadmin,
   },

@@ -24,7 +24,7 @@ module.exports = {
             const userLogin = result[0];
             if (await bcrypt.compare(value.password, userLogin.password)) { //check password
               //create usertoken 
-              const token = jwt.sign( { user_id:userLogin.id, username:userLogin.username},process.env.TOKEN_KEY,{expiresIn:"60s"});
+              const token = jwt.sign( { user_id:userLogin.id, username:userLogin.username},process.env.TOKEN_KEY,{expiresIn:"3h"});
               //save user Token
               userLogin.token = token;
               delete userLogin.password;
@@ -36,6 +36,33 @@ module.exports = {
       );
     });
   },
+  
+
 
   
+  findAlluserrole(){
+    return new Promise((resolve, reject) => {
+      connection.query( "select * from cpareport_user_role ", (err, result) => {
+          if (err) return reject(error);
+          return resolve(result);
+        }
+      );
+    });
+  },
+
+
+  getAlluserlist(){
+  return new Promise((resolve, reject) => {
+      connection.query(
+        `select id,username,pname,fname,lname,status,create_datetime FROM cpareport_userlogin_nversion`,
+        (error, result) => {
+          // console.log(result);
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+    });
+  },
+
+
 };

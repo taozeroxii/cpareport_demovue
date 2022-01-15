@@ -22,14 +22,9 @@ export default {
           link: "/admin/menuEditquery",
         },
         {
-          title: "เพิ่มผู้ใช้งาน",
+          title: "รายการuser(เพิ่ม/แก้ไข)",
           color: "",
-          link: "/admin/register",
-        },
-        {
-          title: "รายการuser(แก้ไข)",
-          color: "",
-          link: "/admin/tableedituser",
+          link: "/admin/tableuser",
         },
       ],
     };

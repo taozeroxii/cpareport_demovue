@@ -7,13 +7,25 @@ router.get("/", (req, res) => {
   res.json({ message: "admin" });
 });
 
-router.post(
-  "/register",
+router.get("/userrole",async (req, res) => {
+  try {
+    req.validate();
+    const inputtype = await services.findAlluserrole();
+    res.json(inputtype);
+  } catch (ex) {
+    res.error(ex);
+  }
+});
+
+router.post( "/register",
   [
     check("username")
       .not()
       .isEmpty(),
     check("password")
+      .not()
+      .isEmpty(),
+    check("pname")
       .not()
       .isEmpty(),
     check("fname")
@@ -28,7 +40,7 @@ router.post(
     check("status")
       .not()
       .isEmpty(),
-  ],
+  ],auth,
   async (req, res) => {
     try {
       req.validate();
@@ -56,10 +68,19 @@ router.post("/checkJWTexpire",auth, (req, res)=>{
   res.status(200).json({message:"Ok"});
 });
 
-
-router.post("/logout", (req, res) => {
-  res.json({ message: "logout" });
+router.get("/getuserlist",auth,async (req, res)=>{
+  try {
+    const model =  await services.getAlluserlist();
+    if (!model) throw new Error("ไม่พบข้อมูลที่ค้นหา");
+    res.json(model);
+  } catch (ex) {
+    res.error(ex);
+  }
 });
+
+
+
+
 
 router.post("/addquery",auth, (req, res) => {
   res.json({ message: "addquery" });

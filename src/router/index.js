@@ -48,6 +48,12 @@ export const router = new Router({
       meta: { requiresAuth: true },
     },
     {
+      path: "/admin/tableuser",
+      name: "tableuser",
+      component: () => import("../views/admin/tableuser.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
       path: "/admin/addquery",
       name: "addquery",
       component: () => import("../views/admin/Addquery.vue"),
@@ -81,7 +87,7 @@ router.beforeEach(async (to, from, next) => {
 
   if (authRequired && to.name != "tableshowdata") {
     await axios.post("http://172.18.2.2:3010/api/admin/checkJWTexpire", "", { headers: { "x-access-token": loggedIn }, }).then((result) => {
-       console.log(result)
+       console.log("Velifyed token : "+result.statusText)
     }).catch(() => { return next("/login");});
   }
   next();
