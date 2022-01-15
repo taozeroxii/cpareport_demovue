@@ -1,6 +1,6 @@
 ## ระบบรายงาน รพ ใช้งานด้วย node js + vue js 
 
-     ดึงข้อมูลจากชุดคำสั่ง query ใน ฐานข้อมูล โดยมีการส่ง parameter พวกวันที่สิทธิเวลา และยิงชุด query ไปดึงข้อมูลเพื่อแสดงผลมาปั่นเอาค่าแสดงผลใน datable
+     ดึงข้อมูลจากชุดคำสั่ง query ใน ฐานข้อมูล โดยมีการส่ง parameter พวกวันที่สิทธิเวลา และยิงชุด query ไปดึงข้อมูลเพื่อมาปั่นเอาค่าแสดงผลใน datable
   
   
 # fontend
@@ -10,51 +10,21 @@
 npm install
 npm run serve
 # backend
-สร้าง folder configs ในbackend และสรา้งไฟล์์ connect database และ middleware
-     1.database.js (Connct mysql database)
-     const mysql = require('mysql');
-
-     const connection  = mysql.createConnection({
-     host            : 'host',
-     user            : 'userdb',
-     password        : 'passworddb',
-     database        : 'database',
-     charset:'utf8'
-     });
-
-     //connection.getConnection((err,connect)=> console.log(err));//เช็ค connection 
-     module.exports = connection;
-
-     2.pgcon.js (Connct postgresql database)
-     const { Pool, Client } = require('pg')
-     const pgconnection = new Pool({
-     host: '',
-     user: '',
-     password: '',
-     database: '',
-     charset:'utf8',
-     port: 5432,
-     });
-     module.exports = pgconnection;
-
-
-     3.middleware.js (เช็ค validator paramitor ฝั่ง backend ด้วย express-validator)
-     const { validationResult } = require("express-validator");
-
-     module.exports = function (req, res, next) {
-     //ตรวจสอบ validation
-     req.validate = function () {
-          const errors = validationResult(req).array();
-          if (errors.length == 0) return;
-          //console.log(errors);
-          throw new Error(`${errors[0].param}:${errors[0].msg}`)
-     }
-     //แสดง error ออกไป
-     res.error = function (ex) {
-          res.status(400).json({ message: ex.message });
-     };
-     next();
-     };
+สร้าง  .env ใน backend เพื้่อทำการเชื่อมต่อกับฐานข้อมูลทั้ง2ตัว 1.mysql ของระบบรายงาน 2. postgresql ของ his รพ.
+     #connection MYSQL
+     MYSQL_HOST=
+     MYSQL_USER=
+     MYSQL_PASSWORD=
+     MYSQL_DB=
+     MYSQL_PORT=3306
+     # Postgresql connection POSTGRE SQL
+     PGSQL_HOST=
+     PGSQL_USER=
+     PGSQL_PASSWORD=
+     PGSQL_DB=
+     MYSQL_PORT=5432
+     #SECREATKEY FOR JWT TOKEN ON THIS WEB SITE
+     TOKEN_KEY=YOURTOKENKEY_FOR_JWT
 
 หากรันใน vscode 
 cd backend
