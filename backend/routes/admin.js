@@ -101,8 +101,16 @@ router.put("/editquery/:sql_id",auth, (req, res) => {
   res.json({ message: "editquery" });
 });
 
-router.put("/changestatus/:sql_id",auth, (req, res) => {
-  res.json({ message: "changestatus" });
+
+router.put("/changestatus/:id",auth, async (req, res) => {
+    try {
+      const status = await services.changestatus(req.params.id,req.body);
+      res.json(status)
+    } catch (ex) {
+      res.error(ex);
+    }
 });
+
+
 
 module.exports = router;

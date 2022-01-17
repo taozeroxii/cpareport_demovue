@@ -68,9 +68,7 @@ module.exports = {
   getAllqueryList(){
     return new Promise((resolve, reject) => {
         connection.query(
-          `SELECT cm.*,cs.sql_head 
-          from cpareport_menu  cm 
-          LEFT JOIN cpareport_sql cs on cm.menu_file = cs.sql_file Order by cm.id desc`,
+          `SELECT cm.*,case when menu_status = 1 then 'true' else '' end m_status,cs.sql_head from cpareport_menu  cm  LEFT JOIN cpareport_sql cs on cm.menu_file = cs.sql_file Order by cm.id desc`,
           (error, result) => {
             // console.log(result);
             if (error) return reject(error);
@@ -79,6 +77,19 @@ module.exports = {
         );
       });
     },
+
+    changestatus(id,value){
+      // console.log(value)
+      // console.log(`UPDATE cpareport_menu set menu_status = '${value.status}' where id = '${id}'`);
+      return new Promise((resolve, reject) => {
+        connection.query(`UPDATE cpareport_menu set menu_status = '${value.status}' where id = '${id}'`,(error, result) => {
+            console.log(result);
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+      });
+    }
 
 
 };
