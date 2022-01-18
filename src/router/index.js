@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "../views/Home.vue";
 import tableshowdata from "../views/form/tableshowdata";
-import axios from "axios";
+// import axios from "axios";
 
 Vue.use(Router);
 
@@ -65,12 +65,7 @@ export const router = new Router({
       component: () => import("../views/admin/menuEditquery.vue"),
       meta: { requiresAuth: true },
     },
-    // {
-    //   path: "/admin/tableuser",
-    //   name: "menuEditquery",
-    //   component: () => import("../views/admin/tableuser.vue"),
-    //   meta: { requiresAuth: true },
-    // },
+
 
     {
       path: "*",
@@ -83,20 +78,19 @@ router.beforeEach(async (to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
   const publicPages = ["/login", "/", "/about", "/dashboard", "/tableshowdata"]; //หน้าที่ไม่ต้อง login
   const authRequired = !publicPages.includes(to.path);
-  const loggedIn = localStorage.getItem("token");
-
+  // const loggedIn = localStorage.getItem("token");
   if (authRequired && to.name != "tableshowdata") {
-    await axios.post("http://172.18.2.2:3010/api/admin/checkJWTexpire", "", { headers: { "x-access-token": loggedIn }, }).then((result) => {
-       console.log("Velifyed token : "+result.statusText)
-    }).catch(() => { return next("/login");});
+
+    router.app.$store.dispatch("get_user_login").then(() => {
+      // console.log(router.app.$store.state.user); //เช็คค่าที่เก็บลง store หลังจาก login
+    }).catch(() => next({ name: "login" }));
+
+    // await axios.post("http://172.18.2.2:3010/api/admin/checkJWTexpire", "", { headers: { "x-access-token": loggedIn }, }).then((result) => {
+    //    console.log("Velifyed token : "+result.statusText)
+    // }).catch(() => { return next("/login");});
+
   }
   next();
 });
-
-// const router = new VueRouter({
-//   mode: "history",
-//   base: process.env.BASE_URL,
-//   routes,
-// });
 
 export default router;

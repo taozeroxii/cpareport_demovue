@@ -1,28 +1,33 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import Axios from "axios";
+import Axios from "axios";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    // id: null,
-    // username: null,
-    // fname: null,
-    // lname: null,
-    // token: null,
-    // status: null,
+    user:{
+      token: null,
+      username: null,
+    }
   },
+
   mutations: {
-    // set_user: (state, user) => (state.user = user),
+    set_user: (state, resdata) => ( state.user = resdata ),
   },
+
   actions: {
-    // get_user_login: ({ commit }) => Axios.post("api/admin/checkJWTexpire").then((res) =>commit("set_user", res.data)),
+    get_user_login: ({ commit }) => Axios.post("http://localhost:3000/api/admin/checkJWTexpire",'',{ headers: { "x-access-token":  localStorage.getItem("token") }, }).then((res) =>commit("set_user", res.data)),
   },
+
   getters: {
-    // get_name(state) {
-    //   return ( state.user.fname + " " +state.user.lname );
-    // },
+    get_username(state) {
+      return (state.user.username );
+    },
+    get_token(state){
+      return state.user.token;
+    }
   },
+
   modules: {},
 });

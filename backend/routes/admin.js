@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const { check } = require("express-validator");
+const { check, header } = require("express-validator");
 const services = require("../service/admin");
 const auth  = require("../middleware/auth");
+const jwt = require("jsonwebtoken");
 
 router.get("/", (req, res) => {
   res.json({ message: "admin" });
@@ -65,7 +66,12 @@ router.post("/login", [ check("username").not().isEmpty(), check("password").not
 );
 
 router.post("/checkJWTexpire",auth, (req, res)=>{
-  res.status(200).json({message:"Ok"});
+  tokendata  = jwt.decode(req.headers["x-access-token"],process.env.TOKEN_KEY);
+  var userlodinData = {
+    token : req.headers["x-access-token"],
+    username : tokendata.username
+  }
+  res.status(200).json(userlodinData);
 });
 
 router.get("/getuserlist",auth,async (req, res)=>{

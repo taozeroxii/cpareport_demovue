@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import axios from "axios"
 import MenuTabadmin from "@/components/cards/menuTabadmin";
 export default {
   name: "addquery",
@@ -107,6 +108,13 @@ export default {
       this.getMaxmenu_id(val)
     },
 
+  },
+
+  created() {
+      console.log( this.$store.get_name('increment'))
+      axios.get("http://localhost:3000/api/admin/input-main_name",{ headers: { "x-access-token": this.token }}).then((result) => {
+          console.log(result)
+      });
   },
 
 };

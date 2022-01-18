@@ -1,10 +1,11 @@
 const connection = require("../configs/database");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken")
+var moment = require('moment'); // require
 
 module.exports = {
   async register(value) {
-    value.create_datetime = new Date().toLocaleString(); 
+    value.create_datetime = moment(new Date()).format('YYYY-MM-DD H:mm:ss') ; 
     value.password = await bcrypt.hash(value.password, 10);
     // return value;
     return new Promise((resolve, reject) => {
@@ -36,8 +37,8 @@ module.exports = {
       );
     });
   },
-  
 
+  
 
   
   findAlluserrole(){
@@ -83,7 +84,7 @@ module.exports = {
       // console.log(`UPDATE cpareport_menu set menu_status = '${value.status}' where id = '${id}'`);
       return new Promise((resolve, reject) => {
         connection.query(`UPDATE cpareport_menu set menu_status = '${value.status}' where id = '${id}'`,(error, result) => {
-            console.log(result);
+            // console.log(result);
             if (error) return reject(error);
             resolve(result);
           }
