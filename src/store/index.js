@@ -10,6 +10,8 @@ export default new Vuex.Store({
       token: null,
       username: null,
       userrole: null,
+      fname: null,
+      lname: null,
     }
   },
 
@@ -27,6 +29,9 @@ export default new Vuex.Store({
     },
     get_token(state){
       return state.user.token;
+    },
+    get_loginname(state){
+      return ('คุณ '+state.user.fname +' '+ state.user.lname );
     }
   },
 

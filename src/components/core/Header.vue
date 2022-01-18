@@ -1,7 +1,7 @@
 <template>
   <div id="Header">
     <v-app-bar color="accent-4" app dense>
-      <v-toolbar-title>{{ version }} วันที่ {{datenow}}</v-toolbar-title>
+      <v-toolbar-title>{{ version }} วันที่ {{datenow }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
       <v-btn icon @click="GotoLogin" class="mr-5" v-if="!isLogined">

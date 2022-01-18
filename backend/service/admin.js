@@ -29,7 +29,7 @@ module.exports = {
 
             if (await bcrypt.compare(value.password, userLogin.password)) {
               //check password create usertoken
-              const token = jwt.sign({ user_id: userLogin.id, username: userLogin.username,userrole:userLogin.status },  process.env.TOKEN_KEY, { expiresIn: "3h" } );
+              const token = jwt.sign({ user_id: userLogin.id, username: userLogin.username,userrole:userLogin.status ,fname:userLogin.fname,lname:userLogin.lname  },  process.env.TOKEN_KEY, { expiresIn: "3h" } );
               //save user Token
               userLogin.token = token;
               delete userLogin.password;
@@ -66,9 +66,7 @@ module.exports = {
 
   getAllqueryList() {
     return new Promise((resolve, reject) => {
-      connection.query(
-        `SELECT cm.*,case when menu_status = 1 then 'true' else '' end m_status,cs.sql_head from cpareport_menu  cm  LEFT JOIN cpareport_sql cs on cm.menu_file = cs.sql_file Order by cm.id desc`,
-        (error, result) => {
+      connection.query(`SELECT cm.*,case when menu_status = 1 then 'true' else '' end m_status,cs.sql_head from cpareport_menu  cm  LEFT JOIN cpareport_sql cs on cm.menu_file = cs.sql_file Order by cm.id desc`, (error, result) => {
           // console.log(result);
           if (error) return reject(error);
           resolve(result);
@@ -91,4 +89,48 @@ module.exports = {
       );
     });
   },
+
+
+  //เมนูต่างๆ ------------------------------------------------------------------------------------------------------
+  //main_menu select
+  getMain_namelist(){
+    return new Promise((resolve, reject) => {
+      connection.query(`SELECT * from cpareport_mainmenu where main_status = '1'`,(error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+    });
+  },
+  getMaxid_menu(id){
+    return new Promise((resolve, reject) => {
+      connection.query(`SELECT count(menu_order)+1 as max_menu  from cpareport_menu where menu_main = '${id}'`,(error, result) => {
+          if (error) return reject(error);
+          resolve(result[0]);
+        }
+      );
+    });
+  },
+  getMaxid_sql(){
+    return new Promise((resolve, reject) => {
+      connection.query(`SELECT MAX(sql_id)+1 AS last_id FROM cpareport_sql`,(error, result) => {
+          if (error) return reject(error);
+          resolve(result[0]);
+        }
+      );
+    });
+  },
+  getselectform(){
+    return new Promise((resolve, reject) => {
+      connection.query(`SELECT * FROM cpareport_report WHERE report_status = '1' and is_use = '1'  ORDER BY report_id ASC  `,(error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+    });
+  },
+
+
+
+
 };

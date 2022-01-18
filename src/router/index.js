@@ -7,7 +7,7 @@ import tableshowdata from "../views/form/tableshowdata";
 Vue.use(Router);
 
 export const router = new Router({
-  mode: "history",
+  // mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
@@ -80,15 +80,9 @@ router.beforeEach(async (to, from, next) => {
   const authRequired = !publicPages.includes(to.path);
   // const loggedIn = localStorage.getItem("token");
   if (authRequired && to.name != "tableshowdata") {
-
     router.app.$store.dispatch("get_user_login").then(() => {
-      console.log(router.app.$store.state.user); //เช็คค่าที่เก็บลง store หลังจาก login
+      // console.log(router.app.$store.state.user); //เช็คค่าที่เก็บลง store หลังจาก login
     }).catch(() => next({ name: "login" }));
-
-    // await axios.post("http://172.18.2.2:3010/api/admin/checkJWTexpire", "", { headers: { "x-access-token": loggedIn }, }).then((result) => {
-    //    console.log("Velifyed token : "+result.statusText)
-    // }).catch(() => { return next("/login");});
-
   }
   next();
 });

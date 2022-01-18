@@ -89,8 +89,8 @@ export default {
     getallquery_menu() {
       axios.get("http://172.18.2.2:3010/api/admin/cpareportmenu-list",{ headers: { "x-access-token": this.$store.getters.get_token}}).then((result) => {
           this.mDataArray = result.data;
+          this.loaddata = false;
       });
-      this.loaddata = false;
     },
 
     editItem(id){

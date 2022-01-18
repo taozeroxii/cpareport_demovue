@@ -141,9 +141,7 @@
                   type="warning"
                   prominent
                   border="left"
-                >
-                  {{ errorMessage }}</v-alert
-                >
+                >  {{ errorMessage }}</v-alert >
               </v-col>
             </v-row>
           </v-form>
