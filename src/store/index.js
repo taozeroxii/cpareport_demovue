@@ -9,6 +9,7 @@ export default new Vuex.Store({
     user:{
       token: null,
       username: null,
+      userrole: null,
     }
   },
 

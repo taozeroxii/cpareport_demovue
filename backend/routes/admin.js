@@ -67,9 +67,11 @@ router.post("/login", [ check("username").not().isEmpty(), check("password").not
 
 router.post("/checkJWTexpire",auth, (req, res)=>{
   tokendata  = jwt.decode(req.headers["x-access-token"],process.env.TOKEN_KEY);
+  // console.log(tokendata);
   var userlodinData = {
     token : req.headers["x-access-token"],
-    username : tokendata.username
+    username : tokendata.username,
+    userrole : tokendata.userrole
   }
   res.status(200).json(userlodinData);
 });

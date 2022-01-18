@@ -64,7 +64,7 @@ export default {
       // this.$router.push("./")
     },
     setLocalStorage(data) {
-      axios .post("http://172.18.2.2:3010/api/admin/login", data)
+      axios .post("http://localhost:3000/api/admin/login", data)
         .then((result) => {
           localStorage.id = result.data.id;
           localStorage.username = result.data.username;

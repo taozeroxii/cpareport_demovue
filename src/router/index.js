@@ -82,7 +82,7 @@ router.beforeEach(async (to, from, next) => {
   if (authRequired && to.name != "tableshowdata") {
 
     router.app.$store.dispatch("get_user_login").then(() => {
-      // console.log(router.app.$store.state.user); //เช็คค่าที่เก็บลง store หลังจาก login
+      console.log(router.app.$store.state.user); //เช็คค่าที่เก็บลง store หลังจาก login
     }).catch(() => next({ name: "login" }));
 
     // await axios.post("http://172.18.2.2:3010/api/admin/checkJWTexpire", "", { headers: { "x-access-token": loggedIn }, }).then((result) => {
