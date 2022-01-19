@@ -29,7 +29,7 @@ module.exports = {
 
             if (await bcrypt.compare(value.password, userLogin.password)) {
               //check password create usertoken
-              const token = jwt.sign({ user_id: userLogin.id, username: userLogin.username,userrole:userLogin.status ,fname:userLogin.fname,lname:userLogin.lname  },  process.env.TOKEN_KEY, { expiresIn: "3h" } );
+              const token = jwt.sign({ user_id: userLogin.id, username: userLogin.username,userrole:userLogin.status ,fname:userLogin.fname,lname:userLogin.lname ,niname:userLogin.niname  },  process.env.TOKEN_KEY, { expiresIn: "3h" } );
               //save user Token
               userLogin.token = token;
               delete userLogin.password;
@@ -76,17 +76,72 @@ module.exports = {
   },
 
   changestatus(id, value) {
-    // console.log(value)
-    // console.log(`UPDATE cpareport_menu set menu_status = '${value.status}' where id = '${id}'`);
     return new Promise((resolve, reject) => {
-      connection.query(
-        `UPDATE cpareport_menu set menu_status = '${value.status}' where id = '${id}'`,
-        (error, result) => {
+      connection.query( `UPDATE cpareport_menu set menu_status = '${value.status}' where id = '${id}'`, async (error, result) => {
           // console.log(result);
           if (error) return reject(error);
+          await this.changestatussql(id,value.status)
           resolve(result);
-        }
-      );
+      });
+    });
+  },
+  changestatussql(id,status){
+    return new Promise((resolve, reject) => {
+      connection.query( `SELECT menu_file FROM cpareport_menu where id = '${id}'`,(error, result) => {
+        if (error) return reject(error);
+        connection.query( `UPDATE cpareport_sql set sql_status = '${status}' where sql_file = '${result[0].menu_file}'`, (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        });
+      });
+    });
+  },
+
+
+  //เพิ่มลบแก้ไข query 
+  async addquery(value){
+    //data for cpareport_menu
+    var cpareport_menu = {
+      menu_main:          value.menu_main               ,
+      menu_sub:           value.menu_sub                ,
+      menu_link:          value.menu_link               ,
+      menu_type:          value.menu_type               ,
+      menu_file:          value.menu_file               ,
+      menu_title:         value.menu_title              ,
+      menu_order:         value.menu_order              ,
+      menu_userupdate:    value.menu_userupdate         ,
+      menu_status :       1                             ,
+      menu_datetimeupdate:moment(new Date()).format("YYYY-MM-DD H:mm:ss")    
+    };
+    //data for cpareport_sql
+    var cpareport_sql = {
+      sql_name        :value.sql_name,
+      sql_type        :value.menu_type,
+      sql_file        :value.sql_file,
+      sql_code        :value.sql_code,
+      sql_subcode_1   :value.sql_subcode_1,
+      sq_link         :value.sql_link,
+      sql_head        :value.sql_head,
+      sql_updatedate  :moment(new Date()).format("YYYY-MM-DD H:mm:ss") ,
+      sql_userupdate  :value.menu_userupdate,
+      sql_status      :1,
+    };
+    max_reportmenu = await this.getMaxid_cpareport_menu();
+    cpareport_menu.id =  max_reportmenu.last_id;
+    maxsql_id = await this.getMaxid_sql();
+    cpareport_sql.sql_id =  maxsql_id.last_id;
+
+    return  new Promise(async (resolve, reject) => {
+      // console.log(cpareport_menu);
+      // console.log(cpareport_sql);
+      await connection.query("INSERT INTO cpareport_menu SET ?",cpareport_menu,(err, result) => {
+          if (err) return reject(err);
+          resolve(result)
+      });
+      await connection.query("INSERT INTO cpareport_sql SET ?",cpareport_sql,(err, result) => {
+          if (err) return reject(err);
+          resolve(result)
+      });  
     });
   },
 
@@ -111,9 +166,18 @@ module.exports = {
       );
     });
   },
-  getMaxid_sql(){
+  getMaxid_sql(){//id สุดท้าย cpareportmenu
     return new Promise((resolve, reject) => {
       connection.query(`SELECT MAX(sql_id)+1 AS last_id FROM cpareport_sql`,(error, result) => {
+          if (error) return reject(error);
+          resolve(result[0]);
+        }
+      );
+    });
+  },
+  getMaxid_cpareport_menu(){//id สุดท้าย cpareportmenu
+    return new Promise((resolve, reject) => {
+      connection.query(`SELECT MAX(id)+1 AS last_id FROM cpareport_menu`,(error, result) => {
           if (error) return reject(error);
           resolve(result[0]);
         }
@@ -129,7 +193,6 @@ module.exports = {
       );
     });
   },
-
 
 
 

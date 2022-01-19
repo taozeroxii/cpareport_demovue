@@ -64,14 +64,14 @@ export default {
       // this.$router.push("./")
     },
     setLocalStorage(data) {
-      axios .post("http://localhost:3000/api/admin/login", data)
-        .then((result) => {
+      axios .post("http://172.18.2.2:3010/api/admin/login", data).then((result) => {
           localStorage.id = result.data.id;
           localStorage.username = result.data.username;
           localStorage.fname = result.data.fname;
           localStorage.lname = result.data.lname;
           localStorage.token = result.data.token;
           localStorage.status = result.data.status;
+          localStorage.niname = result.data.niname;
           // console.log(result.data);
           this.errMessage = null;
           this.alertify.success("LOGIN สำเร็จ");

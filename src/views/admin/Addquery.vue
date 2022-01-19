@@ -5,22 +5,26 @@
       <v-card style="width:90%;" outline>
         <hr />
         <v-card-title primary-title>
-          ADD QUERYs <v-spacer></v-spacer> SQL : {{ sql }} <br>
+          ADD QUERYs <v-spacer></v-spacer> SQL : {{ sql }} <br />
         </v-card-title>
         <hr />
         <v-card-text>
-         
           <v-form @submit.prevent="submit">
             <v-row>
               <v-col class="d-flex" lg="2" cols="4">
-               <v-autocomplete
+                <v-autocomplete
                   :rules="main_menuRule"
                   name="main_menu"
                   v-model="main_menu"
                   v-validate="'required'"
                   :items="itemsmain_menu"
                   label="main_menu"
-                  :class="{ 'v-label theme--light error--text': errors.has( 'main_menuRule' ),}"></v-autocomplete>
+                  :class="{
+                    'v-label theme--light error--text': errors.has(
+                      'main_menuRule'
+                    ),
+                  }"
+                ></v-autocomplete>
                 <span>{{ errors.first("main_menuRule") }}</span>
               </v-col>
 
@@ -60,7 +64,7 @@
                   name="menu_link"
                   v-model="menu_link"
                   :items="item_menu_link"
-                  label="main_menu"
+                  label="menu_link"
                   :rules="menu_linkRule"
                   :class="{
                     'v-input--has-state theme--light v-text-field v-text-field--is-booted error--text': errors.has(
@@ -227,7 +231,7 @@ export default {
   },
 
   created() {
-    // console.log( this.$store.getters.get_loginname)
+    console.log( this.$store.getters.get_nickname)
     this.getmain_menu();
   },
 
@@ -236,34 +240,39 @@ export default {
       this.$router.back();
     },
     submit() {
-      this.$validator.validateAll().then((valid) => {
-        console.log(valid);
-
-        if (!valid)
-          return this.alertify.error("โปรดกรอกข้อมูลให้ครบก่อนบันทึก");
-        this.alertify.success("บันทึกสำเร็จ");
-        // Axios.post("http://172.18.2.2:3010/api/admin/register", this.account,{ headers: { "x-access-token": this.$store.getters.get_token}}) .then(() => {
-        //     this.account = {
-        //       username: null,
-        //       password: null,
-        //       pname: null,
-        //       fname: null,
-        //       lname: null,
-        //       status: null,
-        //     };
-        //     this.errors.clear();
-        //     this.alertify.success("เพิ่มข้อมูลสำเร็จ");
-        //     this.errorMessage = "Insert success";
-        //   })
-        //   .catch((err) => {
-        //     // console.log(err.response.data.message);
-        //     this.errorMessage = err.response.data.message;
-        //   });
+      this.$validator.validateAll().then(async (valid) => {
+        if (!valid) return this.alertify.error("โปรดกรอกข้อมูลให้ครบก่อนบันทึก");
+        await this.setdata_beforesend(); 
+        // console.log(this.form)
+        await axios.post("http://172.18.2.2:3010/api/admin/addquery", this.form, { headers: { "x-access-token": this.$store.getters.get_token }, }).then(() => {
+            this.menu_main =  null;
+            this.menu_order =  null;
+            this.menu_file = null;
+            this.menu_sub =  null;
+            this.menu_title = null;
+            this.menu_link =  null;
+            this.sql_name =  null;
+            this.sql_head =  null;
+            this.menu_type =  null;
+            this.sql_code =  null;
+            this.sql_subcode_1 =  null;
+            this.menu_userupdate =  null;
+            this.sql_userupdate =   null;
+            this.form ={},
+            this.errors.clear();
+            this.getmain_menu();
+            this.alertify.success("เพิ่มข้อมูลสำเร็จ");
+            this.errorMessage = "Insert success";
+          })
+          .catch((err) => {
+            // console.log(err.response.data.message);
+            this.errorMessage = err.response.data.message;
+          });
       });
     },
     getMaxmenu_id(selected_id) {
       axios
-        .get(`http://localhost:3000/api/admin/selectmaxmenu/${selected_id}`, {
+        .get(`http://172.18.2.2:3010/api/admin/selectmaxmenu/${selected_id}`, {
           headers: { "x-access-token": this.$store.getters.get_token },
         })
         .then((result) => {
@@ -272,7 +281,7 @@ export default {
     },
     getmain_menu() {
       axios
-        .get("http://localhost:3000/api/admin/input-main_name", this.headers)
+        .get("http://172.18.2.2:3010/api/admin/input-main_name", this.headers)
         .then((result) => {
           var i;
           for (i = 0; i < result.data.length; i++) {
@@ -282,23 +291,41 @@ export default {
           }
         });
       axios
-        .get("http://localhost:3000/api/admin/maxsqlfile_id", this.headers)
+        .get("http://172.18.2.2:3010/api/admin/maxsqlfile_id", this.headers)
         .then((result) => {
           this.sql = result.data.last_id;
           this.sql_link = "report" + result.data.last_id;
           this.sql_file = "sql_0" + result.data.last_id;
         });
       axios
-        .get("http://localhost:3000/api/admin/select-form", this.headers)
+        .get("http://172.18.2.2:3010/api/admin/select-form", this.headers)
         .then((result) => {
           var i;
           for (i = 0; i < result.data.length; i++) {
-            this.item_menu_link.push(
-              result.data[i].report_id + "  :" + result.data[i].report_name
-            );
+            this.item_menu_link.push( result.data[i].report_name);
           }
         });
     },
+    setdata_beforesend(){
+      this.form = {
+          sql: this.sql,
+          sql_file: this.sql_file,
+          menu_main: (this.main_menu.substring(0, 2).trim()),
+          menu_order: this.menu_maxid,
+          menu_file:this.sql_file,
+          menu_sub: this.menu_sub,
+          menu_title: this.menu_title,
+          menu_link: this.menu_link,
+          sql_name: this.sql_name,
+          sql_head: this.sql_head,
+          menu_type: this.menu_type,
+          sql_link: this.sql_link,
+          sql_code: this.sql_code,
+          sql_subcode_1: this.sql_subcode_1,
+          menu_userupdate: this.$store.getters.get_nickname,
+          sql_userupdate:  this.$store.getters.get_nickname,
+        };
+    }
   },
 };
 </script>

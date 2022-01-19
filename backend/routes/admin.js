@@ -59,7 +59,8 @@ router.post("/checkJWTexpire",auth, (req, res)=>{//นำค่า token ที�
     username : tokendata.username,
     userrole : tokendata.userrole,
     fname : tokendata.fname,
-    lname : tokendata.lname
+    lname : tokendata.lname,
+    niname: tokendata.niname
   }
   res.status(200).json(userlodinData);
 });
@@ -93,8 +94,29 @@ router.put("/changestatus/:id",auth, async (req, res) => {
     res.error(ex);
   }
 });
-router.post("/addquery",auth, (req, res) => {
-  res.json({ message: "addquery" });
+router.post("/addquery",  [ 
+  //checkinput table menu
+  check("menu_main") .not() .isEmpty(),
+  check("menu_sub") .not().isEmpty(),
+  check("menu_link").not() .isEmpty(),
+  check("menu_file") .not() .isEmpty(),
+  check("menu_title") .not() .isEmpty(),
+  check("menu_order").not() .isEmpty(),
+  check("menu_userupdate") .not().isEmpty(),
+  // //checkinput table sql
+  check("sql_file").not() .isEmpty(),
+  check("sql_code").not() .isEmpty(),
+  check("sql_link").not() .isEmpty(),
+  check("sql_head").not() .isEmpty(),
+  check("sql_userupdate").not() .isEmpty(),
+],auth, async (req, res) => {
+  try {
+    req.validate();
+    const created = await services.addquery(req.body);
+    res.json(created);
+  } catch (ex) {
+    res.error(ex);
+  }
 });
 router.put("/editquery/:sql_id",auth, (req, res) => {
   res.json({ message: "editquery" });

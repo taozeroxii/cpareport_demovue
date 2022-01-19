@@ -12,6 +12,7 @@ export default new Vuex.Store({
       userrole: null,
       fname: null,
       lname: null,
+      niname:null,
     }
   },
 
@@ -32,7 +33,10 @@ export default new Vuex.Store({
     },
     get_loginname(state){
       return ('คุณ '+state.user.fname +' '+ state.user.lname );
-    }
+    },
+    get_nickname(state) {
+      return (state.user.niname );
+    },
   },
 
   modules: {},
