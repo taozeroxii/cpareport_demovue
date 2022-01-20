@@ -149,6 +149,15 @@ router.get("/maxsqlfile_id",auth,async (req, res) => {
     res.error(ex);
   }
 });
+router.post("/select-formparams",auth,async (req, res) => {
+  // console.log(req)
+  try {
+    const max = await services.getformparams(req.body);
+    res.json(max);
+  } catch (ex) {
+    res.error(ex);
+  }
+});
 router.get("/select-form",auth,async (req, res) => {
   try {
     const max = await services.getselectform();

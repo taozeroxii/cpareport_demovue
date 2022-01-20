@@ -100,7 +100,7 @@ export default {
     updatestatus(id,st){
       // console.log('ipdatestatus : ' + id,st);
       if(st === true){ this.status = {status : 1}}else { this.status = {status : 2}}
-      axios.put(`http://localhost:3000/api/admin/changestatus/${id}`,this.status,{ headers: { "x-access-token": this.$store.getters.get_token}}).then((result) => {
+      axios.put(`http://172.18.2.2:3010/api/admin/changestatus/${id}`,this.status,{ headers: { "x-access-token": this.$store.getters.get_token}}).then((result) => {
         this.alertify.success("แก้ไขเรียบร้อย");
         console.log("status : "+ result.status)
       });

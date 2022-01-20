@@ -126,6 +126,8 @@
               </v-col>
             </v-row>
 
+            <v-row ><v-col>  <v-card  color="#385F73" dark :elevation="hover ? 24 : 6" class="mx-auto pa-6" ><b >Sql Value : <br>{{sql_value}}</b> </v-card></v-col> </v-row>
+
             <v-row>
               <v-col class="d-flex" lg="12" cols="12">
                 <v-textarea
@@ -193,6 +195,7 @@ export default {
       itemsmain_menu: [],
       item_menu_link: [],
       item_menu_type: ["OPD", "IPD", "BACKOFFICE", "SUPPORT"],
+      sql_value:null,
       //ตัวแปรไว้รับค่าจากฟอร์มเพื่อส่งไปบันทึกลงฐานข้อมูล
       form: {},
       sql: null,
@@ -225,13 +228,16 @@ export default {
       // หากเลือกเมนูแล้วให้ส่งค่า value ขอเมนูนั้นๆมาเพเื่อเรียกใช้ฟังก์ชันต่อ
       // console.log(val)
       var selectmain_menu_id;
-      selectmain_menu_id = val.substring(0, 2);
+      selectmain_menu_id = val.substring(0, 2).trim();
       this.getMaxmenu_id(selectmain_menu_id);
+    },
+    menu_link: function(val) {
+      var report_name; report_name = val;
+      this.getvaluesql(report_name.trim());
     },
   },
 
   created() {
-    console.log( this.$store.getters.get_nickname)
     this.getmain_menu();
   },
 
@@ -271,12 +277,17 @@ export default {
       });
     },
     getMaxmenu_id(selected_id) {
-      axios
-        .get(`http://172.18.2.2:3010/api/admin/selectmaxmenu/${selected_id}`, {
+      axios .get(`http://172.18.2.2:3010/api/admin/selectmaxmenu/${selected_id}`, {
           headers: { "x-access-token": this.$store.getters.get_token },
         })
         .then((result) => {
           this.menu_maxid = result.data.max_menu;
+        });
+    },
+    getvaluesql(report_name){
+      console.log(report_name)
+        axios.post(`http://172.18.2.2:3010/api/admin/select-formparams`,{report_name}, { headers: { "x-access-token": this.$store.getters.get_token },}).then((result) => {
+          this.sql_value = result.data.paramitor1 +' '+ result.data.paramitor2 + ' ' +result.data.paramitor3+ ' ' +result.data.paramitor4 ;
         });
     },
     getmain_menu() {

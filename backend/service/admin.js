@@ -193,6 +193,16 @@ module.exports = {
       );
     });
   },
+  getformparams(req){
+    // console.log(`SELECT paramitor1,paramitor2,paramitor3,paramitor4 FROM cpareport_report where report_name = '${req.report_name}'`)
+    return new Promise((resolve, reject) => {
+      connection.query(`SELECT paramitor1,paramitor2,paramitor3,paramitor4 FROM cpareport_report where report_name = '${req.report_name}'`,(error, result) => {
+          if (error) return reject(error);
+          resolve(result[0]);
+        }
+      );
+    });
+  }
 
 
 
