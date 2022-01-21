@@ -3,6 +3,7 @@ const { check, header } = require("express-validator");
 const services = require("../service/admin");
 const auth  = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
+const e = require("express");
 
 // ส่วนของการจัดการสมาชิก login , register , edit , inputmenu admin
 router.get("/", (req, res) => {
@@ -118,8 +119,29 @@ router.post("/addquery",  [
     res.error(ex);
   }
 });
-router.put("/editquery/:sql_id",auth, (req, res) => {
-  res.json({ message: "editquery" });
+
+router.get("/findOldquerybyid/:sql_id",auth,async (req, res) => {
+  try {
+    const data = await services.findOldquerybyid(req.params.sql_id);
+    if(data.length < 1) throw new Error('ไม่พบข้อมูลไฟล์ sql ดังกล่าว!!!');
+    res.json(data[0]);
+  } catch (ex) {
+    res.error(ex);
+  }
+});
+router.put("/editquery/:sql_id",[
+  check('sql_code').not().isEmpty(),
+  check('sql_subcode_1').not().isEmpty()
+],auth,async (req, res) => {
+  try {
+    req.validate();
+    const data = await services.findOldquerybyid(req.params.sql_id);
+    if(data.length < 1) throw new Error('ไม่พบข้อมูลไฟล์ sql ดังกล่าว!!!');
+    const update = await services.editquery(data[0],req.body);
+    res.json(update);
+  } catch (ex) {
+    res.error(ex);
+  }
 });
 
 

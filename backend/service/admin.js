@@ -144,6 +144,40 @@ module.exports = {
       });  
     });
   },
+  
+  findOldquerybyid(sql_id){
+    return new Promise((resolve, reject) => {
+      connection.query( `SELECT cm.id,cm.menu_title,sl.* FROM cpareport_sql sl  INNER  JOIN cpareport_menu cm on cm.menu_file  = sl.sql_file where cm.id = ${sql_id}`,(error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+    });
+  },
+  editquery(olddata,value){
+    // console.log(olddata)
+    var sql_id = olddata.sql_id;
+    var log = {
+      sql_edit_user  :value.sql_edit_user,
+      sql_file:olddata.sql_file,
+      old_sql:olddata.sql_code,
+      new_sql:value.sql_code,
+      sqlsubcode1_old:olddata.sql_subcode_1,
+      sqlsubcode1_new:value.sql_subcode_1,
+      update_datetime:moment(new Date()).format("YYYY-MM-DD H:mm:ss")   
+    }
+    return new Promise((resolve, reject) => {
+      const query = `UPDATE cpareport_sql SET  sql_code   = ?, sql_subcode_1 = ?  WHERE sql_id   = ?`;
+      connection.query(query, [  value.sql_code, value.sql_subcode_1,sql_id ], (error, result) => {
+          if (error) return reject(error);
+          connection.query("INSERT INTO sqlupdate_log SET ?",log,() => {});
+          resolve(result);
+      });
+    })
+  },
+  fetchQuerylog(){
+
+  },
 
 
   //เมนูต่างๆ ------------------------------------------------------------------------------------------------------
@@ -202,7 +236,9 @@ module.exports = {
         }
       );
     });
-  }
+  },
+
+
 
 
 

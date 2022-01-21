@@ -34,7 +34,7 @@
             <td>{{ item.sql_head }}</td>
             <td>{{ item.menu_userupdate }}</td>
             <td>{{ item.menu_datetimeupdate|date }} </td>
-            <td class="text-center"> <v-icon class="mr-2" @click="editItem(item.id)" disabled>  edit </v-icon>  </td>
+            <td class="text-center"> <v-icon class="mr-2" @click="editItem(item.id)" >  edit </v-icon>  </td>
             <td>  
               <v-switch  :key="item.id" v-model="item.m_status" @click="updatestatus(item.id,item.m_status)" color="success" ></v-switch></td>
           </tr>
@@ -94,15 +94,15 @@ export default {
     },
 
     editItem(id){
-      this.$router.pust(`./Editquery/${id}`)
+      this.$router.push(`./Editquery/${id}`)
     },
     
     updatestatus(id,st){
       // console.log('ipdatestatus : ' + id,st);
       if(st === true){ this.status = {status : 1}}else { this.status = {status : 2}}
-      axios.put(`http://172.18.2.2:3010/api/admin/changestatus/${id}`,this.status,{ headers: { "x-access-token": this.$store.getters.get_token}}).then((result) => {
+      axios.put(`http://172.18.2.2:3010/api/admin/changestatus/${id}`,this.status,{ headers: { "x-access-token": this.$store.getters.get_token}}).then(() => {
         this.alertify.success("แก้ไขเรียบร้อย");
-        console.log("status : "+ result.status)
+        // console.log("status : "+ result.status)
       });
     }
   },

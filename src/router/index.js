@@ -66,6 +66,12 @@ export const router = new Router({
       component: () => import("../views/admin/menuEditquery.vue"),
       meta: { requiresAuth: true },
     },
+    {
+      path: "/admin/Editquery/:id",
+      name: "Editquery",
+      component: () => import("../views/admin/Editquery.vue"),
+      meta: { requiresAuth: true },
+    },
 
 
     {

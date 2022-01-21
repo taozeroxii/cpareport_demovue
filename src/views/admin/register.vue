@@ -129,9 +129,7 @@
                 </v-btn>
               </v-col>
               <v-col cols="6">
-                <v-btn block color="orange darken-2" dark @click="cancel"
-                  ><v-icon dark left> mdi-arrow-left</v-icon>ยกเลิก</v-btn
-                >
+                <v-btn block color="orange darken-2" dark @click="cancel" ><v-icon dark left> mdi-arrow-left</v-icon>ยกเลิก</v-btn >
               </v-col>
 
               <v-col>

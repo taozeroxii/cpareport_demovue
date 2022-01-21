@@ -126,7 +126,7 @@
               </v-col>
             </v-row>
 
-            <v-row ><v-col>  <v-card  color="#385F73" dark :elevation="hover ? 24 : 6" class="mx-auto pa-6" ><b >Sql Value : <br>{{sql_value}}</b> </v-card></v-col> </v-row>
+            <v-row ><v-col>  <v-card  color="#385F73" dark  class="mx-auto pa-6" ><b >Sql Value : <br>{{sql_value}}</b> </v-card></v-col> </v-row>
 
             <v-row>
               <v-col class="d-flex" lg="12" cols="12">
@@ -228,12 +228,12 @@ export default {
       // หากเลือกเมนูแล้วให้ส่งค่า value ขอเมนูนั้นๆมาเพเื่อเรียกใช้ฟังก์ชันต่อ
       // console.log(val)
       var selectmain_menu_id;
-      selectmain_menu_id = val.substring(0, 2).trim();
+      selectmain_menu_id = val.substring(0, 2);
       this.getMaxmenu_id(selectmain_menu_id);
     },
     menu_link: function(val) {
       var report_name; report_name = val;
-      this.getvaluesql(report_name.trim());
+      this.getvaluesql(report_name);
     },
   },
 
@@ -250,6 +250,7 @@ export default {
         if (!valid) return this.alertify.error("โปรดกรอกข้อมูลให้ครบก่อนบันทึก");
         await this.setdata_beforesend(); 
         // console.log(this.form)
+        this.form.sql_userupdate = this.$store.getters.get_nickname;
         await axios.post("http://172.18.2.2:3010/api/admin/addquery", this.form, { headers: { "x-access-token": this.$store.getters.get_token }, }).then(() => {
             this.menu_main =  null;
             this.menu_order =  null;
@@ -285,7 +286,7 @@ export default {
         });
     },
     getvaluesql(report_name){
-      console.log(report_name)
+      // console.log(report_name)
         axios.post(`http://172.18.2.2:3010/api/admin/select-formparams`,{report_name}, { headers: { "x-access-token": this.$store.getters.get_token },}).then((result) => {
           this.sql_value = result.data.paramitor1 +' '+ result.data.paramitor2 + ' ' +result.data.paramitor3+ ' ' +result.data.paramitor4 ;
         });
