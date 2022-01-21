@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "../views/Home.vue";
 import tableshowdata from "../views/form/tableshowdata";
 // import axios from "axios";
+import * as alertify from 'alertifyjs'
 
 Vue.use(Router);
 
@@ -82,7 +83,11 @@ router.beforeEach(async (to, from, next) => {
   if (authRequired && to.name != "tableshowdata") {
     router.app.$store.dispatch("get_user_login").then(() => {
       // console.log(router.app.$store.state.user); //เช็คค่าที่เก็บลง store หลังจาก login
-    }).catch(() => next({ name: "login" }));
+    }).catch(() => {  
+      alertify.error("JWT Token Expire OR Invalid Please Login!!");
+      localStorage.clear(); //clear localstorage เมื่อ token หมดอายุ ก่อนทำการดีดไปหน้า login
+      next({ name: "login" })
+    });
   }
   next();
 });
