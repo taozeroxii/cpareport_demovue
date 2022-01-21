@@ -98,7 +98,7 @@ module.exports = {
   },
 
 
-  //เพิ่มลบแก้ไข query 
+  //ดึงข้อมูลเพิ่มลบแก้ไข query 
   async addquery(value){
     //data for cpareport_menu
     var cpareport_menu = {
@@ -175,8 +175,15 @@ module.exports = {
       });
     })
   },
-  fetchQuerylog(){
-
+  fetchQuerylog(req){
+    var sql_file = req;
+    return new Promise((resolve, reject) => {
+      connection.query( `SELECT * FROM sqlupdate_log  where sql_file = '${sql_file}' ORDER BY update_datetime desc LIMIT 5`,(error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+    });
   },
 
 

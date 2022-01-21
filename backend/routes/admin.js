@@ -77,7 +77,7 @@ router.get("/getuserlist",auth,async (req, res)=>{
 });
 
 
-// ควบคุมชุดคำสั่ง Sql เพิ่มแก้ไขquery เพื่อดึงมาเป็นรายงาน 
+// ควบคุมชุดคำสั่ง Sql เพิ่มแก้ไขquery เพื่อดึงมาเป็นรายงาน  
 router.get("/cpareportmenu-list",auth,async (req, res) => {
   try {
     const model =  await services.getAllqueryList();
@@ -119,7 +119,6 @@ router.post("/addquery",  [
     res.error(ex);
   }
 });
-
 router.get("/findOldquerybyid/:sql_id",auth,async (req, res) => {
   try {
     const data = await services.findOldquerybyid(req.params.sql_id);
@@ -139,6 +138,16 @@ router.put("/editquery/:sql_id",[
     if(data.length < 1) throw new Error('ไม่พบข้อมูลไฟล์ sql ดังกล่าว!!!');
     const update = await services.editquery(data[0],req.body);
     res.json(update);
+  } catch (ex) {
+    res.error(ex);
+  }
+});
+router.get("/logsqlupdate-list/:sql_id",auth,async (req, res) => {
+  try {
+    const data = await services.findOldquerybyid(req.params.sql_id);
+    if(data.length < 1) throw new Error('ไม่พบข้อมูลไฟล์ sql ดังกล่าว!!!');
+    const log = await services.fetchQuerylog(data[0].sql_file);
+    res.json(log);
   } catch (ex) {
     res.error(ex);
   }
