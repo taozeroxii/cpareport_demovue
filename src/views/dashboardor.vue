@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       room_id: null,
-      room_name: "ห้องผ่าตัดที่ 1",
+      room_name: null,
     };
   },
   mounted() {
