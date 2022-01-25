@@ -6,7 +6,7 @@
     >
     <v-row>
       <v-col cols="12" sm="6" offset-sm="3">
-        <h3>Query Sql_id : {{ this.$route.params.id }}</h3>
+        <h3>Query Sql_menu_id : {{ this.$route.params.id }}</h3>
         <v-card>
           <v-toolbar color="teal" dark>
             <h3>sql_head : {{ menu_title }}</h3>
@@ -135,7 +135,7 @@ export default {
   }),
 
   created() {
-    axios.get(  `http://localhost:3000/api/admin/findOldquerybyid/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
+    axios.get(  `http://172.18.2.2:3010/api/admin/findOldquerybyid/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
         // console.log(res.data)
         this.form.sql_code = res.data.sql_code;
         this.form.sql_subcode_1 = res.data.sql_subcode_1;
@@ -155,7 +155,7 @@ export default {
       this.$refs.form.validate();
       if (this.$refs.form.validate() === true) {
         this.form.sql_edit_user = this.$store.getters.get_nickname;
-        axios.put( `http://localhost:3000/api/admin/editquery/${this.$route.params.id}`,this.form, { headers: { "x-access-token": this.$store.getters.get_token } } ).then(() => {
+        axios.put( `http://172.18.2.2:3010/api/admin/editquery/${this.$route.params.id}`,this.form, { headers: { "x-access-token": this.$store.getters.get_token } } ).then(() => {
             this.loadlogData();
             this.alertify.success("แก้ไขเรียบร้อย");
           });
@@ -168,7 +168,7 @@ export default {
       this.$refs.form.resetValidation();
     },
     loadlogData(){
-    axios.get(  `http://localhost:3000/api/admin/logsqlupdate-list/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
+    axios.get(  `http://172.18.2.2:3010/api/admin/logsqlupdate-list/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
             // console.log(res.data)
             this.logdata = res.data;
         })

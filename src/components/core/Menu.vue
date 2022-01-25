@@ -58,7 +58,8 @@ export default {
       selectedMenu: 0,
       menus: [
         ["mdi-home-city", "Home Menu", "/"],
-        ["mdi-account", "Dashboard", "/dashboard"],
+        ["mdi-chart-bar", "Dashboard", "/dashboard"],
+        ["mdi-chart-line", "Dashboard Or", "/dashboardor"],
         ["mdi-account-group-outline", "about", "/about"],
         ["mdi-television", "admin", "/admin"],
       ],

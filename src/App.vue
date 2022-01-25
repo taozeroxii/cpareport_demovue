@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <Header />
-    <Menu />
+    <Header v-if="this.$route.name!='dashboardor'"/>
+    <Menu v-if="this.$route.name!='dashboardor'"/>
     <Content />
   </v-app>
 </template>
@@ -18,6 +18,7 @@ export default {
     Content,
   },
   mounted() { 
+
   },
 };
 </script>

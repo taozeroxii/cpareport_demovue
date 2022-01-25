@@ -4,6 +4,7 @@ const router = require('express').Router();
 //account router
 router.use('/admin',require('./admin'));
 router.use('/dashboard',require('./dashboard'));
+router.use('/dashboard-or',require('./dashboardOr'));
 router.use('/tableshowdata',require('./tableshowdata'));
 router.use('/selectinput',require('./selectinput'));
 router.use('/menu',require('./menu'));

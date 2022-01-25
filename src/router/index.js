@@ -22,6 +22,11 @@ export const router = new Router({
       component: () => import("@/views/dashboard.vue"),
     },
     {
+      path: "/dashboardor",
+      name: "dashboardor",
+      component: () => import("@/views/dashboardor.vue"),
+    },
+    {
       path: "/tableshowdata/:sql",
       name: "tableshowdata",
       component: tableshowdata,
@@ -83,7 +88,7 @@ export const router = new Router({
 
 router.beforeEach(async (to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ["/login", "/", "/about", "/dashboard", "/tableshowdata"]; //หน้าที่ไม่ต้อง login
+  const publicPages = ["/login", "/", "/about", "/dashboard","/dashboardor", "/tableshowdata"]; //หน้าที่ไม่ต้อง login
   const authRequired = !publicPages.includes(to.path);
   // const loggedIn = localStorage.getItem("token");
   if (authRequired && to.name != "tableshowdata") {
