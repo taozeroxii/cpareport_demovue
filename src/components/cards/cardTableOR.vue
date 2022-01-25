@@ -55,7 +55,6 @@ export default {
             });
           }
         }
-        console.log(result.data.emergency_name);
         this.data = result.data.rows; //map data ใส่ลง data table
       });
   },
