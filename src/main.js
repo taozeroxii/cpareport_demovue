@@ -6,6 +6,7 @@ import vuetify from './plugins/vuetify'
 import 'material-design-icons-iconfont'
 import VeeValidate from 'vee-validate'
 import Vue2Filters from 'vue2-filters'
+import "./assets/styles.css";
 var moment = require('moment'); // require
 
 import  'alertifyjs/build/css/alertify.css'

@@ -13,6 +13,7 @@ module.exports = {
         WHERE	1 = 1
          AND o.request_date  = '${date}'
         AND o.status_id NOT IN ('3','9')
+        AND  r.room_id is not null
         GROUP BY r.room_id,r.room_name
         ORDER BY room_id ASC`,
         (error, result) => {
