@@ -278,7 +278,7 @@
           class="mr-3"
           dark
           @click="sheet = !sheet"
-          v-if="exceldata != '' && adminlogin == 1"
+          v-if="exceldata != '' && adminlogin == '1'"
         >
           SQL query</v-btn
         >
