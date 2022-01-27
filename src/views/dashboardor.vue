@@ -1,12 +1,24 @@
 <template>
   <v-container>
+    
     <v-row class=" mt-2">
       <v-btn color="orange darken-2 mb-5" dark @click="back" outlined><v-icon dark left > mdi-arrow-left</v-icon>ย้อนกลับ</v-btn >&nbsp; 
       <v-btn  :color="status_cycle == true ? 'success mb-5 mt-2' : 'mb-5 mt-2'"  outlined  @click="scolltable"  >
       <v-icon dark >mdi-format-list-bulleted-square </v-icon>เลื่อนอัตโนมัติ &nbsp;<i class="material-icons">{{status_cycle === true ? "check":"clear"}}</i> </v-btn >
       <v-spacer></v-spacer>สถานะสี timeoper  :  <p class="teal--text"> เขียว:วันที่สี่งผ่าพรุ้งนี้</p>, ไม่มีสี วันนี้ ||สถานะสี HN : <p class="red--text"> &nbsp; Emergency:สีแดง</p>,Elective:สีดำ
       </v-row>
-      <v-row><v-spacer></v-spacer> Page : {{currentIndex+1}}</v-row>
+      <v-row class="ml-3 mt-5">      
+        <form  @submit.prevent="submit">
+          <v-row >
+            <v-text-field
+              v-model="passwordOR"
+              type="text"
+              label="password"
+              required
+            ></v-text-field>
+          <v-btn type="submit" class="mt-2 success">บันทึก</v-btn></v-row>
+        </form>
+      <v-spacer></v-spacer> Page : {{currentIndex+1}}</v-row>
       <v-row>
       <v-carousel
         :cycle="status_cycle"
@@ -29,6 +41,7 @@
 <script>
 import Cardtableor from "@/components/cards/cardTableOR";
 import axios from "axios";
+import md5 from "md5"
 
 export default {
   components: { Cardtableor },
@@ -38,10 +51,16 @@ export default {
       room_name: null,
       status_cycle: true,
       currentIndex:null,
+      passwordOR:null,
+      passwordOR_inlocal:null
     };
   },
   created() {
-    this.loadRoomid();
+    this.passwordOR_inlocal = localStorage.passwordOR;
+    if(this.passwordOR_inlocal == md5("ords123456")){
+       this.passwordOR = 'บันทึกรหัสผ่านแล้ว';
+       this.loadRoomid();
+    }
   },
   mounted() {
   },
@@ -76,6 +95,16 @@ export default {
           this.room_id = result.data;
       });
     },
+    submit(){
+      if(this.passwordOR === "ords123456" ){
+        localStorage.passwordOR =  md5(this.passwordOR);
+        this.alertify.success("บันทึกสำเร็จ");
+        this.passwordOR = 'บันทึกรหัสผ่านแล้ว';
+        this.loadRoomid();
+      }else {
+          this.alertify.error("Password ไม่ถูกต้อง");
+      }
+    }
   },
 };
 </script>
