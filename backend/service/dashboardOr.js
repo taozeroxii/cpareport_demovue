@@ -3,6 +3,9 @@ const pgconnection = require("../configs/pgcon");
 var moment = require("moment"); // require
 
 var date = moment(new Date()).format("YYYY-MM-DD") ;
+const tomorrow = new Date(date)
+tomorrow.setDate(tomorrow.getDate() + 1)
+
 module.exports = {
   FindAllOperation_room() {
     return new Promise((resolve, reject) => {
@@ -11,7 +14,7 @@ module.exports = {
         FROM operation_list o
         LEFT OUTER JOIN operation_room r ON r.room_id = o.room_id
         WHERE	1 = 1
-         AND o.request_date  = '${date}'
+         AND o.request_date  between '${date}' AND ${tomorrow}
         AND o.status_id NOT IN ('3','9')
         AND  r.room_id is not null
         GROUP BY r.room_id,r.room_name
@@ -34,7 +37,7 @@ module.exports = {
        ,CASE  WHEN ans.age_y IS NOT NULL THEN  ans.age_y ::TEXT  WHEN ans.age_y IS NULL THEN  vns.age_y ::TEXT ELSE '' END  AS age_y
        ,CASE  WHEN o3.bw IS NOT NULL THEN  ROUND(o3.bw,2) :: TEXT WHEN o3.bw IS NULL THEN  ROUND(ss.waist,2) :: TEXT ELSE '' END   AS weight
        ,CASE WHEN w.NAME IS NOT NULL THEN  w.NAME WHEN w.NAME IS NULL THEN  'OPD' ELSE '' END  AS ward_name
-       ,CASE WHEN o3.operation_set_npo_time IS NOT NULL THEN  'NPO' WHEN o3.operation_set_npo_time IS NULL THEN  ' ' ELSE '' END  AS npo
+       ,CASE WHEN o3.operation_set_npo_time IS NOT NULL THEN  'NPO' WHEN o3.operation_set_npo_time IS NULL THEN  ' ' ELSE '' END  AS npo,o3.set_tf
        ,d.NAME AS request_doctor_name
        FROM operation_list o
        LEFT OUTER JOIN patient pt ON pt.hn = o.hn
@@ -59,9 +62,9 @@ module.exports = {
        LEFT OUTER JOIN doctor d3 ON d3.code = o3.anes_doctor_code
        LEFT OUTER JOIN operation_set_cmpn o4 ON o4.operation_set_cmpn_id = o3.operation_set_cmpn_id 
        WHERE	1 = 1
-        AND o.request_date = '${date}'
+        AND o.request_date between '${date}' AND ${tomorrow}
         AND o.status_id NOT IN ('3','9')
-        AND  r.room_id = ${room_id}
+        AND r.room_id ${room_id == null ? 'is null ': '= '+room_id} 
        ORDER BY room_name `,
         (error, result) => {
           if (error) return reject(error);

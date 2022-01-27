@@ -4,7 +4,7 @@
       <v-btn color="orange darken-2 mb-5 mt-2" dark @click="back"><v-icon dark left> mdi-arrow-left</v-icon>ย้อนกลับ</v-btn >&nbsp;
       <v-btn :color="status_cycle == true ? 'success mb-5 mt-2' : 'mb-5 mt-2'"  dark  @click="scolltable" >
       <v-icon dark>mdi-format-list-bulleted-square </v-icon>เลื่อนอัตโนมัติ &nbsp;{{ status_cycle }}</v-btn >
-      <v-spacer></v-spacer> Emergency:สีแดง,Elective:สีฟ้าอ่อน</v-row>
+      <v-spacer></v-spacer>สถานะสีตรง HN Emergency:สีแดง,Elective:สีดำ</v-row>
     <v-carousel
       :cycle="status_cycle"
       interval="10000"
@@ -18,6 +18,7 @@
       <v-carousel-item v-for="item in room_id" :key="item.room_id">
         <Cardtableor :room_id="item.room_id" :room_name="item.room_name" />
       </v-carousel-item>
+      
     </v-carousel>
   </v-container>
 </template>

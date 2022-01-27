@@ -129,8 +129,7 @@ router.get("/findOldquerybyid/:sql_id",auth,async (req, res) => {
   }
 });
 router.put("/editquery/:sql_id",[
-  check('sql_code').not().isEmpty(),
-  check('sql_subcode_1').not().isEmpty()
+  check('sql_code').not().isEmpty()
 ],auth,async (req, res) => {
   try {
     req.validate();

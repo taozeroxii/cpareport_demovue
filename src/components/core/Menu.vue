@@ -59,7 +59,7 @@ export default {
       menus: [
         ["mdi-home-city", "Home Menu", "/"],
         ["mdi-chart-bar", "Dashboard", "/dashboard"],
-        ["mdi-chart-line", "Dashboard Or", "/dashboardor"],
+        ["mdi-chart-line", "รายการผู้ป่วย OR", "/dashboardor"],
         ["mdi-account-group-outline", "about", "/about"],
         ["mdi-television", "admin", "/admin"],
       ],
