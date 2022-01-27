@@ -37,6 +37,9 @@ export default new Vuex.Store({
     get_nickname(state) {
       return (state.user.niname );
     },
+    get_userrole(state){
+      return (state.userrole)
+    }
   },
 
   modules: {},

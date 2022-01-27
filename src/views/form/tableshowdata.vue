@@ -278,7 +278,7 @@
           class="mr-3"
           dark
           @click="sheet = !sheet"
-          v-if="exceldata != ''"
+          v-if="exceldata != '' && adminlogin == 1"
         >
           SQL query</v-btn
         >
@@ -354,6 +354,7 @@ export default {
   data: () => ({
     sheet: false,
     search: "",
+    adminlogin:null,
     timepicker1: null,
     timepicker2: null,
     datepicker1: false,
@@ -409,6 +410,7 @@ export default {
   }),
 
   created() {
+    this.adminlogin = localStorage.status;
     this.selectinput();
   },
 
