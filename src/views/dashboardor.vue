@@ -1,11 +1,12 @@
 <template>
   <v-container>
     <v-row class=" mt-2">
-      <v-btn color="orange darken-2 mb-5" dark @click="back" outlined><v-icon dark left > mdi-arrow-left</v-icon>ย้อนกลับ</v-btn >&nbsp;
+      <v-btn color="orange darken-2 mb-5" dark @click="back" outlined><v-icon dark left > mdi-arrow-left</v-icon>ย้อนกลับ</v-btn >&nbsp; 
       <v-btn  :color="status_cycle == true ? 'success mb-5 mt-2' : 'mb-5 mt-2'"  outlined  @click="scolltable"  >
       <v-icon dark >mdi-format-list-bulleted-square </v-icon>เลื่อนอัตโนมัติ &nbsp;<i class="material-icons">{{status_cycle === true ? "check":"clear"}}</i> </v-btn >
       <v-spacer></v-spacer>สถานะสี timeoper  :  <p class="teal--text"> เขียว:วันที่สี่งผ่าพรุ้งนี้</p>, ไม่มีสี วันนี้ ||สถานะสี HN : <p class="red--text"> &nbsp; Emergency:สีแดง</p>,Elective:สีดำ
       </v-row>
+      <v-row><v-spacer></v-spacer> Page : {{currentIndex+1}}</v-row>
       <v-row>
       <v-carousel
         :cycle="status_cycle"
