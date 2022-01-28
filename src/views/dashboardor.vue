@@ -69,8 +69,11 @@ export default {
       if(this.room_id != null){
         // console.log(  this.room_id.length+''+ (val+1))
         if((this.room_id.length) == (val+1)){
-          this.room_id = null;
-          this.loadRoomid();
+            //หน่วงเวลา 5 วิก่อนทำการรีเซ็ตค่าเพื่อให้โหลด data ใหม่
+            this.delay(10000).then(()=> {
+              this.room_id = null;
+              this.loadRoomid();
+            })
         }
       }
     }
@@ -104,7 +107,10 @@ export default {
       }else {
           this.alertify.error("Password ไม่ถูกต้อง");
       }
-    }
+    },
+    delay(time) {
+      return new Promise(resolve => setTimeout(resolve, time));
+    },
   },
 };
 </script>
