@@ -22,6 +22,10 @@ Vue.filter('date',(value)=>{
   // console.log(moment().format('L'))
   return(moment(value).format('DD/MM/YYYY HH:mm:ss'))
 })
+Vue.filter('date2',(value)=>{
+  // console.log(moment().format('L'))
+  return(moment(value).format('DD/MM/YYYY'))
+})
 
 
 

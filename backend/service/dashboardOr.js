@@ -5,6 +5,7 @@ var moment = require("moment"); // require
 var date = moment(new Date()).format("YYYY-MM-DD") ;
 const tomorrow = new Date(date)
 tomorrow.setDate(tomorrow.getDate() + 1)
+// console.log(date+' '+moment(tomorrow).format("YYYY-MM-DD"))
 
 module.exports = {
   FindAllOperation_room() {
@@ -14,7 +15,7 @@ module.exports = {
         FROM operation_list o
         LEFT OUTER JOIN operation_room r ON r.room_id = o.room_id
         WHERE	1 = 1
-         AND o.request_date  between '${date}' AND ${tomorrow}
+        AND o.operation_date   between '${date}' AND '${moment(tomorrow).format("YYYY-MM-DD")}'
         AND o.status_id NOT IN ('3','9')
         AND  r.room_id is not null
         GROUP BY r.room_id,r.room_name
@@ -30,7 +31,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       pgconnection.query(
         `
-        SELECT o.request_operation_time as timeoper,o.hn    ,CONCAT(pt.pname,pt.fname,'  ',pt.lname) As pname
+        SELECT o.operation_date,o.request_operation_time as timeoper,o.hn    ,CONCAT(pt.pname,pt.fname,'  ',pt.lname) As pname
        ,o3.provision_diagnosis_text,o.operation_name
        --,s.status_name
        ,e.emergency_name
@@ -62,7 +63,7 @@ module.exports = {
        LEFT OUTER JOIN doctor d3 ON d3.code = o3.anes_doctor_code
        LEFT OUTER JOIN operation_set_cmpn o4 ON o4.operation_set_cmpn_id = o3.operation_set_cmpn_id 
        WHERE	1 = 1
-        AND o.request_date between '${date}' AND ${tomorrow}
+        AND o.operation_date between '${date}' AND '${moment(tomorrow).format("YYYY-MM-DD")}'
         AND o.status_id NOT IN ('3','9')
         AND r.room_id ${room_id == null ? 'is null ': '= '+room_id} 
        ORDER BY room_name `,
