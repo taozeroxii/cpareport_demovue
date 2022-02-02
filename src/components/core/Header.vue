@@ -29,7 +29,12 @@ export default {
   },
   methods: {
     GotoLogin() {
-      this.$router.push("./login").catch(() => {});
+      // console.log(this.$router.history.current.name)
+      if(this.$router.history.current.name == 'tableshowdata'){
+        this.$router.push("../login").catch(() => {});
+      }else{
+        this.$router.push("./login").catch(() => {});
+      }
     },
     Logout() {
       localStorage.clear();
