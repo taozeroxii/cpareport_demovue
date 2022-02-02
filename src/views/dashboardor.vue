@@ -1,7 +1,16 @@
 <template>
   <v-container>
     <v-row class="mt-1">
-      <v-btn     v-if="fullscreen==false" color="orange darken-2 mb-5" class="noprint" dark @click="back" outlined  small><v-icon dark left > mdi-arrow-left</v-icon>ย้อนกลับ</v-btn>&nbsp;
+      <v-btn
+        v-if="fullscreen == false"
+        color="orange darken-2 mb-5"
+        class="noprint"
+        dark
+        @click="back"
+        outlined
+        small
+        ><v-icon dark left> mdi-arrow-left</v-icon>ย้อนกลับ</v-btn
+      >&nbsp;
       <v-btn
         :color="status_cycle == true ? 'success mb-5 mt-2' : 'mb-5 mt-2'"
         outlined
@@ -10,18 +19,36 @@
         class="noprint"
         v-if="fullscreen"
       >
-        <v-icon dark>mdi-format-list-bulleted-square </v-icon>เลื่อนอัตโนมัติ &nbsp;<i class="material-icons">{{ status_cycle === true ? "check" : "clear"  }}</i>
+        <v-icon dark>mdi-format-list-bulleted-square </v-icon>เลื่อนอัตโนมัติ
+        &nbsp;<i class="material-icons">{{
+          status_cycle === true ? "check" : "clear"
+        }}</i>
       </v-btn>
-      <v-btn small  @click="toggle" outlined>Full Screen And slide Show<i class="material-icons">{{ fullscreen === true ? "close_fullscreen" : "open_in_full"  }}</i></v-btn>
-      <v-spacer></v-spacer> <small class="noprint"> <b class="blue--text ">พื้นหลังสีฟ้า:วันที่ผ่าตัดพรุ้งนี้</b>, ไม่มีสี วันนี้  <b class="red--text">&nbsp; Emergency:สีแดง</b> ,Elective:สีเขียว ,อื่นๆ : ไม่มีสี</small>
+      <v-btn small @click="toggle" outlined
+        >Full Screen And slide Show<i class="material-icons">{{
+          fullscreen === true ? "close_fullscreen" : "open_in_full"
+        }}</i></v-btn
+      >
+
+
+
+      <v-spacer></v-spacer>
+      <small class="noprint">
+        <b class="blue--text ">พื้นหลังสีฟ้า:วันที่ผ่าตัดพรุ้งนี้</b>, ไม่มีสี
+        วันนี้ <b class="red--text">&nbsp; Emergency:สีแดง</b> ,Elective:สีเขียว
+        ,อื่นๆ : ไม่มีสี</small
+      >
     </v-row>
 
     <v-row>
-
-      <v-col  cols="12" xl="6"   v-for="item in room_id" :key="item.room_id">
-        <Cardtableor :room_id="item.room_id" :room_name="item.room_name"  v-if="fullscreen==false" />
+      <v-col cols="12" xl="6" v-for="item in room_id" :key="item.room_id">
+        <Cardtableor
+          :room_id="item.room_id"
+          :room_name="item.room_name"
+          v-if="fullscreen == false"
+        />
       </v-col>
-      
+
       <v-carousel
         :cycle="status_cycle"
         interval="10000"
@@ -40,7 +67,7 @@
     </v-row>
 
     <v-row class="ml-3 mt-5">
-      <form @submit.prevent="submit"     v-if="fullscreen==false">
+      <form @submit.prevent="submit" v-if="fullscreen == false">
         <v-row>
           <v-text-field
             v-model="passwordOR"
@@ -49,7 +76,9 @@
             required
             class="noprint"
           ></v-text-field>
-          <v-btn type="submit" class="mt-2 success noprint">บันทึก</v-btn></v-row
+          <v-btn type="submit" class="mt-2 success noprint"
+            >บันทึก</v-btn
+          ></v-row
         >
       </form>
     </v-row>
@@ -60,12 +89,13 @@
 import Cardtableor from "@/components/cards/cardTableOR";
 import axios from "axios";
 import md5 from "md5";
-import { api as fullscreen } from 'vue-fullscreen'
+import { api as fullscreen } from "vue-fullscreen";
 
 export default {
   components: { Cardtableor },
   data() {
     return {
+    
       fullscreen: false,
       teleport: true,
       room_id: null,
@@ -84,14 +114,15 @@ export default {
     }
   },
   mounted() {
-    if(this.fullscreen == false){
+    if (this.fullscreen == false) {
       setInterval(() => {
-          this.room_id = null;
-          // console.log(new Date())
-          this.delay(100).then(() => {//ดีเลเวลาหลังจากรีเซ็ตค่าก่อนโหลดข้อมูลใหม่ 1 วิ
-              this.loadRoomid();
-          });
-        }, 1000*120);
+        this.room_id = null;
+        // console.log(new Date())
+        this.delay(100).then(() => {
+          //ดีเลเวลาหลังจากรีเซ็ตค่าก่อนโหลดข้อมูลใหม่ 1 วิ
+          this.loadRoomid();
+        });
+      }, 1000 * 120);
     }
   },
   watch: {
@@ -125,13 +156,15 @@ export default {
       // console.log("เปลี่ยนสไลด์ห้องอัตโนมัติ : "+this.status_cycle)
     },
     loadRoomid() {
-      axios  .get(`http://172.18.2.2:3010/api/dashboard-or/findroom`).then((result) => {
+      axios
+        .get(`http://172.18.2.2:3010/api/dashboard-or/findroom`)
+        .then((result) => {
           // if(result.data.length > 4) {
           //   console.log("มากกว่า 4" )
-          //   //หากมีมากกว่า 4 ห้อง ให้ทำการแบ่งออกเป็นหน้าๆ  
+          //   //หากมีมากกว่า 4 ห้อง ให้ทำการแบ่งออกเป็นหน้าๆ
           // }
           this.room_id = result.data;
-      });
+        });
     },
     submit() {
       if (this.passwordOR === "ords123456") {
@@ -146,14 +179,14 @@ export default {
     delay(time) {
       return new Promise((resolve) => setTimeout(resolve, time));
     },
-    async toggle () {
-      await fullscreen.toggle(this.$el.querySelector('.fullscreen-wrapper'), {
+    async toggle() {
+      await fullscreen.toggle(this.$el.querySelector(".fullscreen-wrapper"), {
         teleport: this.teleport,
         callback: (isFullscreen) => {
-          this.fullscreen = isFullscreen
+          this.fullscreen = isFullscreen;
         },
-      })
-      this.fullscreen = fullscreen.isFullscreen
+      });
+      this.fullscreen = fullscreen.isFullscreen;
     },
   },
 };
@@ -165,8 +198,8 @@ export default {
   margin: 150px auto;
 }
 @media print {
-   .noprint {
-      visibility: hidden;
-   }
+  .noprint {
+    visibility: hidden;
+  }
 }
 </style>
