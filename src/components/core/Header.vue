@@ -37,7 +37,15 @@ export default {
       }
     },
     Logout() {
-      localStorage.clear();
+      // localStorage.clear();
+      localStorage.removeItem('username'); 
+      localStorage.removeItem('token'); 
+      localStorage.removeItem('fname') ;
+      localStorage.removeItem('lname') ;
+      localStorage.removeItem('niname') ;
+      localStorage.removeItem('status') ;
+      localStorage.removeItem('id');
+
       this.alertify.warning("LOGOUT");
       this.$router.push("/").catch(() => {});
     },
