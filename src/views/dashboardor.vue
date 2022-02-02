@@ -12,10 +12,8 @@
       >
         <v-icon dark>mdi-format-list-bulleted-square </v-icon>เลื่อนอัตโนมัติ &nbsp;<i class="material-icons">{{ status_cycle === true ? "check" : "clear"  }}</i>
       </v-btn>
-      <v-btn small @click="toggle" outlined>	 Full Screen</v-btn>
-      <v-spacer></v-spacer> <small class="noprint">
-      <b class="blue--text ">พื้นหลังสีฟ้า:วันที่ผ่าตัดพรุ้งนี้</b>, ไม่มีสี วันนี้ 
-      <b class="red--text">&nbsp; Emergency:สีแดง</b> ,Elective:สีเขียว ,อื่นๆ : ไม่มีสี</small>
+      <v-btn small  @click="toggle" outlined>Full Screen And slide Show<i class="material-icons">{{ fullscreen === true ? "close_fullscreen" : "open_in_full"  }}</i></v-btn>
+      <v-spacer></v-spacer> <small class="noprint"> <b class="blue--text ">พื้นหลังสีฟ้า:วันที่ผ่าตัดพรุ้งนี้</b>, ไม่มีสี วันนี้  <b class="red--text">&nbsp; Emergency:สีแดง</b> ,Elective:สีเขียว ,อื่นๆ : ไม่มีสี</small>
     </v-row>
 
     <v-row>
@@ -90,7 +88,7 @@ export default {
       setInterval(() => {
           this.room_id = null;
           // console.log(new Date())
-          this.delay(1).then(() => {//ดีเลเวลาหลังจากรีเซ็ตค่าก่อนโหลดข้อมูลใหม่ 1 วิ
+          this.delay(100).then(() => {//ดีเลเวลาหลังจากรีเซ็ตค่าก่อนโหลดข้อมูลใหม่ 1 วิ
               this.loadRoomid();
           });
         }, 1000*120);
