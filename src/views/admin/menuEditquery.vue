@@ -35,8 +35,8 @@
             <td>{{ item.menu_userupdate }}</td>
             <td>{{ item.menu_datetimeupdate|date }} </td>
             <td class="text-center"> <v-icon class="mr-2" @click="editItem(item.id)" >  edit </v-icon>  </td>
-            <td>  
-              <v-switch  :key="item.id" v-model="item.m_status" @click="updatestatus(item.id,item.m_status)" color="success" ></v-switch></td>
+            <td> <v-switch  :key="item.id" v-model="item.m_status" @click="updatestatus(item.id,item.m_status)" color="success" ></v-switch></td>
+            <td><router-link :to="'../tableshowdata/'+item.menu_file">go</router-link> </td>
           </tr>
         </template>
       </v-data-table>
@@ -76,6 +76,7 @@ export default {
         { text: "วันเวลาแก้ไขล่าสุด", value: "menu_datetimeupdate" },
         { text: "แก้ไข(Sql)", value: "action" },
         { text: "เปิด/ปิด", value: "activestatus" },
+        { text: "เช็คข้อมูล", value: "test" },
       ],
     };
   },

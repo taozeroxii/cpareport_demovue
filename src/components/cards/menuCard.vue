@@ -5,24 +5,23 @@
     </v-alert>
     <v-expansion-panels>
       <v-expansion-panel
-        class="green"
+        class=" mb-5"
         v-for="(item, i) in menumain"
         :key="i"
         @click="showSubmenu(item.main_id)"
       >
-        <v-expansion-panel-header>
-          {{ item.main_name }}
-        </v-expansion-panel-header>
+        <v-expansion-panel-header> {{(i+1)+' . '+ item.main_name }}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-list dense>
             <v-list-item
-              class="tile"
+              class=""
               v-for="(item, index) in menusss"
               :key="index"
               link
               @click="onClickMenu(item.menu_file)"
             >
-              <v-list-item-content> {{ item.menu_sub }}</v-list-item-content>
+            <router-link style="text-decoration: none;" :to="'./tableshowdata/'+item.menu_file">{{(i+1)+'.'+(index+1)+' : '+  item.menu_sub }}</router-link>
+            <!-- <a  class="text-decoration: none;" :href="'./tableshowdata/'+item.menu_file">  <v-list-item-content>{{ item.menu_sub }} </v-list-item-content></a> -->
             </v-list-item>
           </v-list>
         </v-expansion-panel-content>
@@ -72,14 +71,9 @@ export default {
 </script>
 
 <style>
-.v-expansion-panel {
-  background-color: #c9ffbef8;
-  font-size: 20px !important;
-}
-
 .v-expansion-panel-header {
   background-color: #c9ffbef8;
   border: 2px solid #87c57bf8;
-  font-size: 22px !important;
-}
+  font-size: 20px !important;
+} 
 </style>
