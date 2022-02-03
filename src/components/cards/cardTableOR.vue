@@ -4,7 +4,7 @@
     <!-- <v-card-title class="elevation-4 text-xl-h5 font-weight-blod">{{  room_name == null ? "ไม่ได้ระบุห้องผ่าตัด" : room_name }}</v-card-title> -->
     <table border="collapse ">
       <tr>
-        <th colspan="12" class="purple lighten-4">
+        <th colspan="12" class="indigo accent-1 ">
           <h2>
             {{ room_name == null ? "ไม่ได้ระบุห้องผ่าตัด" : room_name }}
             <v-dialog v-model="dialog" width="600px">
@@ -63,7 +63,7 @@
       </tr>
       <tr>
         <th
-          class="red lighten-3  text-center"
+          class="purple lighten-4  text-center"
           v-for="(headers, i) in headers"
           :key="i"
         >
@@ -166,8 +166,8 @@ export default {
       return item.protein > 4.2 ? "style-1" : "style-2";
     },
     getColor(emergency_name) {
-      if (emergency_name == '"Emergency"') return "red white--text";
-      else if (emergency_name == "Elective") return "success white--text";
+      if (emergency_name == 'Emergency') return "red lighten-3 black--text";
+      else if (emergency_name == "Elective") return "success lighten-4 black--text";
       else return "";
     },
     getColorDate(date) {
@@ -175,7 +175,7 @@ export default {
         moment(date).format("YYYY-MM-DD") ==
         moment(new Date()).format("YYYY-MM-DD")
       )
-        return "";
+        return "cyan lighten-4  black--text";
       else if (
         moment(date).format("YYYY-MM-DD") ==
         moment(new Date())
