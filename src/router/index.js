@@ -96,7 +96,15 @@ router.beforeEach(async (to, from, next) => {
       // console.log(router.app.$store.state.user); //เช็คค่าที่เก็บลง store หลังจาก login
     }).catch(() => {  
       alertify.error("JWT Token Expire OR Invalid Please Login!!");
-      localStorage.clear(); //clear localstorage เมื่อ token หมดอายุ ก่อนทำการดีดไปหน้า login
+      // localStorage.clear(); //clear localstorage ทั้งหมด เมื่อ token หมดอายุ ก่อนทำการดีดไปหน้า login
+      localStorage.removeItem('username'); 
+      localStorage.removeItem('token'); 
+      localStorage.removeItem('fname') ;
+      localStorage.removeItem('lname') ;
+      localStorage.removeItem('niname') ;
+      localStorage.removeItem('status') ;
+      localStorage.removeItem('id');
+      
       next({ name: "login" })
     });
   }
