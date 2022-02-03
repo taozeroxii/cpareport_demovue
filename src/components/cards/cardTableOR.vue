@@ -175,7 +175,7 @@ export default {
         moment(date).format("YYYY-MM-DD") ==
         moment(new Date()).format("YYYY-MM-DD")
       )
-        return "cyan lighten-4  black--text";
+        return "";
       else if (
         moment(date).format("YYYY-MM-DD") ==
         moment(new Date())

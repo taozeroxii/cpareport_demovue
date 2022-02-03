@@ -2,13 +2,12 @@ const connection = require("../configs/database");
 const pgconnection = require("../configs/pgcon");
 var moment = require("moment"); // require
 
-var date = moment(new Date()).format("YYYY-MM-DD") ;
-const tomorrow = new Date(date)
-tomorrow.setDate(tomorrow.getDate() + 1)
-// console.log(date+' '+moment(tomorrow).format("YYYY-MM-DD"))
-
 module.exports = {
   FindAllOperation_room() {
+    var date = moment(new Date()).format("YYYY-MM-DD") ;
+    const tomorrow = new Date(date)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    // console.log(date+' '+moment(tomorrow).format("YYYY-MM-DD"))
     return new Promise((resolve, reject) => {
       pgconnection.query(
         `SELECT r.room_id,r.room_name
@@ -28,6 +27,10 @@ module.exports = {
     });
   },
   fetchDataByRoomud(room_id) {
+    var date = moment(new Date()).format("YYYY-MM-DD") ;
+    const tomorrow = new Date(date)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    // console.log(date+' '+moment(tomorrow).format("YYYY-MM-DD"))
     return new Promise((resolve, reject) => {
       pgconnection.query(
         `
