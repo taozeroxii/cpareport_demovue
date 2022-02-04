@@ -217,7 +217,7 @@
                   เลือกทุกรายการ
                 </v-list-item-title>
               </v-list-item-content>
-
+ 
               <v-list-item-content v-else-if="likesSomeFruit">
                 <v-list-item-title>
                   สิทธิ ที่เลือก
