@@ -4,12 +4,14 @@
       <v-icon dark left elevation="7" x-large> mdi-arrow-left</v-icon
       >ย้อนกลับ</v-btn
     >
-    <v-row>
-      <v-col cols="12" sm="6" offset-sm="3">
+
+      <v-col cols="12" sm="12" >
         <h3>Query Sql_menu_id : {{ this.$route.params.id }}</h3>
         <v-card>
           <v-toolbar color="teal" dark>
-            <h3>sql_head : {{ menu_title }}</h3>
+            <h3>sql_head : {{ menu_title_old }}</h3>
+            <p>Sql Value :
+            ช่วงวันที่ {datepickers} AND {datepickert} เวลา {stime} AND {etime}  หัตถการ {sicd10} AND {eicd10} ห้องตรวจ {multiple_room} สิทธื {multiple_pttype} แผนก {multiple_spclty} วอร์ด {multiple_ward} แพทย์ {multiple_doctor}</p>
             <template v-slot:extension class=" mb-3">
               <v-btn
                 fab
@@ -31,12 +33,34 @@
               lazy-validation
               @submit.prevent="submit"
             >
+            <v-row>
+              <v-col>
+                 <v-text-field
+                  ref="name"
+                  v-model="sql_head"
+                  label="ชื่อเมนูตอนเลือกหน้าแรก"
+                  placeholder="ชื่อเมนูตอนเลือกหน้าแรก"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                  <v-text-field
+                  ref="name"
+                  label="ชื่อหัวข้อเมื่อกดเข้าไปหน้ารายงาน"
+                  v-model="menu_title"
+                  placeholder="ชื่อหัวข้อเมื่อกดเข้าไปหน้ารายงาน"
+                  required
+                ></v-text-field>
+              </v-col>
+
+            </v-row>
               <v-row>
                 <v-col cols="6">
                   <label for="SQL-1">sql_code</label>
                   <v-textarea
                     outlined
                     clearable
+                    rows="12"
                     v-model="form.sql_code"
                     name="sql_code"
                     label="SQL-1"
@@ -47,6 +71,7 @@
                   <v-textarea
                     clearable
                     outlined
+                    rows="12"
                     v-model="form.sql_subcode_1"
                     name="sql_subcode_1"
                     label="SQL-2"
@@ -111,7 +136,7 @@
           </v-dialog>
         </v-card>
       </v-col>
-    </v-row>
+
   </v-container>
 </template>
 
@@ -123,7 +148,10 @@ export default {
   data: () => ({
     dialog: false,
     valid: true,
+    menu_title_old: "",
     menu_title: "",
+    sql_head:null,
+    sql_file:null,
     form: {
       sql_code: null,
       sql_subcode_1: null,
@@ -135,30 +163,37 @@ export default {
   }),
 
   created() {
-    axios.get(  `http://172.18.2.2:3010/api/admin/findOldquerybyid/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
-        // console.log(res.data)
+    axios.get(  `http://localhost:3000/api/admin/findOldquerybyid/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
         this.form.sql_code = res.data.sql_code;
         this.form.sql_subcode_1 = res.data.sql_subcode_1;
-        this.menu_title = res.data.menu_title;
+        this.menu_title_old = res.data.menu_title;
+        this.menu_title= res.data.menu_title;
+        this.sql_head = res.data.sql_head;
+        this.sql_file = res.data.sql_file;
       })
       .catch((err) => {
         this.alertify.error(err.response.data.message);
       });
       this.loadlogData();
   },
-
   methods: {
     back() {
       this.$router.back();
     },
     validate() {
       this.$refs.form.validate();
+ 
       if (this.$refs.form.validate() === true) {
         this.form.sql_edit_user = this.$store.getters.get_nickname;
         axios.put( `http://172.18.2.2:3010/api/admin/editquery/${this.$route.params.id}`,this.form, { headers: { "x-access-token": this.$store.getters.get_token } } ).then(() => {
             this.loadlogData();
+            var menu = {
+                  menu_title:this.menu_title,
+                  sql_head:this.sql_head
+            }
+            axios.put( `http://172.18.2.2:3010/api/admin/editmenuquery/${this.sql_file}`,menu,{ headers: { "x-access-token": this.$store.getters.get_token } } ).then(() => {  });
             this.alertify.success("แก้ไขเรียบร้อย");
-          });
+        });
       }
     },
     reset() {

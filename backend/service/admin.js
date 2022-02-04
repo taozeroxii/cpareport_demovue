@@ -175,6 +175,18 @@ module.exports = {
       });
     })
   },
+  editmenuquery(id,value){
+    return new Promise((resolve, reject) => {
+      const query  = `UPDATE cpareport_menu SET  menu_sub   = ? ,menu_title = ? WHERE menu_file   = ?`;
+      const query2 = `UPDATE cpareport_sql SET  sql_name   = ? ,sql_head = ? WHERE sql_file   = ?`;
+      connection.query(query, [value.menu_title,value.menu_title,id ], (error, result) => {
+          if (error) return reject(error);
+          connection.query(query2,[value.sql_head,value.sql_head,id ],() => {});
+          resolve(result);
+      });
+    })
+  },
+
   fetchQuerylog(req){
     var sql_file = req;
     return new Promise((resolve, reject) => {

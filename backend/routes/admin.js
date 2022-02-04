@@ -141,6 +141,20 @@ router.put("/editquery/:sql_id",[
     res.error(ex);
   }
 });
+
+router.put("/editmenuquery/:sql_id",[
+  check('sql_id').not().isEmpty()
+],auth,async (req, res) => {
+  try {
+    // console.log(req.params.sql_id,req.body)
+    req.validate();
+    const update = await services.editmenuquery(req.params.sql_id,req.body);
+    res.json(update);
+  } catch (ex) {
+    res.error(ex);
+  }
+});
+
 router.get("/logsqlupdate-list/:sql_id",auth,async (req, res) => {
   try {
     const data = await services.findOldquerybyid(req.params.sql_id);
