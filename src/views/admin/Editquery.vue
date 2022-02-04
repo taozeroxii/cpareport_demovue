@@ -163,7 +163,7 @@ export default {
   }),
 
   created() {
-    axios.get(  `http://localhost:3000/api/admin/findOldquerybyid/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
+    axios.get(  `http://172.18.2.2:3010/api/admin/findOldquerybyid/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
         this.form.sql_code = res.data.sql_code;
         this.form.sql_subcode_1 = res.data.sql_subcode_1;
         this.menu_title_old = res.data.menu_title;
