@@ -58,7 +58,7 @@
         v-if="fullscreen"
       >
         <v-carousel-item v-for="item in room_id" :key="item.room_id">
-          <Cardtableor :room_id="item.room_id" :room_name="item.room_name"   :date_dd="item.date =='' ? item.date : 'all' " />
+          <Cardtableor :room_id="item.room_id" :room_name="item.room_name"   :date_dd="item.date == null ?'all'  : item.date" />
         </v-carousel-item>
       </v-carousel>
       <!-- END Slide Show Components                 -->
