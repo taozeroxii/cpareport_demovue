@@ -189,6 +189,7 @@ export default {
         localStorage.passwordOR = md5(this.passwordOR);
         this.alertify.success("บันทึกสำเร็จ");
         this.passwordOR = "บันทึกรหัสผ่านแล้ว";
+        this.passwordOR_inlocal = localStorage.passwordOR;
         this.  loadRoomid( this.ckbuttondate);
       } else {
         this.alertify.error("Password ไม่ถูกต้อง");
