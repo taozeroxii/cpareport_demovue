@@ -3,6 +3,14 @@
     <v-alert border="right" colored-border type="error" elevation="2" v-if="warning">
       {{ warning }}
     </v-alert>
+   <v-progress-linear
+            color="deep-purple accent-4"
+            indeterminate
+            rounded
+            height="6"
+            v-if="loading"
+    ></v-progress-linear>
+
     <v-expansion-panels>
       <v-expansion-panel
         class=" mb-5"
@@ -40,13 +48,17 @@ export default {
       menumain: "",
       menusss: "",
       rout: "",
+      loading:true
     };
   },
-
+  created() {
+    this.loading=true;
+  },
   async mounted() {
     // console.log("menu");
     await Axios.get("http://172.18.2.2:3010/api/menu") .then((result) => {
         //console.log(JSON.stringify(result.data));
+        this.loading=false;
         this.menumain = result.data;
       })
       .catch(() => {
@@ -59,6 +71,7 @@ export default {
       await Axios.get(`http://172.18.2.2:3010/api/menu/submenu/${id}`).then(
         (result) => {
           // console.log(JSON.stringify(result.data));
+          this.loading=false;
           this.menusss = result.data;
         }
       );

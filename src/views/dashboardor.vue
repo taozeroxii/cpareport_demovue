@@ -23,9 +23,9 @@
       </v-btn>
       <v-btn x-small @click="toggle" outlined  class="noprint"  >Full Screen And slide Show<i class="material-icons">{{  fullscreen === true ? "close_fullscreen" : "open_in_full" }}</i></v-btn >
 
-      <v-btn class="warning ml-3 noprint" @click="loadRoomid(today)" x-small >     {{today |date2}}</v-btn>
-      <v-btn class="warning noprint"      @click="loadRoomid(tomorrow)" x-small >  {{tomorrow |date2}}</v-btn>
-      <v-btn class="warning noprint"      @click="loadRoomid('all')" x-small >     All</v-btn>
+      <v-btn class="warning ml-3 noprint" v-if="passwordOR_inlocal == passworddf" @click="loadRoomid(today)" x-small >     {{today |date2}}</v-btn>
+      <v-btn class="warning noprint"      v-if="passwordOR_inlocal == passworddf" @click="loadRoomid(tomorrow)" x-small >  {{tomorrow |date2}}</v-btn>
+      <v-btn class="warning noprint"      v-if="passwordOR_inlocal == passworddf" @click="loadRoomid('all')" x-small >     All</v-btn>
 
 
       <v-spacer></v-spacer>
@@ -105,7 +105,8 @@ export default {
       passwordOR_inlocal: null,
       today:moment(new Date()).format('YYYY-MM-DD') ,
       tomorrow:null ,
-      ckbuttondate:"all"
+      ckbuttondate:"all",
+      passworddf:md5('ords123456')
     };
   },
   created() {
