@@ -3,7 +3,7 @@
     <v-row class="mt-5">
       <v-col md="3" lg="4"></v-col>
       <v-col cols="12" md="6" lg="4">
-        <form>
+        <form  @submit.prevent="submit">
           <h1>LOGIN</h1>
           <v-text-field
             v-model="form.username"
@@ -18,7 +18,7 @@
             type="password"
             required
           ></v-text-field>
-          <v-btn class="mr-4" @click="submit">
+          <v-btn class="mr-4" type="submit">
             submit
           </v-btn>
           <v-btn @click="clear">

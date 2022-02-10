@@ -36,7 +36,7 @@
             <td>{{ item.menu_datetimeupdate|date }} </td>
             <td class="text-center"> <v-icon class="mr-2" @click="editItem(item.id)" >  edit </v-icon>  </td>
             <td> <v-switch  :key="item.id" v-model="item.m_status" @click="updatestatus(item.id,item.m_status)" color="success" ></v-switch></td>
-            <td><router-link :to="'../tableshowdata/'+item.menu_file">go</router-link> </td>
+            <td><a :href="'#/tableshowdata/'+item.menu_file" target="_blank"  style=" text-decoration: none;"> <v-icon class="mr-2"  >    mdi-forward </v-icon>   </a> </td>
           </tr>
         </template>
       </v-data-table>
