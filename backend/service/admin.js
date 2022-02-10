@@ -75,6 +75,19 @@ module.exports = {
     });
   },
 
+  async changepassword(value){
+    value.password = await bcrypt.hash(value.password, 10);
+    // return value;
+    return new Promise((resolve, reject) => {
+      // resolve(value)
+      connection.query( `UPDATE cpareport_userlogin_nversion set password = '${value.password}' where id = '${value.id}' and username = '${value.username}'`,  (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        }
+      );
+    });
+  },
+
   changestatus(id, value) {
     return new Promise((resolve, reject) => {
       connection.query( `UPDATE cpareport_menu set menu_status = '${value.status}' where id = '${id}'`, async (error, result) => {

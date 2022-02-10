@@ -51,6 +51,16 @@ router.post( "/register",
     }
   }
 );
+router.put("/changepassword",[check("password").not().isEmpty()],auth, async (req, res) => {
+    try {
+      req.validate();
+      const change = await services.changepassword(req.body);
+      res.json(change);
+    } catch (ex) {
+      res.error(ex);
+    }
+  }
+);
 
 router.post("/checkJWTexpire",auth, (req, res)=>{//นำค่า token ที่ส่งมาจาก router store ของ vue มาเช็คว่าถูกต้องไหมและเป็นของใคร
   tokendata  = jwt.decode(req.headers["x-access-token"],process.env.TOKEN_KEY);
