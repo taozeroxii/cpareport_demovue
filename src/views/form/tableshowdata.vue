@@ -256,9 +256,10 @@
     </form>
 
     <!-- alert message And progress bar when data is loading's long time -->
-    <v-alert v-if="errorMessage != ''" outlined dense type="error">
-      Error <strong>{{ errorMessage }}</strong>
+    <v-alert v-if="errorMessage != '' || errorMessage2 != ''" outlined dense type="error">
+      Error <strong>{{ errorMessage }}{{errorMessage2}}</strong>
     </v-alert>
+    
     <v-progress-circular
       v-if="loading"
       :size="50"
@@ -365,6 +366,7 @@ export default {
     loading: false,
     loading2: false,
     errorMessage: "",
+    errorMessage2:"",
     form: {
       sql: "",
       sql2: "",
@@ -538,7 +540,7 @@ export default {
           // console.log( this.responseDataarray2 );
 
           this.loading2 = false;
-          this.errorMessage = "";
+          this.errorMessage2 = "";
           // this.form = {
           //   sql: "",
           //   date1: "",
@@ -551,7 +553,7 @@ export default {
         })
         .catch((err) => {
           this.loading2 = false;
-          this.errorMessage = err.response.data.message;
+          this.errorMessage2 = err.response.data.message;
           this.selectinput();
         });
     },

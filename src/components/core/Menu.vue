@@ -36,7 +36,7 @@
           <v-list-item-icon>
             <v-icon> mdi-format-list-bulleted-square </v-icon>
           </v-list-item-icon>
-          <v-list-item-content> เวอร์ชั่นเก่า</v-list-item-content>
+          <v-list-item-content> Report เวอร์ชั่นเก่า</v-list-item-content>
         </v-list-item>
 
         <v-list-item href="http://172.16.0.251/report/login.php" >
@@ -57,11 +57,11 @@ export default {
     return {
       selectedMenu: 0,
       menus: [
-        ["mdi-home-city", "Home Menu", "/"],
+        ["mdi-home-city", "Report Menu", "/"],
         ["mdi-chart-bar", "Dashboard", "/dashboard"],
         ["mdi-chart-line", "รายการผู้ป่วย OR", "/dashboardor"],
         ["mdi-account-group-outline", "about", "/about"],
-        ["mdi-television", "admin", "/admin"],
+        ["mdi-television", "Admin", "/admin"],
       ],
     };
   },
