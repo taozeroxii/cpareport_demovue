@@ -2,9 +2,20 @@
   <v-container>
     <v-btn
       color="primary"
-      :disabled=" forminput == 'report_form_multipleselect.php' ||forminput == 'report_form_001.php' ||forminput == 'report_form_blood.php'? true: false"
+      :disabled="
+        forminput == 'report_form_multipleselect.php' ||
+        forminput == 'report_form_001.php' ||
+        forminput == 'report_form_blood.php'
+          ? true
+          : false
+      "
       target="_blank"
-      :href=" 'http://172.16.0.251/report/' + forminput +'?sql=' +this.$route.params.sql "
+      :href="
+        'http://172.16.0.251/report/' +
+          forminput +
+          '?sql=' +
+          this.$route.params.sql
+      "
       >คลิ๊กเพื่อไปยังเวอร์ชั่นเดิม เมื่อปุ่มเป็นสีน้ำเงิน
       ฟอร์มรับข้อมูลปัจจุบัน {{ forminput }}
     </v-btn>
@@ -12,7 +23,13 @@
     <hr class="mb-3 mt-5" />
 
     <form @submit.prevent="submitForm()">
-      <v-container v-if="forminput == 'report_form_multipleselect.php' ||forminput == 'report_form_001.php' ||forminput == 'report_form_blood.php'">
+      <v-container
+        v-if="
+          forminput == 'report_form_multipleselect.php' ||
+            forminput == 'report_form_001.php' ||
+            forminput == 'report_form_blood.php'
+        "
+      >
         <v-row>
           <v-menu
             v-model="datepicker1"
@@ -217,7 +234,7 @@
                   เลือกทุกรายการ
                 </v-list-item-title>
               </v-list-item-content>
- 
+
               <v-list-item-content v-else-if="likesSomeFruit">
                 <v-list-item-title>
                   สิทธิ ที่เลือก
@@ -256,10 +273,15 @@
     </form>
 
     <!-- alert message And progress bar when data is loading's long time -->
-    <v-alert v-if="errorMessage != '' || errorMessage2 != ''" outlined dense type="error">
-      Error <strong>{{ errorMessage }}{{errorMessage2}}</strong>
+    <v-alert
+      v-if="errorMessage != '' || errorMessage2 != ''"
+      outlined
+      dense
+      type="error"
+    >
+      Error <strong>{{ errorMessage }}{{ errorMessage2 }}</strong>
     </v-alert>
-    
+
     <v-progress-circular
       v-if="loading"
       :size="50"
@@ -270,7 +292,13 @@
     <hr />
 
     <!-- tables show data section  -->
-    <v-card v-if="forminput == 'report_form_multipleselect.php' ||forminput == 'report_form_001.php' ||forminput == 'report_form_blood.php'">
+    <v-card
+      v-if="
+        forminput == 'report_form_multipleselect.php' ||
+          forminput == 'report_form_001.php' ||
+          forminput == 'report_form_blood.php'
+      "
+    >
       <v-card-title>
         {{ sql_name }}
         <v-spacer></v-spacer>
@@ -335,11 +363,34 @@
             SQL QUERY CODE
             <hr />
             <v-row>
-              <v-col lg="6">  <v-textarea  outlined  name="input-7-4"  label="SQL-1" id="n1" :value="getsqlcode" @click="copysqlcode1('n1')" ></v-textarea></v-col>
-              <v-col lg="6">  <v-textarea  outlined  name="input-7-4"  label="SQL-2" id="n2"  :value="getsqlcode2"  @click="copysqlcode1('n2')"></v-textarea></v-col>
+              <v-col lg="6">
+                <v-textarea
+                  outlined
+                  name="input-7-4"
+                  label="SQL-1"
+                  id="n1"
+                  :value="getsqlcode"
+                  @click="copysqlcode1"
+                ></v-textarea
+              ></v-col>
+              <v-col lg="6">
+                <v-textarea
+                  outlined
+                  name="input-7-4"
+                  label="SQL-2"
+                  id="n2"
+                  :value="getsqlcode2"
+                  @click="copysqlcode1"
+                ></v-textarea
+              ></v-col>
             </v-row>
-         
-           <v-textarea  outlined  name="input-7-4"  label="SQL-2"  :value="form.sql2"></v-textarea>
+
+            <v-textarea
+              outlined
+              name="input-7-4"
+              label="SQL-2"
+              :value="form.sql2"
+            ></v-textarea>
           </div>
         </v-sheet>
       </v-bottom-sheet>
@@ -355,20 +406,20 @@ export default {
   data: () => ({
     sheet: false,
     search: "",
-    adminlogin:null,
+    adminlogin: null,
     timepicker1: null,
     timepicker2: null,
     datepicker1: false,
     datepicker2: false,
     getsqlcode: "",
     getsqlcode2: "",
-    showdatable1:"",
-    showdatable2:"",
+    showdatable1: "",
+    showdatable2: "",
     sql_name: "",
     loading: false,
     loading2: false,
     errorMessage: "",
-    errorMessage2:"",
+    errorMessage2: "",
     form: {
       sql: "",
       sql2: "",
@@ -448,7 +499,7 @@ export default {
     submitForm() {
       // console.log(this.$route.params.sql)
       this.form.sql = this.$route.params.sql;
-      this.form.sql2 =this.$route.params.sql;
+      this.form.sql2 = this.$route.params.sql;
       this.loading = true;
       this.headers = []; // clear data array ก่อนจะเพิ่มค่าใหม่ลงไปเพื่อแสดงใน data tables
       this.headers2 = []; // หากไม่ประกาศดักไว้ค่าหัสคอลั่มจะเพิ่มขึ้นเรื่อยๆเมื่อมีการกด submit Form ครั้งต่อๆไป
@@ -490,7 +541,12 @@ export default {
 
       // console.log(this.form);
 
-      axios.post( `http://localhost:3000/api/tableshowdata/queryfrominput`, this.form).then((result) => {
+      axios
+        .post(
+          `http://172.18.2.2:3010/api/tableshowdata/queryfrominput`,
+          this.form
+        )
+        .then((result) => {
           // this.getData = result.data;
           // this.headers =  [{ text: result.data.fields[0].name, value:  result.data.fields[0].name }];
           //  console.log(result.data)
@@ -519,7 +575,11 @@ export default {
           this.selectinput();
         });
 
-      axios.post(`http://localhost:3000/api/tableshowdata/queryfrominputsql2`,this.form)
+      axios
+        .post(
+          `http://172.18.2.2:3010/api/tableshowdata/queryfrominputsql2`,
+          this.form
+        )
         .then((result) => {
           var i;
           // console.log(result.data)
@@ -565,12 +625,20 @@ export default {
     },
 
     selectinput() {
-      axios.get( `http://localhost:3000/api/tableshowdata/menusql/${this.$route.params.sql}` ).then((result) => {
+      axios
+        .get(
+          `http://172.18.2.2:3010/api/tableshowdata/menusql/${this.$route.params.sql}`
+        )
+        .then((result) => {
           // console.log(result.data.menu_link);
           this.forminput = result.data.menu_link;
         });
 
-      axios .get(`http://localhost:3000/api/tableshowdata/sql/${this.$route.params.sql}` ).then((result) => {
+      axios
+        .get(
+          `http://172.18.2.2:3010/api/tableshowdata/sql/${this.$route.params.sql}`
+        )
+        .then((result) => {
           // console.log(result)
           this.showdatable1 = result.data.sql_code;
           this.showdatable2 = result.data.sql_subcode_1;
@@ -601,7 +669,8 @@ export default {
 
           if (result.data.sql_code.search("{multiple_pttype}") >= 0) {
             this.ckInput.pttype = false;
-            axios .get(`http://localhost:3000/api/selectinput/pttype`)
+            axios
+              .get(`http://172.18.2.2:3010/api/selectinput/pttype`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -617,7 +686,7 @@ export default {
           if (result.data.sql_code.search("{multiple_spclty}") >= 0) {
             this.ckInput.spclty = false;
             axios
-              .get(`http://localhost:3000/api/selectinput/spclty`)
+              .get(`http://172.18.2.2:3010/api/selectinput/spclty`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -633,7 +702,9 @@ export default {
 
           if (result.data.sql_code.search("{multiple_room}") >= 0) {
             this.ckInput.kskdepartments = false;
-            axios .get(`http://localhost:3000/api/selectinput/kskdepartments`).then((res) => {
+            axios
+              .get(`http://172.18.2.2:3010/api/selectinput/kskdepartments`)
+              .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
                   // console.log(res.data[i].spclty );
@@ -648,7 +719,8 @@ export default {
 
           if (result.data.sql_code.search("{multiple_ward}") >= 0) {
             this.ckInput.ward = false;
-            axios.get(`http://localhost:3000/api/selectinput/ward`)
+            axios
+              .get(`http://172.18.2.2:3010/api/selectinput/ward`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -666,7 +738,7 @@ export default {
           ) {
             this.ckInput.doctor = false;
             axios
-              .get(`http://localhost:3000/api/selectinput/doctor`)
+              .get(`http://172.18.2.2:3010/api/selectinput/doctor`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -693,14 +765,13 @@ export default {
         return true;
       }
     },
-    copysqlcode1(value){
-      var copyText = document.getElementById(value);
-      copyText.select();
-      copyText.setSelectionRange(0, 99999); 
-      navigator.clipboard.writeText(copyText.value);
-      /* Alert the copied text */
-      alert("Copied the text: " + copyText.value);
-    }
+    copysqlcode1: function(e) {
+      var id = e.target.id;
+      // var value = e.target.value;
+      // console.log(id,value) 
+      document.querySelector("#"+id).select();
+      document.execCommand('copy');
+    },
   },
 };
 </script>
