@@ -163,7 +163,7 @@ export default {
   }),
 
   created() {
-    axios.get(  `http://localhost:3000/api/admin/findOldquerybyid/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
+    axios.get(  `http://172.18.2.2:3010/api/admin/findOldquerybyid/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
         this.form.sql_code = res.data.sql_code;
         this.form.sql_subcode_1 = res.data.sql_subcode_1;
         this.menu_title_old = res.data.menu_title;
@@ -185,13 +185,13 @@ export default {
  
       if (this.$refs.form.validate() === true) {
         this.form.sql_edit_user = this.$store.getters.get_nickname;
-        axios.put( `http://localhost:3000/api/admin/editquery/${this.$route.params.id}`,this.form, { headers: { "x-access-token": this.$store.getters.get_token } } ).then(() => {
+        axios.put( `http://172.18.2.2:3010/api/admin/editquery/${this.$route.params.id}`,this.form, { headers: { "x-access-token": this.$store.getters.get_token } } ).then(() => {
             this.loadlogData();
             var menu = {
                   menu_title:this.menu_title,
                   sql_head:this.sql_head
             }
-            axios.put( `http://localhost:3000/api/admin/editmenuquery/${this.sql_file}`,menu,{ headers: { "x-access-token": this.$store.getters.get_token } } ).then(() => {  });
+            axios.put( `http://172.18.2.2:3010/api/admin/editmenuquery/${this.sql_file}`,menu,{ headers: { "x-access-token": this.$store.getters.get_token } } ).then(() => {  });
             this.alertify.success("แก้ไขเรียบร้อย");
         });
       }
@@ -203,7 +203,7 @@ export default {
       this.$refs.form.resetValidation();
     },
     loadlogData(){
-    axios.get(  `http://localhost:3000/api/admin/logsqlupdate-list/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
+    axios.get(  `http://172.18.2.2:3010/api/admin/logsqlupdate-list/${this.$route.params.id}`, { headers: { "x-access-token": this.$store.getters.get_token } } ).then((res) => {
             // console.log(res.data)
             this.logdata = res.data;
         })
