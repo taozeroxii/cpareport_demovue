@@ -27,8 +27,13 @@ module.exports = {
     });
   },
 
-  findqueryPg(value) {
-    let replacesql = value.sql;
+  async findqueryPg(value) {
+    // console.log(value)
+    const sqlquery = await this.findById(value.sql)
+    let replacesql = sqlquery.sql_code;
+    
+    // console.log(replacesql)
+
 
     replacesql = replacesql.replace(/{datepickers}/g,`'${value.date1}'`);// /{datepickers}/g ใช้ในการแทนที่คำนี้ทั้้งหมดในตัวแปร replacesql หากใช้แบบ "" ธรรมดาจะได้แคต่ตำแหน่งแรกที่เจออันเดียว
     replacesql = replacesql.replace(/{datepickert}/g,`'${value.date2}'`);
@@ -55,7 +60,7 @@ module.exports = {
     else {replacesql = replacesql.replace(/{multiple_doctor}/g,` (select code FROM doctor) `);} 
 
     
-    //  console.log(replacesql);
+    // console.log(replacesql);
     
     return new Promise((resolve, reject) => {
       pgconnection.query(`${replacesql}`, (error, result) => {
@@ -67,14 +72,20 @@ module.exports = {
             }
           }
         }
+        result.sqlreplace=replacesql;
         resolve(result);
       });
 
     });
   },
 
-  findqueryPg2(value) {
-    let replacesql = value.sql2;
+  async findqueryPg2(value) {
+    // let replacesql = value.sql2;
+
+    const sqlquery = await this.findById(value.sql2)
+    let replacesql = sqlquery.sql_subcode_1;
+
+
     replacesql = replacesql.replace(/{datepickers}/g,`'${value.date1}'`);// /{datepickers}/g ใช้ในการแทนที่คำนี้ทั้้งหมดในตัวแปร replacesql หากใช้แบบ "" ธรรมดาจะได้แคต่ตำแหน่งแรกที่เจออันเดียว
     replacesql = replacesql.replace(/{datepickert}/g,`'${value.date2}'`);
     replacesql = replacesql.replace(/{stime}/g,`'${value.time1}'`);
@@ -112,9 +123,12 @@ module.exports = {
             }
           }
         }
+        result.sqlreplace=replacesql;
         resolve(result);
       });
 
     });
   },
+
+
 };

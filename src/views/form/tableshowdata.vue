@@ -304,7 +304,7 @@
 
     <!-- tables show data 2 section  -->
     <br />
-    <v-card v-if="getsqlcode2">
+    <v-card v-if="showdatable2">
       <v-card-title>
         ข้อมูลชุดที่ 2
         <v-spacer></v-spacer>
@@ -335,8 +335,8 @@
             SQL QUERY CODE
             <hr />
             <v-row>
-              <v-col lg="6">  <v-textarea  outlined  name="input-7-4"  label="SQL-1"  :value="form.sql" disabled></v-textarea></v-col>
-              <v-col lg="6">  <v-textarea  outlined  name="input-7-4"  label="SQL-2"  :value="form.sql2" disabled></v-textarea></v-col>
+              <v-col lg="6">  <v-textarea  outlined  name="input-7-4"  label="SQL-1" id="n1" :value="getsqlcode" @click="copysqlcode1('n1')" ></v-textarea></v-col>
+              <v-col lg="6">  <v-textarea  outlined  name="input-7-4"  label="SQL-2" id="n2"  :value="getsqlcode2"  @click="copysqlcode1('n2')"></v-textarea></v-col>
             </v-row>
          
            <v-textarea  outlined  name="input-7-4"  label="SQL-2"  :value="form.sql2"></v-textarea>
@@ -362,6 +362,8 @@ export default {
     datepicker2: false,
     getsqlcode: "",
     getsqlcode2: "",
+    showdatable1:"",
+    showdatable2:"",
     sql_name: "",
     loading: false,
     loading2: false,
@@ -444,8 +446,9 @@ export default {
     },
 
     submitForm() {
-      this.form.sql = this.getsqlcode;
-      this.form.sql2 = this.getsqlcode2;
+      // console.log(this.$route.params.sql)
+      this.form.sql = this.$route.params.sql;
+      this.form.sql2 =this.$route.params.sql;
       this.loading = true;
       this.headers = []; // clear data array ก่อนจะเพิ่มค่าใหม่ลงไปเพื่อแสดงใน data tables
       this.headers2 = []; // หากไม่ประกาศดักไว้ค่าหัสคอลั่มจะเพิ่มขึ้นเรื่อยๆเมื่อมีการกด submit Form ครั้งต่อๆไป
@@ -487,7 +490,7 @@ export default {
 
       // console.log(this.form);
 
-      axios.post( `http://172.18.2.2:3010/api/tableshowdata/queryfrominput`, this.form).then((result) => {
+      axios.post( `http://localhost:3000/api/tableshowdata/queryfrominput`, this.form).then((result) => {
           // this.getData = result.data;
           // this.headers =  [{ text: result.data.fields[0].name, value:  result.data.fields[0].name }];
           //  console.log(result.data)
@@ -503,17 +506,10 @@ export default {
           // console.log(this.headers);
           this.responseDataarray = result.data.rows; //map data ใส่ลง data table
           this.exceldata = this.responseDataarray;
+          this.getsqlcode = result.data.sqlreplace; //code 1
 
           this.loading = false;
           this.errorMessage = "";
-          // this.form = {
-          //   sql: "",
-          //   date1: "",
-          //   date2: "",
-          //   pttype: [],
-          //   spclty: [],
-          //   kskdepartments: [],
-          // };
           this.selectinput();
         })
 
@@ -523,7 +519,7 @@ export default {
           this.selectinput();
         });
 
-      axios.post(`http://172.18.2.2:3010/api/tableshowdata/queryfrominputsql2`,this.form)
+      axios.post(`http://localhost:3000/api/tableshowdata/queryfrominputsql2`,this.form)
         .then((result) => {
           var i;
           // console.log(result.data)
@@ -534,21 +530,13 @@ export default {
               value: result.data.fields[i].name,
             }); // เป็น obj อยู่แล้ว ดันมี obj array ว้อนในอีกทีตรงช่อง fields เลยต้องเพิ่มทีละช่อง
           }
-
+          this.getsqlcode2 = result.data.sqlreplace;
           this.responseDataarray2 = result.data.rows; //map data ใส่ลง data table
           this.exceldata2 = this.responseDataarray2;
           // console.log( this.responseDataarray2 );
 
           this.loading2 = false;
           this.errorMessage2 = "";
-          // this.form = {
-          //   sql: "",
-          //   date1: "",
-          //   date2: "",
-          //   pttype: [],
-          //   spclty: [],
-          //   kskdepartments: [],
-          // };
           this.selectinput();
         })
         .catch((err) => {
@@ -577,19 +565,17 @@ export default {
     },
 
     selectinput() {
-      axios.get( `http://172.18.2.2:3010/api/tableshowdata/menusql/${this.$route.params.sql}` ).then((result) => {
+      axios.get( `http://localhost:3000/api/tableshowdata/menusql/${this.$route.params.sql}` ).then((result) => {
           // console.log(result.data.menu_link);
           this.forminput = result.data.menu_link;
         });
 
-      axios .get(`http://172.18.2.2:3010/api/tableshowdata/sql/${this.$route.params.sql}` )
-        .then((result) => {
+      axios .get(`http://localhost:3000/api/tableshowdata/sql/${this.$route.params.sql}` ).then((result) => {
           // console.log(result)
-          this.sql_name = result.data.sql_head; //name 1
-          this.getsqlcode = result.data.sql_code; //code 1
-          this.getsqlcode2 = result.data.sql_subcode_1;
-          // console.log(this.getsqlcode2)
+          this.showdatable1 = result.data.sql_code;
+          this.showdatable2 = result.data.sql_subcode_1;
 
+          this.sql_name = result.data.sql_head; //name 1
           //เช็ค query ว่ามีตัวแปร ต่ามที่กำหนด ไหมหากไม่มี disable ปุ่ม
           this.ckInput.date1 = this.secrchInput(
             result.data.sql_code.search("{datepickers}")
@@ -615,7 +601,7 @@ export default {
 
           if (result.data.sql_code.search("{multiple_pttype}") >= 0) {
             this.ckInput.pttype = false;
-            axios .get(`http://172.18.2.2:3010/api/selectinput/pttype`)
+            axios .get(`http://localhost:3000/api/selectinput/pttype`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -631,7 +617,7 @@ export default {
           if (result.data.sql_code.search("{multiple_spclty}") >= 0) {
             this.ckInput.spclty = false;
             axios
-              .get(`http://172.18.2.2:3010/api/selectinput/spclty`)
+              .get(`http://localhost:3000/api/selectinput/spclty`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -647,7 +633,7 @@ export default {
 
           if (result.data.sql_code.search("{multiple_room}") >= 0) {
             this.ckInput.kskdepartments = false;
-            axios .get(`http://172.18.2.2:3010/api/selectinput/kskdepartments`).then((res) => {
+            axios .get(`http://localhost:3000/api/selectinput/kskdepartments`).then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
                   // console.log(res.data[i].spclty );
@@ -662,7 +648,7 @@ export default {
 
           if (result.data.sql_code.search("{multiple_ward}") >= 0) {
             this.ckInput.ward = false;
-            axios.get(`http://172.18.2.2:3010/api/selectinput/ward`)
+            axios.get(`http://localhost:3000/api/selectinput/ward`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -680,7 +666,7 @@ export default {
           ) {
             this.ckInput.doctor = false;
             axios
-              .get(`http://172.18.2.2:3010/api/selectinput/doctor`)
+              .get(`http://localhost:3000/api/selectinput/doctor`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -707,6 +693,14 @@ export default {
         return true;
       }
     },
+    copysqlcode1(value){
+      var copyText = document.getElementById(value);
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); 
+      navigator.clipboard.writeText(copyText.value);
+      /* Alert the copied text */
+      alert("Copied the text: " + copyText.value);
+    }
   },
 };
 </script>

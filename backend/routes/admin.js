@@ -138,7 +138,7 @@ router.get("/findOldquerybyid/:sql_id",auth,async (req, res) => {
     res.error(ex);
   }
 });
-router.put("/editquery/:sql_id",[
+router.put("/editquery/:sql_id",auth,[
   check('sql_code').not().isEmpty()
 ],auth,async (req, res) => {
   try {
@@ -152,7 +152,7 @@ router.put("/editquery/:sql_id",[
   }
 });
 
-router.put("/editmenuquery/:sql_id",[
+router.put("/editmenuquery/:sql_id",auth,[
   check('sql_id').not().isEmpty()
 ],auth,async (req, res) => {
   try {
