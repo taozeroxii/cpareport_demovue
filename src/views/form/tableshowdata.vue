@@ -541,12 +541,7 @@ export default {
 
       // console.log(this.form);
 
-      axios
-        .post(
-          `http://172.18.2.2:3010/api/tableshowdata/queryfrominput`,
-          this.form
-        )
-        .then((result) => {
+      axios .post( `http://172.18.2.2:3010/api/tableshowdata/queryfrominput`, this.form ).then((result) => {
           // this.getData = result.data;
           // this.headers =  [{ text: result.data.fields[0].name, value:  result.data.fields[0].name }];
           //  console.log(result.data)
@@ -568,42 +563,38 @@ export default {
           this.errorMessage = "";
           this.selectinput();
         })
-
-        .catch((err) => {
+      .catch((err) => {
           this.loading = false;
           this.errorMessage = err.response.data.message;
           this.selectinput();
         });
 
-      axios
-        .post(
-          `http://172.18.2.2:3010/api/tableshowdata/queryfrominputsql2`,
-          this.form
-        )
-        .then((result) => {
-          var i;
-          // console.log(result.data)
-          for (i = 0; i < result.data.fields.length; i++) {
-            //map field data ใส่ลง data table เพื่อการแสดงผลข้อมูลตามชุดคำสั่ง query
-            this.headers2.push({
-              text: result.data.fields[i].name,
-              value: result.data.fields[i].name,
-            }); // เป็น obj อยู่แล้ว ดันมี obj array ว้อนในอีกทีตรงช่อง fields เลยต้องเพิ่มทีละช่อง
-          }
-          this.getsqlcode2 = result.data.sqlreplace;
-          this.responseDataarray2 = result.data.rows; //map data ใส่ลง data table
-          this.exceldata2 = this.responseDataarray2;
-          // console.log( this.responseDataarray2 );
+      if( this.showdatable2 !== '' &&  this.showdatable2 !== null){
+            axios .post( `http://172.18.2.2:3010/api/tableshowdata/queryfrominputsql2`, this.form).then((result) => {
+              var i;
+              // console.log(result.data)
+              for (i = 0; i < result.data.fields.length; i++) {
+                //map field data ใส่ลง data table เพื่อการแสดงผลข้อมูลตามชุดคำสั่ง query
+                this.headers2.push({
+                  text: result.data.fields[i].name,
+                  value: result.data.fields[i].name,
+                }); // เป็น obj อยู่แล้ว ดันมี obj array ว้อนในอีกทีตรงช่อง fields เลยต้องเพิ่มทีละช่อง
+              }
+              this.getsqlcode2 = result.data.sqlreplace;
+              this.responseDataarray2 = result.data.rows; //map data ใส่ลง data table
+              this.exceldata2 = this.responseDataarray2;
+              // console.log( this.responseDataarray2 );
 
-          this.loading2 = false;
-          this.errorMessage2 = "";
-          this.selectinput();
-        })
-        .catch((err) => {
-          this.loading2 = false;
-          this.errorMessage2 = err.response.data.message;
-          this.selectinput();
-        });
+              this.loading2 = false;
+              this.errorMessage2 = "";
+              this.selectinput();
+            }).catch((err) => {
+              this.loading2 = false;
+              this.errorMessage2 = err.response.data.message;
+              this.selectinput();
+            });
+      }
+     
     },
 
     onExport() {
