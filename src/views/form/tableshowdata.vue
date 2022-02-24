@@ -394,6 +394,9 @@
           </div>
         </v-sheet>
       </v-bottom-sheet>
+
+
+
     </div>
   </v-container>
 </template>
@@ -401,9 +404,11 @@
 <script>
 import axios from "axios";
 import XLSX from "xlsx"; // import xlsx
+
+
 export default {
   name: "tableshowdata",
-  data: () => ({
+  data: () => ({  
     sheet: false,
     search: "",
     adminlogin: null,
@@ -469,6 +474,7 @@ export default {
     this.selectinput();
   },
 
+
   mounted() {},
 
   computed: {
@@ -482,7 +488,7 @@ export default {
       if (this.likesAllFruit) return "mdi-close-box";
       if (this.likesSomeFruit) return "mdi-minus-box";
       return "mdi-checkbox-blank-outline";
-    },
+    }
   },
 
   methods: {
@@ -539,8 +545,8 @@ export default {
       if (this.form.ediag != null)
         this.form.ediag = this.form.ediag.toUpperCase();
 
-      // console.log(this.form);
 
+  
       axios .post( `http://172.18.2.2:3010/api/tableshowdata/queryfrominput`, this.form ).then((result) => {
           // this.getData = result.data;
           // this.headers =  [{ text: result.data.fields[0].name, value:  result.data.fields[0].name }];
@@ -553,12 +559,15 @@ export default {
               value: result.data.fields[i].name,
             }); // เป็น obj อยู่แล้ว ดันมี obj array ว้อนในอีกทีตรงช่อง fields เลยต้องเพิ่มทีละช่อง
           }
+  
+          
 
+                  
           // console.log(this.headers);
           this.responseDataarray = result.data.rows; //map data ใส่ลง data table
           this.exceldata = this.responseDataarray;
           this.getsqlcode = result.data.sqlreplace; //code 1
-
+          this.form.kskdepartments = '';
           this.loading = false;
           this.errorMessage = "";
           this.selectinput();
