@@ -12,6 +12,14 @@ var moment = require('moment'); // require
 import  'alertifyjs/build/css/alertify.css'
 import  'alertifyjs/build/css/themes/default.css'
 import * as alertify from 'alertifyjs'
+import VueProgressBar from 'vue-progressbar'
+
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  failedColor: 'red',
+  height: '2px'
+})
+
 
 Vue.use(VeeValidate) //ใช้งาน validate form 
 Vue.use(Vue2Filters)

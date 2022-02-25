@@ -470,12 +470,14 @@ export default {
   }),
 
   created() {
+    this.$Progress.start()
     this.adminlogin = localStorage.status;
     this.selectinput();
   },
 
 
-  mounted() {},
+  mounted() {
+  },
 
   computed: {
     likesAllFruit() {
@@ -503,6 +505,7 @@ export default {
     },
 
     submitForm() {
+       this.$Progress.start()
       // console.log(this.$route.params.sql)
       this.form.sql = this.$route.params.sql;
       this.form.sql2 = this.$route.params.sql;
@@ -559,9 +562,6 @@ export default {
               value: result.data.fields[i].name,
             }); // เป็น obj อยู่แล้ว ดันมี obj array ว้อนในอีกทีตรงช่อง fields เลยต้องเพิ่มทีละช่อง
           }
-  
-          
-
                   
           // console.log(this.headers);
           this.responseDataarray = result.data.rows; //map data ใส่ลง data table
@@ -571,11 +571,13 @@ export default {
           this.loading = false;
           this.errorMessage = "";
           this.selectinput();
+           this.$Progress.finish()
         })
       .catch((err) => {
           this.loading = false;
           this.errorMessage = err.response.data.message;
           this.selectinput();
+          this.$Progress.fail()
         });
 
       if( this.showdatable2 !== '' &&  this.showdatable2 !== null){
@@ -625,20 +627,9 @@ export default {
     },
 
     selectinput() {
-      axios
-        .get(
-          `http://172.18.2.2:3010/api/tableshowdata/menusql/${this.$route.params.sql}`
-        )
-        .then((result) => {
-          // console.log(result.data.menu_link);
-          this.forminput = result.data.menu_link;
-        });
+      axios .get( `http://172.18.2.2:3010/api/tableshowdata/menusql/${this.$route.params.sql}` ) .then((result) => {this.forminput = result.data.menu_link; });
 
-      axios
-        .get(
-          `http://172.18.2.2:3010/api/tableshowdata/sql/${this.$route.params.sql}`
-        )
-        .then((result) => {
+      axios.get(`http://172.18.2.2:3010/api/tableshowdata/sql/${this.$route.params.sql}`  ) .then((result) => {
           // console.log(result)
           this.showdatable1 = result.data.sql_code;
           this.showdatable2 = result.data.sql_subcode_1;
@@ -754,6 +745,7 @@ export default {
           } else {
             this.ckInput.doctor = true;
           }
+           this.$Progress.finish()
         }); //endCreated
     },
 
