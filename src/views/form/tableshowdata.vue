@@ -281,13 +281,12 @@
     >
       Error <strong>{{ errorMessage }}{{ errorMessage2 }}</strong>
     </v-alert>
-
     <v-progress-circular
       v-if="loading"
-      :size="50"
+      :size="55"
       color="primary"
       indeterminate
-    ></v-progress-circular>
+    >  {{percentCompletedrun}}</v-progress-circular>
 
     <hr />
 
@@ -404,7 +403,8 @@
 <script>
 import axios from "axios";
 import XLSX from "xlsx"; // import xlsx
-axios.defaults.timeout = 1000 * 30 ;//set axios timeout
+axios.defaults.timeout = 1000 * 120 ;//set axios timeout
+
 export default {
   name: "tableshowdata",
   data: () => ({  
@@ -466,6 +466,7 @@ export default {
     responseDataarray: [],
     responseDataarray2: [],
     forminput: "",
+    percentCompletedrun :0
   }),
 
   created() {
@@ -488,7 +489,7 @@ export default {
       if (this.likesAllFruit) return "mdi-close-box";
       if (this.likesSomeFruit) return "mdi-minus-box";
       return "mdi-checkbox-blank-outline";
-    }
+    },
   },
 
   methods: {
@@ -503,6 +504,7 @@ export default {
     },
 
     submitForm() {
+      this.percentCompletedrun = 'loading';
       // console.log(this.$route.params.sql)
       this.form.sql = this.$route.params.sql;
       this.form.sql2 = this.$route.params.sql;
@@ -547,7 +549,15 @@ export default {
 
 
   
-      axios .post( `http://172.18.2.2:3010/api/tableshowdata/queryfrominput`, this.form ).then((result) => {
+      axios .post( `http://172.18.2.2:3010/api/tableshowdata/queryfrominput`, this.form ,  
+          {
+              onDownloadProgress: (progressEvent) => {
+                this.percentCompletedrun = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                // console.log(progressEvent.lengthComputable);
+                // console.log(this.percentCompletedrun);
+              }
+          } ).then((result) => 
+        {
           // this.getData = result.data;
           // this.headers =  [{ text: result.data.fields[0].name, value:  result.data.fields[0].name }];
           //  console.log(result.data)
@@ -559,7 +569,6 @@ export default {
               value: result.data.fields[i].name,
             }); // เป็น obj อยู่แล้ว ดันมี obj array ว้อนในอีกทีตรงช่อง fields เลยต้องเพิ่มทีละช่อง
           }
-                  
           // console.log(this.headers);
           this.responseDataarray = result.data.rows; //map data ใส่ลง data table
           this.exceldata = this.responseDataarray;
@@ -568,12 +577,14 @@ export default {
           this.loading = false;
           this.errorMessage = "";
           this.selectinput();
+          this.percentCompletedrun=0;
         })
       .catch((err) => {
           this.loading = false;
           this.alertify.error(err.message);
           this.errorMessage = err.response.data.message;
           this.selectinput();
+          this.percentCompletedrun=0;
         });
 
       if( this.showdatable2 !== '' &&  this.showdatable2 !== null){
