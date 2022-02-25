@@ -404,7 +404,7 @@
 <script>
 import axios from "axios";
 import XLSX from "xlsx"; // import xlsx
-
+axios.defaults.timeout = 1000 * 30 ;//set axios timeout
 
 export default {
   name: "tableshowdata",
@@ -505,7 +505,7 @@ export default {
     },
 
     submitForm() {
-       this.$Progress.start()
+      this.$Progress.start()
       // console.log(this.$route.params.sql)
       this.form.sql = this.$route.params.sql;
       this.form.sql2 = this.$route.params.sql;
@@ -571,9 +571,11 @@ export default {
           this.loading = false;
           this.errorMessage = "";
           this.selectinput();
-           this.$Progress.finish()
+          this.$Progress.finish()
         })
       .catch((err) => {
+          this.alertify.error(err.message);
+          console.log(err.message)
           this.loading = false;
           this.errorMessage = err.response.data.message;
           this.selectinput();
@@ -627,7 +629,7 @@ export default {
     },
 
     selectinput() {
-      axios .get( `http://172.18.2.2:3010/api/tableshowdata/menusql/${this.$route.params.sql}` ) .then((result) => {this.forminput = result.data.menu_link; });
+      axios.get( `http://172.18.2.2:3010/api/tableshowdata/menusql/${this.$route.params.sql}` ) .then((result) => {this.forminput = result.data.menu_link; });
 
       axios.get(`http://172.18.2.2:3010/api/tableshowdata/sql/${this.$route.params.sql}`  ) .then((result) => {
           // console.log(result)
