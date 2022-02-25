@@ -740,7 +740,6 @@ export default {
           } else {
             this.ckInput.doctor = true;
           }
-           this.$Progress.finish()
         }); //endCreated
     },
 
