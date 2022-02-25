@@ -571,6 +571,7 @@ export default {
         })
       .catch((err) => {
           this.loading = false;
+          this.alertify.error(err.message);
           this.errorMessage = err.response.data.message;
           this.selectinput();
         });
