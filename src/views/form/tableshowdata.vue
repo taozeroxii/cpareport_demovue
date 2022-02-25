@@ -405,7 +405,6 @@
 import axios from "axios";
 import XLSX from "xlsx"; // import xlsx
 axios.defaults.timeout = 1000 * 30 ;//set axios timeout
-
 export default {
   name: "tableshowdata",
   data: () => ({  
@@ -470,7 +469,6 @@ export default {
   }),
 
   created() {
-    this.$Progress.start()
     this.adminlogin = localStorage.status;
     this.selectinput();
   },
@@ -505,7 +503,6 @@ export default {
     },
 
     submitForm() {
-      this.$Progress.start()
       // console.log(this.$route.params.sql)
       this.form.sql = this.$route.params.sql;
       this.form.sql2 = this.$route.params.sql;
@@ -571,15 +568,11 @@ export default {
           this.loading = false;
           this.errorMessage = "";
           this.selectinput();
-          this.$Progress.finish()
         })
       .catch((err) => {
-          this.alertify.error(err.message);
-          console.log(err.message)
           this.loading = false;
           this.errorMessage = err.response.data.message;
           this.selectinput();
-          this.$Progress.fail()
         });
 
       if( this.showdatable2 !== '' &&  this.showdatable2 !== null){

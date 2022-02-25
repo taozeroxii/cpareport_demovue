@@ -2,7 +2,6 @@
   <v-app>
     <Header v-if="this.$route.name!='dashboardor'"/>
     <Menu v-if="this.$route.name!='dashboardor'"/>
-      <vue-progress-bar></vue-progress-bar>
     <Content />        
   </v-app>
 </template>
