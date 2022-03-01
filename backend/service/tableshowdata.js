@@ -34,7 +34,6 @@ module.exports = {
     
     // console.log(replacesql)
 
-
     replacesql = replacesql.replace(/{datepickers}/g,`'${value.date1}'`);// /{datepickers}/g ใช้ในการแทนที่คำนี้ทั้้งหมดในตัวแปร replacesql หากใช้แบบ "" ธรรมดาจะได้แคต่ตำแหน่งแรกที่เจออันเดียว
     replacesql = replacesql.replace(/{datepickert}/g,`'${value.date2}'`);
     replacesql = replacesql.replace(/{stime}/g,`'${value.time1}'`);
