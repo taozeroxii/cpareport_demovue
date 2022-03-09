@@ -16,7 +16,6 @@ module.exports = {
         WHERE	1 = 1
         AND o.operation_date   between '${date}' AND '${moment(tomorrow).format("YYYY-MM-DD")}'
         AND o.status_id NOT IN ('3','9')
-        OR o.room_id is null
         GROUP BY r.room_id,r.room_name
         ORDER BY room_id ASC`,
         (error, result) => {
@@ -29,7 +28,7 @@ module.exports = {
   FindAllOperation_room_bydate(date) {
     return new Promise((resolve, reject) => {
       pgconnection.query(
-        `SELECT r.room_id,r.room_name,o.operation_date as date
+        ` SELECT r.room_id,r.room_name,o.operation_date as date
         FROM operation_list o
         LEFT OUTER JOIN operation_room r ON r.room_id = o.room_id
         WHERE	1 = 1
@@ -42,9 +41,8 @@ module.exports = {
         LEFT OUTER JOIN operation_room r ON r.room_id = o.room_id
         WHERE	 o.operation_set_date  = '${date}'
         AND o.operation_set_type_id = '1'
-				AND r.room_id is null 
-        GROUP BY r.room_id,r.room_name,o.operation_set_date
-        ORDER BY room_id ASC`,(error, result) => { if (error) return reject(error); resolve(result.rows);
+        GROUP BY r.room_id,r.room_name,date	order by room_id`
+        ,(error, result) => { if (error) return reject(error); resolve(result.rows);
         }
       );
     });
@@ -218,7 +216,7 @@ module.exports = {
            LEFT OUTER JOIN opdscreen ss ON ss.vn = o1.vn  
          WHERE	o1.set_complete = 'N' 
             AND o1.operation_set_date = '${date}' 
-            AND o2.operation_set_type_id NOT IN ('2','3','9')
+            AND o2.operation_set_type_id  = '1'
             AND o5.room_id ${room_id == null ? 'is null ': '= '+room_id}`,
         (error, result) => {
           if (error) return reject(error);
