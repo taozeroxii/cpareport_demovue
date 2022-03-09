@@ -4,7 +4,7 @@
     <!-- <v-card-title class="elevation-4 text-xl-h5 font-weight-blod">{{  room_name == null ? "ไม่ได้ระบุห้องผ่าตัด" : room_name }}</v-card-title> -->
     <table border="collapse ">
       <tr>
-        <th colspan="12" class="indigo accent-1 ">
+        <th colspan="13" class="indigo accent-1 ">
           <h2>
             {{ room_name == null ? "ไม่ได้ระบุห้องผ่าตัด" : room_name }}
             <v-dialog v-model="dialog" width="600px">
@@ -75,6 +75,7 @@
         :key="i"
         :class="getColorDate(data.operation_date)"
       >
+        <td class=' text-center'>{{ data.set_type }}</td>
         <td>{{ data.operation_date | date2 }}</td>
         <td>{{ data.timeoper }}</td>
         <td :class="getColor(data.emergency_name)">{{ data.hn }}</td>
@@ -89,7 +90,7 @@
         <td>{{ data.request_doctor_name }}</td>
       </tr>
       <tr>
-        <td class="purple lighten-3 text-right" colspan="12">
+        <td class="purple lighten-3 text-right" colspan="13">
          รายชื่อเจ้าหน้าที่ : {{  form.name1 }} {{  form.name2 }} {{  form.name3 }} {{  form.name4 }} {{  form.name5 }}
         </td>
       </tr>
@@ -227,6 +228,7 @@ export default {
             //     }
             // }else{this.data = result.data.rows;}
           this.data = result.data.rows;
+          // console.log(this.data[0])
         });
       }
 

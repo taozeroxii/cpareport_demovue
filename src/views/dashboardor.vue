@@ -18,19 +18,52 @@
         @click="scolltable"
         class="noprint"
         v-if="fullscreen"
-      > 
-      <v-icon dark>mdi-format-list-bulleted-square </v-icon>เลื่อนอัตโนมัติ &nbsp;<i class="material-icons">{{   status_cycle === true ? "check" : "clear" }}</i>
+      >
+        <v-icon dark>mdi-format-list-bulleted-square </v-icon>เลื่อนอัตโนมัติ
+        &nbsp;<i class="material-icons">{{
+          status_cycle === true ? "check" : "clear"
+        }}</i>
       </v-btn>
-      <v-btn x-small @click="toggle" outlined  class="noprint"  >Full Screen And slide Show<i class="material-icons">{{  fullscreen === true ? "close_fullscreen" : "open_in_full" }}</i></v-btn >
+      <v-btn x-small @click="toggle" outlined class="noprint"
+        >Full Screen And slide Show<i class="material-icons">{{
+          fullscreen === true ? "close_fullscreen" : "open_in_full"
+        }}</i></v-btn
+      >
 
-      <v-btn class="warning ml-3 noprint" v-if="passwordOR_inlocal == passworddf" @click="loadRoomid(today)" x-small >     {{today |date2}}</v-btn>
-      <v-btn class="warning noprint"      v-if="passwordOR_inlocal == passworddf" @click="loadRoomid(tomorrow)" x-small >  {{tomorrow |date2}}</v-btn>
-      <v-btn class="warning noprint"      v-if="passwordOR_inlocal == passworddf" @click="loadRoomid('all')" x-small >     All</v-btn>
-
+      <v-btn
+        class="warning ml-3 noprint"
+        v-if="passwordOR_inlocal == passworddf"
+        @click="loadRoomid(today)"
+        x-small
+      >
+        {{ today | date2 }}</v-btn
+      >
+      <v-btn
+        class="warning noprint"
+        v-if="passwordOR_inlocal == passworddf"
+        @click="loadRoomid(tomorrow)"
+        x-small
+      >
+        {{ tomorrow | date2 }}</v-btn
+      >
+      <v-btn
+        class="warning noprint"
+        v-if="passwordOR_inlocal == passworddf"
+        @click="loadRoomid('all')"
+        x-small
+      >
+        All</v-btn
+      >
 
       <v-spacer></v-spacer>
       <small class="noprint">
-        <b class="blue--text ">พื้นหลังสีฟ้า:วันที่ผ่าตัดพรุ้งนี้</b>, ไม่มีสี วันนี้ <b class="red--text">&nbsp; Emergency:สีแดง</b> ,<b class="success--text">&nbsp;Elective:สีเขียว</b>,อื่นๆ : ไม่มีสี</small>
+        <b >set_type : 1.รอการเปิด Visit 2.สั่งผ่าตัดแล้ว </b>
+        <b class="blue--text ">พื้นหลังสีฟ้า:วันที่ผ่าตัดพรุ้งนี้</b>, ไม่มีสี
+        วันนี้ <b class="red--text">&nbsp; Emergency:สีแดง</b> ,<b
+          class="success--text"
+          >&nbsp;Elective:สีเขียว</b
+        >,อื่นๆ : ไม่มีสี</small
+      >
     </v-row>
 
     <v-row>
@@ -40,10 +73,9 @@
           :room_id="item.room_id"
           :room_name="item.room_name"
           v-if="fullscreen == false"
-          :date_dd="item.date == null ? 'all'  : item.date "
+          :date_dd="item.date == null ? 'all' : item.date"
         />
       </v-col>
-
 
       <!-- Slide Show Components And Send data Props -->
       <v-carousel
@@ -58,11 +90,14 @@
         v-if="fullscreen"
       >
         <v-carousel-item v-for="item in room_id" :key="item.room_id">
-          <Cardtableor :room_id="item.room_id" :room_name="item.room_name"   :date_dd="item.date == null ?'all'  : item.date" />
+          <Cardtableor
+            :room_id="item.room_id"
+            :room_name="item.room_name"
+            :date_dd="item.date == null ? 'all' : item.date"
+          />
         </v-carousel-item>
       </v-carousel>
       <!-- END Slide Show Components                 -->
-
     </v-row>
 
     <v-row class="ml-3 mt-5">
@@ -89,7 +124,7 @@ import Cardtableor from "@/components/cards/cardTableOR";
 import axios from "axios";
 import md5 from "md5";
 import { api as fullscreen } from "vue-fullscreen";
-import moment from "moment"
+import moment from "moment";
 
 export default {
   components: { Cardtableor },
@@ -103,21 +138,21 @@ export default {
       currentIndex: null,
       passwordOR: null,
       passwordOR_inlocal: null,
-      today:moment(new Date()).format('YYYY-MM-DD') ,
-      tomorrow:null ,
-      ckbuttondate:"all",
-      passworddf:md5('ords123456')
+      today: moment(new Date()).format("YYYY-MM-DD"),
+      tomorrow: null,
+      ckbuttondate: "all",
+      passworddf: md5("ords123456"),
     };
   },
   created() {
     var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate()+1);
-    this.tomorrow = moment(tomorrow).format('YYYY-MM-DD');
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    this.tomorrow = moment(tomorrow).format("YYYY-MM-DD");
     this.passwordOR_inlocal = localStorage.passwordOR;
 
     if (this.passwordOR_inlocal == md5("ords123456")) {
       this.passwordOR = "บันทึกรหัสผ่านแล้ว";
-      this.  loadRoomid( this.ckbuttondate);
+      this.loadRoomid(this.ckbuttondate);
     }
   },
   mounted() {
@@ -127,7 +162,7 @@ export default {
         // console.log(new Date())
         this.delay(100).then(() => {
           //ดีเลเวลาหลังจากรีเซ็ตค่าก่อนโหลดข้อมูลใหม่ 1 วิ
-          this.  loadRoomid( this.ckbuttondate);
+          this.loadRoomid(this.ckbuttondate);
         });
       }, 1000 * 120);
     }
@@ -141,7 +176,7 @@ export default {
           //หน่วงเวลา 5 วิก่อนทำการรีเซ็ตค่าเพื่อให้โหลด data ใหม่
           this.delay(10000).then(() => {
             this.room_id = null;
-            this.  loadRoomid( this.ckbuttondate);
+            this.loadRoomid(this.ckbuttondate);
           });
         }
       }
@@ -163,25 +198,35 @@ export default {
       // console.log("เปลี่ยนสไลด์ห้องอัตโนมัติ : "+this.status_cycle)
     },
     loadRoomid(date) {
-      if(date == this.today){
+      if (date == this.today) {
         this.room_id = null;
         this.ckbuttondate = date;
-        axios.post(`http://172.18.2.2:3010/api/dashboard-or/findroom`,{date:date}).then((result) => {
-          this.room_id = result.data;
-          // console.log( result.data)
-        });
-      }else if(date == this.tomorrow){
-          this.room_id = null;
-        this.ckbuttondate = date;
-        axios.post(`http://172.18.2.2:3010/api/dashboard-or/findroom`,{date:date}).then((result) => {
-          this.room_id = result.data;
-        });
-      }else{
+        axios
+          .post(`http://172.18.2.2:3010/api/dashboard-or/findroom`, {
+            date: date,
+          })
+          .then((result) => {
+            this.room_id = result.data;
+            // console.log( result.data)
+          });
+      } else if (date == this.tomorrow) {
         this.room_id = null;
-        this.ckbuttondate = 'all';
-        axios.get(`http://172.18.2.2:3010/api/dashboard-or/findroom`).then((result) => {
-          this.room_id = result.data;
-        });
+        this.ckbuttondate = date;
+        axios
+          .post(`http://172.18.2.2:3010/api/dashboard-or/findroom`, {
+            date: date,
+          })
+          .then((result) => {
+            this.room_id = result.data;
+          });
+      } else {
+        this.room_id = null;
+        this.ckbuttondate = "all";
+        axios
+          .get(`http://172.18.2.2:3010/api/dashboard-or/findroom`)
+          .then((result) => {
+            this.room_id = result.data;
+          });
       }
     },
     submit() {
@@ -190,7 +235,7 @@ export default {
         this.alertify.success("บันทึกสำเร็จ");
         this.passwordOR = "บันทึกรหัสผ่านแล้ว";
         this.passwordOR_inlocal = localStorage.passwordOR;
-        this.  loadRoomid( this.ckbuttondate);
+        this.loadRoomid(this.ckbuttondate);
       } else {
         this.alertify.error("Password ไม่ถูกต้อง");
       }
