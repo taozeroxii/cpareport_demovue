@@ -193,7 +193,7 @@ export default {
       if(this.$props.date_dd != 'all'){
         var room_id = this.$props.room_id;
         var date = moment(this.$props.date_dd).format('YYYY-MM-DD')
-        axios.post(`http://172.18.2.2:3010/api/dashboard-or/fetchData_DateRoomid`,{date,room_id} ) .then((result) => {
+        axios.post(`http://localhost:3000/api/dashboard-or/fetchData_DateRoomid`,{date,room_id} ) .then((result) => {
           var i;
           for (i = 0; i < result.data.fields.length; i++) {
             if (result.data.fields[i].name != "emergency_name") {
@@ -207,7 +207,7 @@ export default {
           this.data = result.data.rows;
         });
       }else{
-        axios.post(`http://172.18.2.2:3010/api/dashboard-or/fetchDataByRoomud`, {  room_id: this.room_id, }) .then((result) => {
+        axios.post(`http://localhost:3000/api/dashboard-or/fetchDataByRoomud`, {  room_id: this.room_id, }) .then((result) => {
           var i;
           for (i = 0; i < result.data.fields.length; i++) {
             if (result.data.fields[i].name != "emergency_name") {
