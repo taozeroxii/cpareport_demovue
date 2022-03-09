@@ -16,7 +16,7 @@ module.exports = {
         WHERE	1 = 1
         AND o.operation_date   between '${date}' AND '${moment(tomorrow).format("YYYY-MM-DD")}'
         AND o.status_id NOT IN ('3','9')
-        -- AND  r.room_id is not null
+        OR o.room_id is null
         GROUP BY r.room_id,r.room_name
         ORDER BY room_id ASC`,
         (error, result) => {
@@ -26,6 +26,24 @@ module.exports = {
       );
     });
   },
+  FindAllOperation_room_bydate(date) {
+    return new Promise((resolve, reject) => {
+      pgconnection.query(
+        `SELECT r.room_id,r.room_name
+        FROM operation_list o
+        LEFT OUTER JOIN operation_room r ON r.room_id = o.room_id
+        WHERE	1 = 1
+        AND o.operation_date   between '${date}' AND '${date}'
+        AND o.status_id NOT IN ('3','9')
+        OR o.room_id is null
+        GROUP BY r.room_id,r.room_name
+        ORDER BY room_id ASC`,(error, result) => { if (error) return reject(error); resolve(result.rows);
+        }
+      );
+    });
+  },
+
+  
   fetchDataByRoomud(room_id) {
     var date = moment(new Date()).format("YYYY-MM-DD") ;
     const tomorrow = new Date(date)
@@ -111,22 +129,6 @@ module.exports = {
         (error, result) => {
           if (error) return reject(error);
           resolve(result);
-        }
-      );
-    });
-  },
-
-  FindAllOperation_room_bydate(date) {
-    return new Promise((resolve, reject) => {
-      pgconnection.query(
-        `SELECT r.room_id,r.room_name,o.operation_date as date
-        FROM operation_list o
-        LEFT OUTER JOIN operation_room r ON r.room_id = o.room_id
-        WHERE	1 = 1
-        AND o.operation_date   = '${date}'
-        AND o.status_id NOT IN ('3','9')
-        GROUP BY r.room_id,r.room_name,o.operation_date
-        ORDER BY room_id ASC`,(error, result) => { if (error) return reject(error); resolve(result.rows);
         }
       );
     });
