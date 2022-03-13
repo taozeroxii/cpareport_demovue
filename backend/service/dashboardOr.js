@@ -16,6 +16,7 @@ module.exports = {
         WHERE	1 = 1
         AND o.operation_date   between '${date}' AND '${moment(tomorrow).format("YYYY-MM-DD")}'
         AND o.status_id NOT IN ('3','9')
+        OR r.room_id is null
         GROUP BY r.room_id,r.room_name
         ORDER BY room_id ASC`,
         (error, result) => {
