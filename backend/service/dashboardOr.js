@@ -29,20 +29,24 @@ module.exports = {
   FindAllOperation_room_bydate(date) {
     return new Promise((resolve, reject) => {
       pgconnection.query(
-        ` SELECT r.room_id,r.room_name,o.operation_date as date
-        FROM operation_list o
-        LEFT OUTER JOIN operation_room r ON r.room_id = o.room_id
-        WHERE	1 = 1
-        AND o.operation_date  = '${date}'
-        AND o.status_id NOT IN ('3','9')
-        GROUP BY r.room_id,r.room_name,o.operation_date
-				UNION  ALL
-				SELECT r.room_id,r.room_name,o.operation_set_date as date
-        FROM operation_set o
-        LEFT OUTER JOIN operation_room r ON r.room_id = o.room_id
-        WHERE	 o.operation_set_date  = '${date}'
-        AND o.operation_set_type_id = '1'
-        GROUP BY r.room_id,r.room_name,date	order by room_id`
+        `			
+        SELECT * FROM (
+              SELECT r.room_id,r.room_name,o.operation_date as date
+              FROM operation_list o
+              LEFT OUTER JOIN operation_room r ON r.room_id = o.room_id
+              WHERE	1 = 1
+              AND o.operation_date  = '${date}'
+              AND o.status_id NOT IN ('3','9')
+              GROUP BY r.room_id,r.room_name,o.operation_date
+              UNION  ALL
+              SELECT r.room_id,r.room_name,o.operation_set_date as date
+              FROM operation_set o
+              LEFT OUTER JOIN operation_room r ON r.room_id = o.room_id
+              WHERE	 o.operation_set_date  = '${date}'
+              AND o.operation_set_type_id = '1'
+          )as gb_room 
+            GROUP BY room_id,room_name,date 	order by room_id	
+            `
         ,(error, result) => { if (error) return reject(error); resolve(result.rows);
         }
       );
