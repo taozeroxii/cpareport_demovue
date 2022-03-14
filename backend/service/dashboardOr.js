@@ -10,7 +10,7 @@ module.exports = {
     // console.log(date+' '+moment(tomorrow).format("YYYY-MM-DD"))
     return new Promise((resolve, reject) => {
       pgconnection.query(
-        `  SELECT * FROM (
+        `  SELECT  gb_room.room_id,gb_room.room_name FROM (
           SELECT r.room_id,r.room_name,o.operation_date as date
           FROM operation_list o
           LEFT OUTER JOIN operation_room r ON r.room_id = o.room_id
@@ -25,7 +25,7 @@ module.exports = {
           WHERE	 o.operation_set_date   between '${date}' AND '${moment(tomorrow).format("YYYY-MM-DD")}'
           AND o.operation_set_type_id = '1'
       )as gb_room 
-        GROUP BY room_id,room_name,date 	order by room_id	`,
+        GROUP BY room_id,room_name 	order by room_id	`,
         (error, result) => {
           if (error) return reject(error);
           resolve(result.rows);
