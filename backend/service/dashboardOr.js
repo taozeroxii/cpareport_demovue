@@ -110,7 +110,7 @@ module.exports = {
          UNION  ALL
  
          SELECT	
-          o2.operation_set_type_id as set_type,(select operation_status from operation_list where operation_id = operation_id limit 1)::int,
+          o2.operation_set_type_id as set_type,(select status_id from operation_list where operation_set_id = operation_set_id limit 1),
            o1.operation_set_date as operation_date,
            o1.operation_set_time as timeoper,
            o1.hn,
@@ -197,7 +197,7 @@ module.exports = {
          UNION  ALL
  
          SELECT	
-          o2.operation_set_type_id as set_type,(select operation_status from operation_list where operation_id = operation_id limit 1)::int,
+          o2.operation_set_type_id as set_type,(select status_id from operation_list where operation_set_id = operation_set_id ),
            o1.operation_set_date as operation_date,
            o1.operation_set_time as timeoper,
            o1.hn,
