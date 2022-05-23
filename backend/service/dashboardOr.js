@@ -69,7 +69,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       pgconnection.query(
         ` SELECT 
-        oset.operation_set_type_id  as set_type,
+        oset.operation_set_type_id  as set_type,o.status_id,
         o.operation_date,o.request_operation_time as timeoper,o.hn    ,CONCAT(pt.pname,pt.fname,'  ',pt.lname) As pname
         ,o3.provision_diagnosis_text,o.operation_name
         --,s.status_name
@@ -110,7 +110,7 @@ module.exports = {
          UNION  ALL
  
          SELECT	
-          o2.operation_set_type_id as set_type,
+          o2.operation_set_type_id as set_type,(select operation_status from operation_list where operation_id = operation_id limit 1)::int,
            o1.operation_set_date as operation_date,
            o1.operation_set_time as timeoper,
            o1.hn,
@@ -156,7 +156,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       pgconnection.query(
         ` SELECT 
-        oset.operation_set_type_id  as set_type,
+        oset.operation_set_type_id  as set_type,o.status_id,
         o.operation_date,o.request_operation_time as timeoper,o.hn    ,CONCAT(pt.pname,pt.fname,'  ',pt.lname) As pname
         ,o3.provision_diagnosis_text,o.operation_name
         --,s.status_name
@@ -197,7 +197,7 @@ module.exports = {
          UNION  ALL
  
          SELECT	
-          o2.operation_set_type_id as set_type,
+          o2.operation_set_type_id as set_type,(select operation_status from operation_list where operation_id = operation_id limit 1)::int,
            o1.operation_set_date as operation_date,
            o1.operation_set_time as timeoper,
            o1.hn,

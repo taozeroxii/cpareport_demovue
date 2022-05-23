@@ -57,7 +57,7 @@
 
       <v-spacer></v-spacer>
       <small class="noprint">
-        <b >set_type : 1.รอการเปิด Visit 2.สั่งผ่าตัดแล้ว </b>
+        <b>set_type : 1.รอการเปิด Visit 2.สั่งผ่าตัดแล้ว </b>
         <b class="blue--text ">พื้นหลังสีฟ้า:วันที่ผ่าตัดพรุ้งนี้</b>, ไม่มีสี
         วันนี้ <b class="red--text">&nbsp; Emergency:สีแดง</b> ,<b
           class="success--text"
@@ -110,10 +110,14 @@
             required
             class="noprint"
           ></v-text-field>
-          <v-btn type="submit" class="mt-2 success noprint"
-            >บันทึก</v-btn
-          ></v-row
-        >
+          <v-btn type="submit" class="mt-2 success noprint">บันทึก</v-btn>
+          <v-btn
+            type="submit"
+            v-on:click="clearLocal()"
+            class="mt-2 warning noprint"
+            >ล้างรหัสผ่าน</v-btn
+          >
+        </v-row>
       </form>
     </v-row>
   </v-container>
@@ -251,6 +255,11 @@ export default {
         },
       });
       this.fullscreen = fullscreen.isFullscreen;
+    },
+    clearLocal() {
+      localStorage.removeItem("passwordOR");
+      this.passwordOR = "";
+      window.location.reload();
     },
   },
 };

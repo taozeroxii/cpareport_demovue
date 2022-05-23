@@ -76,7 +76,7 @@
         :class="getColorDate(data.operation_date)"
       >
         <td class=' text-center'>{{ data.set_type }}</td>
-        <td>{{ data.operation_date | date2 }}</td>
+        <td :class="colorOp(data.status_id)">{{ data.operation_date | date2 }}</td>
         <td>{{ data.timeoper }}</td>
         <td :class="getColor(data.emergency_name)">{{ data.hn }}</td>
         <td>{{ data.pname }}</td>
@@ -189,6 +189,10 @@ export default {
         return "cyan lighten-4  black--text";
       else return "";
     },
+    colorOp(status_id){
+    if (status_id == '2') return "brown  lighten-1 black--text";
+      else return "";
+    },
     fetchdata() {
       if(this.$props.date_dd != 'all'){
         var room_id = this.$props.room_id;
@@ -196,7 +200,7 @@ export default {
         axios.post(`http://172.18.2.2:3010/api/dashboard-or/fetchData_DateRoomid`,{date,room_id} ) .then((result) => {
           var i;
           for (i = 0; i < result.data.fields.length; i++) {
-            if (result.data.fields[i].name != "emergency_name") {
+            if (result.data.fields[i].name != "emergency_name" && result.data.fields[i].name != "status_id") {
               this.headers.push({
                 text: result.data.fields[i].name,
                 value: result.data.fields[i].name,
@@ -210,7 +214,7 @@ export default {
         axios.post(`http://172.18.2.2:3010/api/dashboard-or/fetchDataByRoomud`, {  room_id: this.room_id, }) .then((result) => {
           var i;
           for (i = 0; i < result.data.fields.length; i++) {
-            if (result.data.fields[i].name != "emergency_name") {
+            if (result.data.fields[i].name != "emergency_name" && result.data.fields[i].name != "status_id") {
               this.headers.push({
                 text: result.data.fields[i].name,
                 value: result.data.fields[i].name,
