@@ -179,12 +179,10 @@ export default {
         moment(date).format("YYYY-MM-DD") ==
         moment(new Date()).format("YYYY-MM-DD")
       )
-        return "";
+        return "yellow lighten-4  black--text";
       else if (
         moment(date).format("YYYY-MM-DD") ==
-        moment(new Date())
-          .add(1, "days")
-          .format("YYYY-MM-DD")
+        moment(new Date()).add(1, "days").format("YYYY-MM-DD")
       )
         return "cyan lighten-4  black--text";
       else return "";

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container >
     <v-row class="mt-1">
       <v-btn
         v-if="fullscreen == false"
@@ -57,8 +57,9 @@
 
       <v-spacer></v-spacer>
       <small class="noprint">
+        <b class="brown--text ">พื้นหลังน้ำตาลกำลังผ่าตัด </b>
         <b>set_type : 1.รอการเปิด Visit 2.สั่งผ่าตัดแล้ว </b>
-        <b class="blue--text ">พื้นหลังสีฟ้า:วันที่ผ่าตัดพรุ้งนี้</b>, ไม่มีสี
+        <b class="blue--text ">พื้นหลังสีฟ้า:วันที่ผ่าตัดพรุ้งนี้</b>,<b class="yellow--text lighten-4">สีเหลืองอ่อนวันนี้</b> 
         วันนี้ <b class="red--text">&nbsp; Emergency:สีแดง</b> ,<b
           class="success--text"
           >&nbsp;Elective:สีเขียว</b
