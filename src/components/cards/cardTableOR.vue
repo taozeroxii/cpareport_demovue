@@ -82,7 +82,7 @@
         <td>{{ data.pname }}</td>
         <td>{{ data.provision_diagnosis_text }}</td>
         <td>{{ data.operation_name }}</td>
-        <td>{{ data.age_y }}</td>
+        <td>{{ data.age_y }} ปี</td>
         <!-- <td>{{ data.weight }}</td> -->
         <td>{{ data.ward_name }}</td>
         <td>{{ data.npo }}</td>
