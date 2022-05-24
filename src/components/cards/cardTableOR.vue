@@ -62,20 +62,20 @@
         </th>
       </tr>
       <tr>
-        <th
+        <!-- <th
           class="purple lighten-4  text-center"
           v-for="(headers, i) in headers"
           :key="i"
         >
           {{ headers.value }}
-        </th>
+        </th> -->
       </tr>
       <tr
         v-for="(data, i) in data"
         :key="i"
         :class="getColorDate(data.operation_date)"
       >
-        <td class=' text-center'>{{ data.set_type }}</td>
+        <!-- <td class=' text-center'>{{ data.set_type }}</td> -->
         <td :class="colorOp(data.status_id)">{{ data.operation_date | date2 }}</td>
         <td>{{ data.timeoper }}</td>
         <td :class="getColor(data.emergency_name)">{{ data.hn }}</td>
@@ -83,7 +83,7 @@
         <td>{{ data.provision_diagnosis_text }}</td>
         <td>{{ data.operation_name }}</td>
         <td>{{ data.age_y }}</td>
-        <td>{{ data.weight }}</td>
+        <!-- <td>{{ data.weight }}</td> -->
         <td>{{ data.ward_name }}</td>
         <td>{{ data.npo }}</td>
         <td>{{ data.set_tf }}</td>
