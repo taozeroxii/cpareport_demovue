@@ -66,7 +66,11 @@ module.exports = {
 
   getAllqueryList() {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT cm.*,case when menu_status = 1 then 'true' else '' end m_status,cs.sql_head from cpareport_menu  cm  LEFT JOIN cpareport_sql cs on cm.menu_file = cs.sql_file Order by cm.id desc`, (error, result) => {
+      connection.query(`SELECT cm.*,cmu.main_name,case when menu_status = 1 then 'true' else '' end m_status,cs.sql_head 
+      from cpareport_menu  cm  
+      LEFT JOIN cpareport_sql cs on cm.menu_file = cs.sql_file 
+      LEFT JOIN cpareport_mainmenu cmu on cmu.main_id = cm.menu_main
+      Order by cm.id desc`, (error, result) => {
           // console.log(result);
           if (error) return reject(error);
           resolve(result);

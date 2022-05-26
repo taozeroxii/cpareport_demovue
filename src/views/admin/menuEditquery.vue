@@ -28,6 +28,7 @@
         <template v-slot:item="{ item }">
           <tr>
             <td>{{ item.id }}</td>
+            <td>{{ item.main_name }}</td>
             <td>{{ item.menu_sub }}</td>
             <td>{{ item.menu_link }}</td>
             <td>{{ item.menu_title }}</td>
@@ -68,6 +69,7 @@ export default {
           sortable: false,
           value: "id",
         },
+        { text: "menu_main", value: "menumain" },
         { text: "ชื่อหัวข้อย่อย", value: "menu_sub" },
         { text: "ชื่อฟอร์ม", value: "menu_link" },
         { text: "คำอธิบายย่อยตอน hover", value: "menu_title" },
