@@ -30,7 +30,7 @@ module.exports = {
       pgconnection.query(
         `
           SELECT ov.pttype,pty.name as pty_name,COUNT(*) FROM ovst ov
-          INNER JOIN pttype pty on pty.pttype = ov.pttype
+          LEFT JOIN pttype pty on pty.pttype = ov.pttype
           WHERE vstdate = CURRENT_DATE
           -- vstdate  >= date_trunc('month', current_timestamp) - interval '1 month' and vstdate <  date_trunc('month', current_timestamp)
           GROUP BY ov.pttype,pty_name ORDER BY count desc
