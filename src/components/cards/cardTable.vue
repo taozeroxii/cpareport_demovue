@@ -17,13 +17,10 @@
 </template>
 
 <script>
-// import axios from "axios";
-// import moment from "moment";
 export default {
   name: "cardTabledashboard",
   data() {
     return {
-      //   datenow: new Date().toLocaleString(),
       titleName: null,
       propheaders: [],
     };
@@ -45,7 +42,7 @@ export default {
     this.titleName = this.$props.tablename;
     this.propheaders = this.$props.headers;
     this.data = this.$props.data;
-    console.log(this.$props);
+    // console.log(this.$props);
   },
   mounted() {},
 };

@@ -98,7 +98,7 @@ export default {
 
   async mounted() {
     await this.fillData();
-    console.log(this.headers1);
+    // console.log(this.headers1);
   },
 
 
