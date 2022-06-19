@@ -31,4 +31,14 @@ router.get("/visit", async (req, res) => {
   }
 });
 
+router.get("/visitgendertoday", async (req, res) => {
+  try {
+    const model = await services.visitgendertoday();
+    if (!model) throw new Error("ไม่พบข้อมูลที่ค้นหา");
+    res.json(model);
+  } catch (ex) {
+    res.error(ex);
+  }
+});
+
 module.exports = router;

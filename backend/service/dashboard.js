@@ -131,4 +131,22 @@ module.exports = {
       );
     });
   },
+
+  visitgendertoday() {
+    return new Promise((resolve, reject) => {
+      pgconnection.query(
+        `
+        SELECT sex,s.name as gender,COUNT(*) FROM ovst ov 
+        INNER JOIN patient pt on pt.hn = ov.hn 
+        LEFT JOIN sex s on s.code = pt.sex
+        WHERE vstdate = CURRENT_DATE
+        GROUP BY sex,gender        
+         `,
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+    });
+  },
 };
