@@ -70,10 +70,13 @@ export default {
           this.labels2Barchart.push(result.data[i].icd10);
           this.Data2Barchart.push(result.data[i].count);
         }
+        this.fillData();
       }
     });
 
-    await axios.get(`http://172.18.2.2:3010/api/dashboard/ptytoday`).then((result) => {
+    await axios
+      .get(`http://172.18.2.2:3010/api/dashboard/ptytoday`)
+      .then((result) => {
         for (var i = 0; i < result.data.fields.length; i++) {
           this.headers1.push({
             text: result.data.fields[i].name,
@@ -83,7 +86,9 @@ export default {
         }
       });
 
-    await axios.get(`http://172.18.2.2:3010/api/dashboard/visit`).then((result) => {
+    await axios
+      .get(`http://172.18.2.2:3010/api/dashboard/visit`)
+      .then((result) => {
         for (var i = 0; i < result.data.fields.length; i++) {
           this.headers2.push({
             text: result.data.fields[i].name,
@@ -94,14 +99,7 @@ export default {
       });
   },
 
-
-
-  async mounted() {
-    await this.fillData();
-    // console.log(this.headers1);
-  },
-
-
+  mounted() {},
 
   methods: {
     fillData() {
@@ -157,9 +155,6 @@ export default {
       };
     },
   },
-
-
-
 };
 </script>
 
