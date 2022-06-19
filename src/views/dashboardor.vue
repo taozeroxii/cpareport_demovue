@@ -65,12 +65,7 @@
     <v-row>
       <h1 v-if="room_id == ''">.. ไม่พบข้อมูล ..</h1>
       <v-col cols="12" xl="6" v-for="item in room_id" :key="item.room_id">
-        <Cardtableor
-          :room_id="item.room_id"
-          :room_name="item.room_name"
-          v-if="fullscreen == false"
-          :date_dd="item.date == null ? 'all' : item.date"
-        />
+        <Cardtableor  :room_id="item.room_id"  :room_name="item.room_name"  v-if="fullscreen == false"  :date_dd="item.date == null ? 'all' : item.date" />
       </v-col>
 
       <!-- Slide Show Components And Send data Props -->

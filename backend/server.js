@@ -3,7 +3,7 @@ require('dotenv').config();//config ค่าใน env ไฟล์
 var cors = require('cors')
 const server = express();
 const bodyParser = require('body-parser')
-const PORT = 3000;
+const PORT = 3010;
 const routes = require('./routes');
 server.use(cors())
 
