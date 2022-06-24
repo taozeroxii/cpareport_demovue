@@ -19,10 +19,10 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    
       <MenuCard  v-if="form.select ==''" :v-model="clicksubmit =  false" />
       <SearchMenu v-if="clicksubmit" :searchmenu="searchmenu"  />
-    </v-row>
+  
   </v-container>
 </template>
 
@@ -36,18 +36,21 @@ export default {
   components: { MenuCard ,SearchMenu},
   data() {
     return {
+      headers:{ headers: { "x-access-token": localStorage.token } },
       form: { select: ''},
       searchmenu:[],
       clicksubmit:false
     };
   },
+  mounted() {
+  },
   methods: {
     submit() {
-      axios.post(`http://172.18.2.2:3010/api/menu/search`,this.form)
+      axios.post(`http://172.18.2.2:3010/api/menu/search`,this.form,this.headers)
         .then((result) => {
         this.searchmenu = result.data;
         this.clicksubmit = true;
-        // console.log(  this.searchmenu);
+        console.log(  this.searchmenu);
      });
     this.clicksubmit = false;
     // console.log(this.form.select);

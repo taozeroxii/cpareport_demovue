@@ -107,15 +107,15 @@ export default {
       localStorage.removeItem("id");
 
       this.alertify.warning("LOGOUT");
-      this.$router.push("/").catch(() => {});
+
+      this.$store.dispatch('logout_store');
+      this.$router.push("/login").catch(() => {});
     },
     submit() {
       if (this.form.password === this.form.confirmPassword) {
         this.form.id = localStorage.id;
         this.form.username = localStorage.username;
-        axios
-          .put("http://172.18.2.2:3010/api/admin/changepassword", this.form, {
-            headers: { "x-access-token": this.$store.getters.get_token },
+        axios.put("http://172.18.2.2:3010/api/admin/changepassword", this.form, { headers: { "x-access-token": localStorage.token },
           })
           .then(() => {
             this.alertify.success("เปลี่ยนรหัสผ่านสำเร็จ");

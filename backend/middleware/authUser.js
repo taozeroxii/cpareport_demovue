@@ -11,10 +11,7 @@ const verifyToken = (req, res, next) => {
   try{
     const decoded = jwt.verify(token,config.TOKEN_KEY);
     req.user = decoded;
-    if(req.user.userrole !== '1'){// ต้องเป็น admin เท่านั้นที่จะเข้าใช้งานได้ 
-      return res.status(403).json({message:"Access Denieds"});
-    }
-
+    // console.log(req.user)
   }catch{
     return res.status(401).json({message:"JWT is Invalid OR Expired"})
   }

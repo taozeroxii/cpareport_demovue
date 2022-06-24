@@ -191,7 +191,7 @@ export default {
   data() {
     return {
       // a:0,b:0,
-      headers: { headers: { "x-access-token": this.$store.getters.get_token } },
+      headers: { headers: { "x-access-token": localStorage.token } },
       itemsmain_menu: [],
       item_menu_link: [],
       item_menu_type: ["OPD", "IPD", "BACKOFFICE", "SUPPORT"],
@@ -251,7 +251,7 @@ export default {
         await this.setdata_beforesend(); 
         // console.log(this.form)
         this.form.sql_userupdate = this.$store.getters.get_nickname;
-        await axios.post("http://172.18.2.2:3010/api/admin/addquery", this.form, { headers: { "x-access-token": this.$store.getters.get_token }, }).then(() => {
+        await axios.post("http://172.18.2.2:3010/api/admin/addquery", this.form,this.headers).then(() => {
             this.menu_main =  null;
             this.menu_order =  null;
             this.menu_file = null;
@@ -278,16 +278,14 @@ export default {
       });
     },
     getMaxmenu_id(selected_id) {
-      axios .get(`http://172.18.2.2:3010/api/admin/selectmaxmenu/${selected_id}`, {
-          headers: { "x-access-token": this.$store.getters.get_token },
-        })
+      axios .get(`http://172.18.2.2:3010/api/admin/selectmaxmenu/${selected_id}`,  this.headers )
         .then((result) => {
           this.menu_maxid = result.data.max_menu;
         });
     },
     getvaluesql(report_name){
       // console.log(report_name)
-        axios.post(`http://172.18.2.2:3010/api/admin/select-formparams`,{report_name}, { headers: { "x-access-token": this.$store.getters.get_token },}).then((result) => {
+        axios.post(`http://172.18.2.2:3010/api/admin/select-formparams`,{report_name}, this.headers).then((result) => {
           this.sql_value = result.data.paramitor1 +' '+ result.data.paramitor2 + ' ' +result.data.paramitor3+ ' ' +result.data.paramitor4 ;
         });
     },

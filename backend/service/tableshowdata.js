@@ -130,4 +130,16 @@ module.exports = {
   },
 
 
+  log_exportexcel(value){
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "INSERT INTO cpareport_log_exportexcel SET ? ",value,
+        (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        }
+      );
+    });
+  }
+
 };

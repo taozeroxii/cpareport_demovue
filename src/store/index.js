@@ -18,10 +18,12 @@ export default new Vuex.Store({
 
   mutations: {
     set_user: (state, resdata) => ( state.user = resdata ),
+    remove_user: (state, resdata) => ( state.user = resdata ),
   },
 
   actions: {
     get_user_login: ({ commit }) => Axios.post("http://172.18.2.2:3010/api/admin/checkJWTexpire",'',{ headers: { "x-access-token":  localStorage.getItem("token") }, }).then((res) =>commit("set_user", res.data)),
+    logout_store ({ commit }) { commit('remove_user','')}
   },
 
   getters: {
@@ -38,7 +40,7 @@ export default new Vuex.Store({
       return (state.user.niname );
     },
     get_userrole(state){
-      return (state.userrole)
+      return (state.user.userrole)
     }
   },
 

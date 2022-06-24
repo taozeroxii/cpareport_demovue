@@ -40,6 +40,19 @@ module.exports = {
   },
 
 
+  insertview_logmenu(value){
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `INSERT INTO viewer  SET ?`,value,
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+    });
+  }
+
+
 
 
 };

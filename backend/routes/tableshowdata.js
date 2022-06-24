@@ -55,4 +55,14 @@ router.post("/queryfrominputsql2",async (req, res) => {
   }
 });
 
+
+router.post("/log_exportexcel",async (req, res) => {
+  // console.log(req.body)
+  try {
+    const data = await services.log_exportexcel(req.body);
+    res.status(200).json(data);
+  } catch (ex) {
+    res.error(ex);
+  }
+});
 module.exports = router;

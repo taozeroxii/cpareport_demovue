@@ -403,6 +403,7 @@
 <script>
 import axios from "axios";
 import XLSX from "xlsx"; // import xlsx
+import moment from 'moment';
 axios.defaults.timeout = 1000 * 120 ;//set axios timeout
 
 export default {
@@ -466,7 +467,13 @@ export default {
     responseDataarray: [],
     responseDataarray2: [],
     forminput: "",
-    percentCompletedrun :0
+    percentCompletedrun :0,
+    logExceldata:{
+      sql_file:null,
+      username:null,
+      token:null,
+      datetime:moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
+    },
   }),
 
   created() {
@@ -476,6 +483,10 @@ export default {
 
 
   mounted() {
+    this.logExceldata.sql_file = this.$route.params.sql;
+    this.logExceldata.username = this.$store.getters.get_username;
+    this.logExceldata.token = this.$store.getters.get_token;
+    // console.log(this.logExceldata)
   },
 
   computed: {
@@ -616,21 +627,25 @@ export default {
     },
 
     onExport() {
-      const dataWS = XLSX.utils.json_to_sheet(this.exceldata);
-      const wb = XLSX.utils.book_new();
-      const namefile = Date.now();
+      axios.post('http://172.18.2.2:3010/api/tableshowdata/log_exportexcel',this.logExceldata).then(() => {
+        const dataWS = XLSX.utils.json_to_sheet(this.exceldata);
+        const wb = XLSX.utils.book_new();
+        const namefile = Date.now();
 
-      XLSX.utils.book_append_sheet(wb, dataWS);
-      XLSX.writeFile(wb, `excel_export_${namefile}.xlsx`);
+        XLSX.utils.book_append_sheet(wb, dataWS);
+        XLSX.writeFile(wb, `excel_export_${namefile}.xlsx`);
+      });
     },
 
     onExport2() {
-      const dataWS = XLSX.utils.json_to_sheet(this.exceldata2);
-      const wb = XLSX.utils.book_new();
-      const namefile = Date.now();
+      axios.post('http://172.18.2.2:3010/api/tableshowdata/log_exportexcel',this.logExceldata).then(() => {
+        const dataWS = XLSX.utils.json_to_sheet(this.exceldata2);
+        const wb = XLSX.utils.book_new();
+        const namefile = Date.now();
 
-      XLSX.utils.book_append_sheet(wb, dataWS);
-      XLSX.writeFile(wb, `excel_export_${namefile}.xlsx`);
+        XLSX.utils.book_append_sheet(wb, dataWS);
+        XLSX.writeFile(wb, `excel_export_${namefile}.xlsx`);
+      });
     },
 
     selectinput() {

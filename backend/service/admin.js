@@ -10,8 +10,7 @@ module.exports = {
     // return value;
     return new Promise((resolve, reject) => {
       connection.query(
-        "INSERT INTO cpareport_userlogin_nversion SET ?",
-        value,
+        "INSERT INTO cpareport_userlogin_nversion SET ?",value,
         (err, result) => {
           if (err) return reject(err);
           resolve(result);

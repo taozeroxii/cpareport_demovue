@@ -75,7 +75,14 @@ export default {
           // console.log(result.data);
           this.errMessage = null;
           this.alertify.success("LOGIN สำเร็จ");
-          this.$router.push("/admin");
+          if(result.data.status === '1'){
+            this.$store.dispatch("get_user_login")
+            this.$router.push("/admin");
+          }else if(result.data.status === '2'){
+            this.$store.dispatch("get_user_login")
+            this.$router.push("/");
+          }
+          
         })
         .catch((err) => {
           this.errMessage = err.response.data.message;

@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const { check, header } = require("express-validator");
 const services = require("../service/admin");
-const auth  = require("../middleware/auth");
+const auth  = require("../middleware/authUser");
+const authAdmin  = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
-const e = require("express");
+
 
 // ส่วนของการจัดการสมาชิก login , register , edit , inputmenu admin
 router.get("/", (req, res) => {
@@ -41,7 +42,7 @@ router.post( "/register",
     check("lname") .not() .isEmpty(),
     check("niname").not() .isEmpty(),
     check("status") .not().isEmpty(),
-  ],auth, async (req, res) => {
+  ],authAdmin, async (req, res) => {
     try {
       req.validate();
       const created = await services.register(req.body);
@@ -51,6 +52,7 @@ router.post( "/register",
     }
   }
 );
+
 router.put("/changepassword",[check("password").not().isEmpty()],auth, async (req, res) => {
     try {
       req.validate();
@@ -76,7 +78,7 @@ router.post("/checkJWTexpire",auth, (req, res)=>{//นำค่า token ที�
   res.status(200).json(userlodinData);
 });
 
-router.get("/getuserlist",auth,async (req, res)=>{
+router.get("/getuserlist",authAdmin,async (req, res)=>{
   try {
     const model =  await services.getAlluserlist();
     if (!model) throw new Error("ไม่พบข้อมูลที่ค้นหา");
@@ -88,7 +90,7 @@ router.get("/getuserlist",auth,async (req, res)=>{
 
 
 // ควบคุมชุดคำสั่ง Sql เพิ่มแก้ไขquery เพื่อดึงมาเป็นรายงาน  
-router.get("/cpareportmenu-list",auth,async (req, res) => {
+router.get("/cpareportmenu-list",authAdmin,async (req, res) => {
   try {
     const model =  await services.getAllqueryList();
     if (!model) throw new Error("ไม่พบข้อมูลที่ค้นหา");
@@ -97,7 +99,7 @@ router.get("/cpareportmenu-list",auth,async (req, res) => {
     res.error(ex);
   }
 });
-router.put("/changestatus/:id",auth, async (req, res) => {
+router.put("/changestatus/:id",authAdmin, async (req, res) => {
   try {
     const status = await services.changestatus(req.params.id,req.body);
     res.json(status)
@@ -120,7 +122,7 @@ router.post("/addquery",  [
   check("sql_link").not() .isEmpty(),
   check("sql_head").not() .isEmpty(),
   check("sql_userupdate").not() .isEmpty(),
-],auth, async (req, res) => {
+],authAdmin, async (req, res) => {
   try {
     req.validate();
     const created = await services.addquery(req.body);
@@ -129,7 +131,7 @@ router.post("/addquery",  [
     res.error(ex);
   }
 });
-router.get("/findOldquerybyid/:sql_id",auth,async (req, res) => {
+router.get("/findOldquerybyid/:sql_id",authAdmin,async (req, res) => {
   try {
     const data = await services.findOldquerybyid(req.params.sql_id);
     if(data.length < 1) throw new Error('ไม่พบข้อมูลไฟล์ sql ดังกล่าว!!!');
@@ -138,9 +140,7 @@ router.get("/findOldquerybyid/:sql_id",auth,async (req, res) => {
     res.error(ex);
   }
 });
-router.put("/editquery/:sql_id",auth,[
-  check('sql_code').not().isEmpty()
-],auth,async (req, res) => {
+router.put("/editquery/:sql_id",authAdmin,[check('sql_code').not().isEmpty()],authAdmin,async (req, res) => {
   try {
     req.validate();
     const data = await services.findOldquerybyid(req.params.sql_id);
@@ -152,9 +152,7 @@ router.put("/editquery/:sql_id",auth,[
   }
 });
 
-router.put("/editmenuquery/:sql_id",auth,[
-  check('sql_id').not().isEmpty()
-],auth,async (req, res) => {
+router.put("/editmenuquery/:sql_id",authAdmin,[check('sql_id').not().isEmpty()],authAdmin,async (req, res) => {
   try {
     // console.log(req.params.sql_id,req.body)
     req.validate();
@@ -165,7 +163,7 @@ router.put("/editmenuquery/:sql_id",auth,[
   }
 });
 
-router.get("/logsqlupdate-list/:sql_id",auth,async (req, res) => {
+router.get("/logsqlupdate-list/:sql_id",authAdmin,async (req, res) => {
   try {
     const data = await services.findOldquerybyid(req.params.sql_id);
     if(data.length < 1) throw new Error('ไม่พบข้อมูลไฟล์ sql ดังกล่าว!!!');
@@ -179,7 +177,7 @@ router.get("/logsqlupdate-list/:sql_id",auth,async (req, res) => {
 
 
 // select menuinput หน้าเพิ่มแก้ไขquerry 
-router.get("/input-main_name",auth,async (req, res) => {
+router.get("/input-main_name",authAdmin,async (req, res) => {
   try {
     const mainmenu = await services.getMain_namelist();
     res.json(mainmenu);
@@ -187,7 +185,7 @@ router.get("/input-main_name",auth,async (req, res) => {
     res.error(ex);
   }
 });
-router.get("/selectmaxmenu/:id",auth,async (req, res) => {
+router.get("/selectmaxmenu/:id",authAdmin,async (req, res) => {
   try {
     const max = await services.getMaxid_menu(req.params.id);
     res.json(max);
@@ -195,7 +193,7 @@ router.get("/selectmaxmenu/:id",auth,async (req, res) => {
     res.error(ex);
   }
 });
-router.get("/maxsqlfile_id",auth,async (req, res) => {
+router.get("/maxsqlfile_id",authAdmin,async (req, res) => {
   try {
     const max = await services.getMaxid_sql();
     res.json(max);
@@ -203,7 +201,7 @@ router.get("/maxsqlfile_id",auth,async (req, res) => {
     res.error(ex);
   }
 });
-router.post("/select-formparams",auth,async (req, res) => {
+router.post("/select-formparams",authAdmin,async (req, res) => {
   // console.log(req)
   try {
     const max = await services.getformparams(req.body);
@@ -212,7 +210,7 @@ router.post("/select-formparams",auth,async (req, res) => {
     res.error(ex);
   }
 });
-router.get("/select-form",auth,async (req, res) => {
+router.get("/select-form",authAdmin,async (req, res) => {
   try {
     const max = await services.getselectform();
     res.json(max);

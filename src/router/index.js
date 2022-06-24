@@ -88,11 +88,13 @@ export const router = new Router({
 
 router.beforeEach(async (to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ["/login", "/", "/about", "/dashboard","/dashboardor", "/tableshowdata"]; //หน้าที่ไม่ต้อง login
+  const publicPages = ["/login", "/", "/about", "/dashboard","/dashboardor"]; // หน้าที่ไม่ต้อง login -- , "/tableshowdata"
+  // const adminPage = ["/admin","/admin/register","/admin/tableuser","/admin/addquery","/admin/menuEditquery"];
   const authRequired = !publicPages.includes(to.path);
   // const loggedIn = localStorage.getItem("token");
-  if (authRequired && to.name != "tableshowdata") {
+  if (authRequired ) { //&& to.name != "tableshowdata"
     router.app.$store.dispatch("get_user_login").then(() => {
+
       // console.log(router.app.$store.state.user); //เช็คค่าที่เก็บลง store หลังจาก login
     }).catch(() => {  
       alertify.error("JWT Token Expire OR Invalid Please Login!!");
