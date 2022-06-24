@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col lg="12">
-        <v-form @submit.prevent="submit()">
+        <v-form @submit.prevent="submit()" v-if="islogin">
           <v-row>
             <v-col lg="11">
               <v-text-field
@@ -20,7 +20,7 @@
     </v-row>
 
     
-      <MenuCard  v-if="form.select ==''" :v-model="clicksubmit =  false" />
+      <MenuCard class="mt-5" v-if="form.select ==''" :v-model="clicksubmit =  false" />
       <SearchMenu v-if="clicksubmit" :searchmenu="searchmenu"  />
   
   </v-container>
@@ -39,10 +39,14 @@ export default {
       headers:{ headers: { "x-access-token": localStorage.token } },
       form: { select: ''},
       searchmenu:[],
-      clicksubmit:false
+      clicksubmit:false,
+      islogin:false
     };
   },
   mounted() {
+    if(this.$store.getters.get_username != null){
+      this.islogin = true;
+    }
   },
   methods: {
     submit() {

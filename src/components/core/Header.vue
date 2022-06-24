@@ -4,7 +4,8 @@
       <v-toolbar-title>{{ version }} วันที่ {{ datenow }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-btn icon class="mr-5" v-if="isLogined" @click="dialog = !dialog">
+      <v-btn v-if="isLogined">{{UserLogin}} </v-btn>
+      <v-btn icon class="ml-5 mr-5" v-if="isLogined" @click="dialog = !dialog">
         <v-icon>mdi-key</v-icon>
       </v-btn>
       <v-btn icon @click="GotoLogin" class="mr-5" v-if="!isLogined">
@@ -64,6 +65,7 @@ export default {
       show2: false,
       dialog: false,
       isLogined: null,
+      UserLogin:null,
       datenow: new Date().toLocaleString(),
       rules: {
         required: (value) => !!value || "Required.",
@@ -130,6 +132,7 @@ export default {
   },
   mounted() {
     setInterval(() => {
+      this.UserLogin = this.$store.getters.get_loginname;
       this.isLogined = localStorage.fname;
       this.datenow = new Date().toLocaleString();
     }, 1000);
