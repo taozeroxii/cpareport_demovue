@@ -79,6 +79,14 @@ export const router = new Router({
     },
 
 
+
+    {
+      path: "/requestreport",
+      name: "Requestreport",
+      component: () => import("@/views/Requestreport.vue"),
+      meta: { requiresAuth: true },
+    },
+
     {
       path: "*",
       redirect: "/",

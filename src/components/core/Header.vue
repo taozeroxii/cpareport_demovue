@@ -132,7 +132,7 @@ export default {
   },
   mounted() {
     setInterval(() => {
-      this.UserLogin = this.$store.getters.get_loginname;
+      this.UserLogin = localStorage.fname +' ' +localStorage.lname;
       this.isLogined = localStorage.fname;
       this.datenow = new Date().toLocaleString();
     }, 1000);

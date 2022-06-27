@@ -39,7 +39,7 @@
           <v-list-item-content> Report เวอร์ชั่นเก่า</v-list-item-content>
         </v-list-item>
 
-        <v-list-item href="http://172.16.0.251/report/login.php" >
+        <v-list-item href="http://172.16.0.251/report/login.php">
           <v-list-item-icon>
             <v-icon> mdi-export </v-icon>
           </v-list-item-icon>
@@ -61,6 +61,7 @@ export default {
         ["mdi-chart-bar", "Dashboard", "/dashboard"],
         ["mdi-chart-line", "รายการผู้ป่วย OR", "/dashboardor"],
         ["mdi-account-group-outline", "about", "/about"],
+        ["mdi-archive-edit-outline", "ขอข้อมูล ดึงรายงาน", "/requestreport"],
         ["mdi-television", "Admin", "/admin"],
       ],
     };
