@@ -311,9 +311,7 @@
           SQL query</v-btn
         >
         &nbsp;
-        <v-btn class="warning mr-3" @click="onExport" v-if="exceldata != ''"
-          >File excel</v-btn
-        >
+        <v-btn class="warning mr-3" @click="onExport" v-if="exceldata != ''" :disabled="disabledExportBTN" >File excel</v-btn>
         <input
           type="text"
           v-model.lazy="search"
@@ -335,15 +333,7 @@
       <v-card-title>
         ข้อมูลชุดที่ 2
         <v-spacer></v-spacer>
-        <v-btn class="warning mr-3" @click="onExport2" v-if="exceldata2 != ''"
-          >File excel</v-btn
-        >
-        <!-- <input
-          type="text"
-          v-model.lazy="search"
-          placeholder="กรอกคำที่ต้องการค้นหา..."
-          class="inputclass"
-        /> -->
+        <v-btn class="warning mr-3" @click="onExport2" v-if="exceldata2 != ''" :disabled="disabledExportBTN">File excel</v-btn>
       </v-card-title>
       <v-data-table
         :headers="headers2"
@@ -409,6 +399,7 @@ axios.defaults.timeout = 1000 * 120 ;//set axios timeout
 export default {
   name: "tableshowdata",
   data: () => ({  
+    disabledExportBTN:false,
     sheet: false,
     search: "",
     adminlogin: null,
@@ -515,6 +506,7 @@ export default {
     },
 
     submitForm() {
+      this.disabledExportBTN = false;
       this.percentCompletedrun = 'loading';
       // console.log(this.$route.params.sql)
       this.form.sql = this.$route.params.sql;
@@ -627,6 +619,7 @@ export default {
     },
 
     onExport() {
+      this.disabledExportBTN = true;
       axios.post('http://172.18.2.2:3010/api/tableshowdata/log_exportexcel',this.logExceldata).then(() => {
         const dataWS = XLSX.utils.json_to_sheet(this.exceldata);
         const wb = XLSX.utils.book_new();
@@ -634,6 +627,9 @@ export default {
 
         XLSX.utils.book_append_sheet(wb, dataWS);
         XLSX.writeFile(wb, `excel_export_${namefile}.xlsx`);
+      }).catch((err) => {
+          this.errMessage = err.response.data.message;
+          this.alertify.error("พบข้อผิดพลาดบางประการไม่สามารถเก็บ log ได้และ export  excel ได้");
       });
     },
 
@@ -645,6 +641,9 @@ export default {
 
         XLSX.utils.book_append_sheet(wb, dataWS);
         XLSX.writeFile(wb, `excel_export_${namefile}.xlsx`);
+      }).catch((err) => {
+          this.errMessage = err.response.data.message;
+          this.alertify.error("พบข้อผิดพลาดบางประการไม่สามารถเก็บ log ได้และ export  excel ได้");
       });
     },
 
