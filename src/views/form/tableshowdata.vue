@@ -627,8 +627,8 @@ export default {
 
         XLSX.utils.book_append_sheet(wb, dataWS);
         XLSX.writeFile(wb, `excel_export_${namefile}.xlsx`);
-      }).catch((err) => {
-          this.errMessage = err.response.data.message;
+      }).catch(() => {
+          // this.errMessage = err.response.data.message;
           this.alertify.error("พบข้อผิดพลาดบางประการไม่สามารถเก็บ log ได้และ export  excel ได้");
       });
     },
@@ -641,8 +641,8 @@ export default {
 
         XLSX.utils.book_append_sheet(wb, dataWS);
         XLSX.writeFile(wb, `excel_export_${namefile}.xlsx`);
-      }).catch((err) => {
-          this.errMessage = err.response.data.message;
+      }).catch(() => {
+          // this.errMessage = err.response.data.message;
           this.alertify.error("พบข้อผิดพลาดบางประการไม่สามารถเก็บ log ได้และ export  excel ได้");
       });
     },
