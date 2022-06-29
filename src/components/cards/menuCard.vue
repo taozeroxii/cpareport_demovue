@@ -152,22 +152,20 @@ export default {
   methods: {
     async showSubmenu(id,Menuname) {
       this.HeadMenuname = Menuname;
-      await Axios.get(`http://172.16.0.251:3010/api/menu/submenu/${id}`, {
-        headers: { "x-access-token": localStorage.token },
-      }).then((result) => {
+      await Axios.get(`http://172.16.0.251:3010/api/menu/submenu/${id}`, { headers: { "x-access-token": localStorage.token },}).then((result) => {
         this.loading = false;
         this.menusss = result.data;
         window.scrollTo(0,0);
+      }).catch(() => {  
+        this.alertify.error("JWT Token Expire OR Invalid Please Login!!") 
+        this.$router.push("./login")
       });
     },
     async onClickMenu(link) {
       // console.log(link);
       this.detailuser.sql_file = link;
       // console.log(this.detailuser);
-      await Axios.post(
-        `http://172.16.0.251:3010/api/menu/stampviewer`,
-        this.detailuser
-      ).then(() => {
+      await Axios.post( `http://172.16.0.251:3010/api/menu/stampviewer`, this.detailuser).then(() => {
         // console.log(res.data);
         this.$router.push(`/tableshowdata/${link}`);
       });
