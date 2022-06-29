@@ -552,7 +552,7 @@ export default {
 
 
   
-      axios .post( `http://172.18.2.2:3010/api/tableshowdata/queryfrominput`, this.form ,  
+      axios .post( `http://172.16.0.251:3010/api/tableshowdata/queryfrominput`, this.form ,  
           {
               onDownloadProgress: (progressEvent) => {
                 this.percentCompletedrun = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -591,7 +591,7 @@ export default {
         });
 
       if( this.showdatable2 !== '' &&  this.showdatable2 !== null){
-            axios .post( `http://172.18.2.2:3010/api/tableshowdata/queryfrominputsql2`, this.form).then((result) => {
+            axios .post( `http://172.16.0.251:3010/api/tableshowdata/queryfrominputsql2`, this.form).then((result) => {
               var i;
               // console.log(result.data)
               for (i = 0; i < result.data.fields.length; i++) {
@@ -620,7 +620,7 @@ export default {
 
     onExport() {
       this.disabledExportBTN = true;
-      axios.post('http://172.18.2.2:3010/api/tableshowdata/log_exportexcel',this.logExceldata).then(() => {
+      axios.post('http://172.16.0.251:3010/api/tableshowdata/log_exportexcel',this.logExceldata).then(() => {
         const dataWS = XLSX.utils.json_to_sheet(this.exceldata);
         const wb = XLSX.utils.book_new();
         const namefile = Date.now();
@@ -634,7 +634,7 @@ export default {
     },
 
     onExport2() {
-      axios.post('http://172.18.2.2:3010/api/tableshowdata/log_exportexcel',this.logExceldata).then(() => {
+      axios.post('http://172.16.0.251:3010/api/tableshowdata/log_exportexcel',this.logExceldata).then(() => {
         const dataWS = XLSX.utils.json_to_sheet(this.exceldata2);
         const wb = XLSX.utils.book_new();
         const namefile = Date.now();
@@ -648,9 +648,9 @@ export default {
     },
 
     selectinput() {
-      axios.get( `http://172.18.2.2:3010/api/tableshowdata/menusql/${this.$route.params.sql}` ) .then((result) => {this.forminput = result.data.menu_link; });
+      axios.get( `http://172.16.0.251:3010/api/tableshowdata/menusql/${this.$route.params.sql}` ) .then((result) => {this.forminput = result.data.menu_link; });
 
-      axios.get(`http://172.18.2.2:3010/api/tableshowdata/sql/${this.$route.params.sql}`  ) .then((result) => {
+      axios.get(`http://172.16.0.251:3010/api/tableshowdata/sql/${this.$route.params.sql}`  ) .then((result) => {
           // console.log(result)
           this.showdatable1 = result.data.sql_code;
           this.showdatable2 = result.data.sql_subcode_1;
@@ -682,7 +682,7 @@ export default {
           if (result.data.sql_code.search("{multiple_pttype}") >= 0) {
             this.ckInput.pttype = false;
             axios
-              .get(`http://172.18.2.2:3010/api/selectinput/pttype`)
+              .get(`http://172.16.0.251:3010/api/selectinput/pttype`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -698,7 +698,7 @@ export default {
           if (result.data.sql_code.search("{multiple_spclty}") >= 0) {
             this.ckInput.spclty = false;
             axios
-              .get(`http://172.18.2.2:3010/api/selectinput/spclty`)
+              .get(`http://172.16.0.251:3010/api/selectinput/spclty`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -715,7 +715,7 @@ export default {
           if (result.data.sql_code.search("{multiple_room}") >= 0) {
             this.ckInput.kskdepartments = false;
             axios
-              .get(`http://172.18.2.2:3010/api/selectinput/kskdepartments`)
+              .get(`http://172.16.0.251:3010/api/selectinput/kskdepartments`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -732,7 +732,7 @@ export default {
           if (result.data.sql_code.search("{multiple_ward}") >= 0) {
             this.ckInput.ward = false;
             axios
-              .get(`http://172.18.2.2:3010/api/selectinput/ward`)
+              .get(`http://172.16.0.251:3010/api/selectinput/ward`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {
@@ -750,7 +750,7 @@ export default {
           ) {
             this.ckInput.doctor = false;
             axios
-              .get(`http://172.18.2.2:3010/api/selectinput/doctor`)
+              .get(`http://172.16.0.251:3010/api/selectinput/doctor`)
               .then((res) => {
                 var i;
                 for (i = 0; i < res.data.length; i++) {

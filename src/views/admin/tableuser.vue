@@ -127,7 +127,7 @@ export default {
     //     this.loadUser();
     // },
     async loadUser() {
-        await axios.get(`http://172.18.2.2:3010/api/admin/getuserlist`,{ headers: { "x-access-token": this.token }} ).then((result) => {this.mDataArray = result.data;  });
+        await axios.get(`http://172.16.0.251:3010/api/admin/getuserlist`,{ headers: { "x-access-token": this.token }} ).then((result) => {this.mDataArray = result.data;  });
         this.loaddata = false;
     },
   },

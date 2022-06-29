@@ -197,7 +197,7 @@ export default {
         this.room_id = null;
         this.ckbuttondate = date;
         axios
-          .post(`http://172.18.2.2:3010/api/dashboard-or/findroom`, {
+          .post(`http://172.16.0.251:3010/api/dashboard-or/findroom`, {
             date: date,
           })
           .then((result) => {
@@ -208,7 +208,7 @@ export default {
         this.room_id = null;
         this.ckbuttondate = date;
         axios
-          .post(`http://172.18.2.2:3010/api/dashboard-or/findroom`, {
+          .post(`http://172.16.0.251:3010/api/dashboard-or/findroom`, {
             date: date,
           })
           .then((result) => {
@@ -218,7 +218,7 @@ export default {
         this.room_id = null;
         this.ckbuttondate = "all";
         axios
-          .get(`http://172.18.2.2:3010/api/dashboard-or/findroom`)
+          .get(`http://172.16.0.251:3010/api/dashboard-or/findroom`)
           .then((result) => {
             this.room_id = result.data;
           });

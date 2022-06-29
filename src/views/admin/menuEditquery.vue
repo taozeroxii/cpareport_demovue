@@ -90,7 +90,7 @@ export default {
 
   methods: {
     getallquery_menu() {
-      axios.get("http://172.18.2.2:3010/api/admin/cpareportmenu-list",{ headers: { "x-access-token": this.$store.getters.get_token}}).then((result) => {
+      axios.get("http://172.16.0.251:3010/api/admin/cpareportmenu-list",{ headers: { "x-access-token": this.$store.getters.get_token}}).then((result) => {
           this.mDataArray = result.data;
           this.loaddata = false;
       });
@@ -103,7 +103,7 @@ export default {
     updatestatus(id,st){
       // console.log('ipdatestatus : ' + id,st);
       if(st === true){ this.status = {status : 1}}else { this.status = {status : 2}}
-      axios.put(`http://172.18.2.2:3010/api/admin/changestatus/${id}`,this.status,{ headers: { "x-access-token": this.$store.getters.get_token}}).then(() => {
+      axios.put(`http://172.16.0.251:3010/api/admin/changestatus/${id}`,this.status,{ headers: { "x-access-token": this.$store.getters.get_token}}).then(() => {
         this.alertify.success("แก้ไขเรียบร้อย");
         // console.log("status : "+ result.status)
       });

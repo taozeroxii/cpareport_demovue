@@ -80,7 +80,7 @@ export default {
     };
   },
   async created() {
-    await axios.get(`http://172.18.2.2:3010/api/dashboard`).then((result) => {
+    await axios.get(`http://172.16.0.251:3010/api/dashboard`).then((result) => {
       for (var i = 0; i < result.data.length; i++) {
         if (result.data[i].department === "opd") {
           this.labels1Barchart.push(result.data[i].icd10);
@@ -93,7 +93,7 @@ export default {
       }
     });
 
-    await axios.get(`http://172.18.2.2:3010/api/dashboard/ptytoday`).then((result) => {
+    await axios.get(`http://172.16.0.251:3010/api/dashboard/ptytoday`).then((result) => {
         for (var i = 0; i < result.data.fields.length; i++) {
           this.headers1.push({
             text: result.data.fields[i].name,
@@ -108,7 +108,7 @@ export default {
         this.datafortable1 = result.data.rows;
       });
 
-    await axios.get(`http://172.18.2.2:3010/api/dashboard/visit`).then((result) => {
+    await axios.get(`http://172.16.0.251:3010/api/dashboard/visit`).then((result) => {
         for (var i = 0; i < result.data.fields.length; i++) {
           this.headers2.push({
             text: result.data.fields[i].name,
@@ -119,7 +119,7 @@ export default {
         this.fillLineVisitpty();
       });
 
-    await axios.get(`http://172.18.2.2:3010/api/dashboard/visitgendertoday`).then((result) => {
+    await axios.get(`http://172.16.0.251:3010/api/dashboard/visitgendertoday`).then((result) => {
         for (var i = 0; i < result.data.rows.length; i++) {
           this.labelsPieGender.push(result.data.rows[i].gender);
           this.DataPieGender.push(result.data.rows[i].count);

@@ -117,7 +117,7 @@ export default {
       if (this.form.password === this.form.confirmPassword) {
         this.form.id = localStorage.id;
         this.form.username = localStorage.username;
-        axios.put("http://172.18.2.2:3010/api/admin/changepassword", this.form, { headers: { "x-access-token": localStorage.token },
+        axios.put("http://172.16.0.251:3010/api/admin/changepassword", this.form, { headers: { "x-access-token": localStorage.token },
           })
           .then(() => {
             this.alertify.success("เปลี่ยนรหัสผ่านสำเร็จ");

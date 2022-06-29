@@ -197,7 +197,7 @@ export default {
           this.account.status = this.account.status[0];
           this.account.status = this.account.status.trim();
         }
-        Axios.post("http://172.18.2.2:3010/api/admin/register", this.account,{ headers: { "x-access-token": this.$store.getters.get_token}}) .then(() => {
+        Axios.post("http://172.16.0.251:3010/api/admin/register", this.account,{ headers: { "x-access-token": this.$store.getters.get_token}}) .then(() => {
             this.account = {
               username: null,
               password: null,
@@ -218,7 +218,7 @@ export default {
     },
   },
   created() {
-    Axios.get("http://172.18.2.2:3010/api/admin/userrole")
+    Axios.get("http://172.16.0.251:3010/api/admin/userrole")
       .then((res) => {
         var i;
         for (i = 0; i < res.data.length; i++) {

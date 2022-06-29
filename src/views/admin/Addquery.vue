@@ -251,7 +251,7 @@ export default {
         await this.setdata_beforesend(); 
         // console.log(this.form)
         this.form.sql_userupdate = this.$store.getters.get_nickname;
-        await axios.post("http://172.18.2.2:3010/api/admin/addquery", this.form,this.headers).then(() => {
+        await axios.post("http://172.16.0.251:3010/api/admin/addquery", this.form,this.headers).then(() => {
             this.menu_main =  null;
             this.menu_order =  null;
             this.menu_file = null;
@@ -278,20 +278,20 @@ export default {
       });
     },
     getMaxmenu_id(selected_id) {
-      axios .get(`http://172.18.2.2:3010/api/admin/selectmaxmenu/${selected_id}`,  this.headers )
+      axios .get(`http://172.16.0.251:3010/api/admin/selectmaxmenu/${selected_id}`,  this.headers )
         .then((result) => {
           this.menu_maxid = result.data.max_menu;
         });
     },
     getvaluesql(report_name){
       // console.log(report_name)
-        axios.post(`http://172.18.2.2:3010/api/admin/select-formparams`,{report_name}, this.headers).then((result) => {
+        axios.post(`http://172.16.0.251:3010/api/admin/select-formparams`,{report_name}, this.headers).then((result) => {
           this.sql_value = result.data.paramitor1 +' '+ result.data.paramitor2 + ' ' +result.data.paramitor3+ ' ' +result.data.paramitor4 ;
         });
     },
     getmain_menu() {
       axios
-        .get("http://172.18.2.2:3010/api/admin/input-main_name", this.headers)
+        .get("http://172.16.0.251:3010/api/admin/input-main_name", this.headers)
         .then((result) => {
           var i;
           for (i = 0; i < result.data.length; i++) {
@@ -301,14 +301,14 @@ export default {
           }
         });
       axios
-        .get("http://172.18.2.2:3010/api/admin/maxsqlfile_id", this.headers)
+        .get("http://172.16.0.251:3010/api/admin/maxsqlfile_id", this.headers)
         .then((result) => {
           this.sql = result.data.last_id;
           this.sql_link = "report" + result.data.last_id;
           this.sql_file = "sql_0" + result.data.last_id;
         });
       axios
-        .get("http://172.18.2.2:3010/api/admin/select-form", this.headers)
+        .get("http://172.16.0.251:3010/api/admin/select-form", this.headers)
         .then((result) => {
           var i;
           for (i = 0; i < result.data.length; i++) {

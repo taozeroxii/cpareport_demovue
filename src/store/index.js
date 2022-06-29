@@ -22,7 +22,7 @@ export default new Vuex.Store({
   },
 
   actions: {
-    get_user_login: ({ commit }) => Axios.post("http://172.18.2.2:3010/api/admin/checkJWTexpire",'',{ headers: { "x-access-token":  localStorage.getItem("token") }, }).then((res) =>commit("set_user", res.data)),
+    get_user_login: ({ commit }) => Axios.post("http://172.16.0.251:3010/api/admin/checkJWTexpire",'',{ headers: { "x-access-token":  localStorage.getItem("token") }, }).then((res) =>commit("set_user", res.data)),
     logout_store ({ commit }) { commit('remove_user','')}
   },
 

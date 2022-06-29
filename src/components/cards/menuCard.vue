@@ -92,7 +92,7 @@ export default {
     this.loading = true;
   },
   async mounted() {
-    await Axios.get("http://172.18.2.2:3010/api/menu", {
+    await Axios.get("http://172.16.0.251:3010/api/menu", {
       headers: { "x-access-token": localStorage.token },
     })
       .then((result) => {
@@ -116,7 +116,7 @@ export default {
         }
       });
 
-    await Axios.get("http://172.18.2.2:3010/api/menu/getclientip", {
+    await Axios.get("http://172.16.0.251:3010/api/menu/getclientip", {
       headers: { "x-access-token": localStorage.token },
     }).then((response) => {
       this.detailuser.ip = response.data;
@@ -140,7 +140,7 @@ export default {
 
   methods: {
     async showSubmenu(id) {
-      await Axios.get(`http://172.18.2.2:3010/api/menu/submenu/${id}`, {
+      await Axios.get(`http://172.16.0.251:3010/api/menu/submenu/${id}`, {
         headers: { "x-access-token": localStorage.token },
       }).then((result) => {
         // console.log(JSON.stringify(result.data));
@@ -153,7 +153,7 @@ export default {
       this.detailuser.sql_file = link;
       // console.log(this.detailuser);
       await Axios.post(
-        `http://172.18.2.2:3010/api/menu/stampviewer`,
+        `http://172.16.0.251:3010/api/menu/stampviewer`,
         this.detailuser
       ).then(() => {
         // console.log(res.data);
