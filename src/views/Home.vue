@@ -44,7 +44,7 @@ export default {
     };
   },
   mounted() {
-    if(this.$store.getters.get_username != null){
+    if(localStorage.fname != null && localStorage.fname != '' ){
       this.islogin = true;
     }
   },

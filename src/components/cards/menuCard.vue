@@ -1,10 +1,22 @@
 <template>
   <div id="menuCard">
     <div class="" v-if="cklogin">
-      <h1>**** เนื่องจากข้อบังคับ PDPA เกี่ยวกับเรื่องการเข้าถึงข้อมูลส่วนบุคคล****</h1>
-      <p class="text-red">*** การเรียกข้อมูลรายงานจึงต้องมีการเข้าใช้งานระบบเพื่อเก็บว่ามีการเรียกใช้ข้อมูลในส่วนใดบ้างโดยผู้ใช้งานคนไหน ***</p>
-      <a href="http://1.179.170.82/cpawebsite/uploads/pdffile/pdf/pdpa.pdf" class="mb-5" target="blank">อ่านข้อมูลเพิ่มเติม คลิ๊ก !!!</a>
-    <hr class="mt-5 mb-5">
+      <h1>
+        **** เนื่องจากข้อบังคับ PDPA
+        เกี่ยวกับเรื่องการเข้าถึงข้อมูลส่วนบุคคล****
+      </h1>
+      <p class="text-red">
+        ***
+        การเรียกข้อมูลรายงานจึงต้องมีการเข้าใช้งานระบบเพื่อเก็บว่ามีการเรียกใช้ข้อมูลในส่วนใดบ้างโดยผู้ใช้งานคนไหน
+        ***
+      </p>
+      <a
+        href="http://1.179.170.82/cpawebsite/uploads/pdffile/pdf/pdpa.pdf"
+        class="mb-5"
+        target="blank"
+        >อ่านข้อมูลเพิ่มเติม คลิ๊ก !!!</a
+      >
+      <hr class="mt-5 mb-5" />
     </div>
     <v-btn
       v-if="cklogin"
@@ -32,37 +44,35 @@
       color="deep-purple accent-4"
       indeterminate
       rounded
-      height="6"
+      height="5"
       v-if="loading"
     ></v-progress-linear>
+    <v-row>
+       <v-col cols="4"  >
+        <v-expansion-panels inset>   
+          <v-expansion-panel v-for="(item, i) in menumain"  :key="i" @click="showSubmenu(item.main_id,item.main_name)">   
+           <v-expansion-panel-header > {{ i + 1 + " . " + item.main_name }}</v-expansion-panel-header>     
+            <!-- <v-expansion-panel-content >
+              <v-list  >
+                <v-list-item  class="" v-for="(item, index) in menusss"  :key="index"  link @click="onClickMenu(item.menu_file)"  >
+                  <router-link style="text-decoration: none;" to="">{{  i + 1 + "." + (index + 1) + " : " + item.menu_sub }}</router-link>
+                </v-list-item>
+              </v-list>
+            </v-expansion-panel-content>   -->
+          </v-expansion-panel> 
+        </v-expansion-panels>
+      </v-col>
+      <v-col  cols="8" v-if="HeadMenuname">  
+        <h3>{{HeadMenuname}}</h3> <hr>
+        <small>**สามารถเปิด tab ใหม่ได้โดยคลิ๊กขวาที่ชื่อเมนูตัวสีฟ้าๆ**</small>
+        <hr>
+        <v-card  class="mb-3" style="padding:6px" elevation="2" v-for="(item, index) in menusss"  :key="index" @click="onClickMenu(item.menu_file)" >
+          <router-link style="text-decoration: none;" :to="'/tableshowdata/'+item.menu_file" >{{  (index + 1) + " : " + item.menu_sub }}</router-link>
+        </v-card>
+      </v-col>
+    </v-row>
+    
 
-    <v-expansion-panels>
-      <v-expansion-panel
-        class=" mb-5"
-        v-for="(item, i) in menumain"
-        :key="i"
-        @click="showSubmenu(item.main_id)"
-      >
-        <v-expansion-panel-header>
-          {{ i + 1 + " . " + item.main_name }}</v-expansion-panel-header
-        >
-        <v-expansion-panel-content>
-          <v-list dense>
-            <v-list-item
-              class=""
-              v-for="(item, index) in menusss"
-              :key="index"
-              link
-              @click="onClickMenu(item.menu_file)"
-            >
-              <router-link style="text-decoration: none;" to="">{{
-                i + 1 + "." + (index + 1) + " : " + item.menu_sub
-              }}</router-link>
-            </v-list-item>
-          </v-list>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
   </div>
 </template>
 
@@ -73,6 +83,7 @@ export default {
   name: "menuCard",
   data() {
     return {
+      HeadMenuname:null,
       warning: null,
       menumain: "",
       menusss: "",
@@ -139,13 +150,14 @@ export default {
   },
 
   methods: {
-    async showSubmenu(id) {
+    async showSubmenu(id,Menuname) {
+      this.HeadMenuname = Menuname;
       await Axios.get(`http://172.16.0.251:3010/api/menu/submenu/${id}`, {
         headers: { "x-access-token": localStorage.token },
       }).then((result) => {
-        // console.log(JSON.stringify(result.data));
         this.loading = false;
         this.menusss = result.data;
+        window.scrollTo(0,0);
       });
     },
     async onClickMenu(link) {
@@ -166,11 +178,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.v-expansion-panel-header {
-  background-color: #c9ffbef8;
-  border: 2px solid #87c57bf8;
-  font-size: 20px !important;
-}
-</style>
