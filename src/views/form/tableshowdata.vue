@@ -474,9 +474,10 @@ export default {
 
 
   mounted() {
+    // console.log(localStorage.username);
     this.logExceldata.sql_file = this.$route.params.sql;
-    this.logExceldata.username = this.$store.getters.get_username;
-    this.logExceldata.token = this.$store.getters.get_token;
+    this.logExceldata.username = localStorage.username;
+    this.logExceldata.token = localStorage.token;
     // console.log(this.logExceldata)
   },
 
@@ -619,6 +620,7 @@ export default {
     },
 
     onExport() {
+      // console.log(this.logExceldata)
       this.disabledExportBTN = true;
       axios.post('http://172.16.0.251:3010/api/tableshowdata/log_exportexcel',this.logExceldata).then(() => {
         const dataWS = XLSX.utils.json_to_sheet(this.exceldata);
@@ -648,7 +650,11 @@ export default {
     },
 
     selectinput() {
-      axios.get( `http://172.16.0.251:3010/api/tableshowdata/menusql/${this.$route.params.sql}` ) .then((result) => {this.forminput = result.data.menu_link; });
+      axios.get( `http://172.16.0.251:3010/api/tableshowdata/menusql/${this.$route.params.sql}` ) .then((result) => {
+        this.forminput = result.data.menu_link;
+        // console.log( this.forminput )
+        if(this.forminput == 'form_menu_medical_record.php') { this.$router.push("../errorcode") }
+      });
 
       axios.get(`http://172.16.0.251:3010/api/tableshowdata/sql/${this.$route.params.sql}`  ) .then((result) => {
           // console.log(result)

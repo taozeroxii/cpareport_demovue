@@ -154,8 +154,7 @@ module.exports = {
     var date =  reqdate.date;
     var room_id =  reqdate.room_id;
     return new Promise((resolve, reject) => {
-      pgconnection.query(
-        ` SELECT 
+      pgconnection.query(` SELECT 
         oset.operation_set_type_id  as set_type,o.status_id,
         o.operation_date,o.request_operation_time as timeoper,o.hn    ,CONCAT(pt.pname,pt.fname,'  ',pt.lname) As pname
         ,o3.provision_diagnosis_text,o.operation_name
@@ -190,14 +189,14 @@ module.exports = {
         LEFT OUTER JOIN operation_set_cmpn o4 ON o4.operation_set_cmpn_id = o3.operation_set_cmpn_id 
         LEFT OUTER JOIN operation_set_type oset ON oset.operation_set_type_id = o3.operation_set_type_id
         WHERE	1 = 1         
-         AND o.operation_date = '${date}'
+         AND o.operation_date between '${date}' AND '${moment(date).format("YYYY-MM-DD")}'
          AND o.status_id NOT IN ('3','9')
          AND r.room_id ${room_id == null ? 'is null ': '= '+room_id} 
          
          UNION  ALL
  
          SELECT	
-          o2.operation_set_type_id as set_type,(select status_id from operation_list where operation_set_id = operation_set_id ),
+          o2.operation_set_type_id as set_type,(select status_id from operation_list where operation_set_id = operation_set_id limit 1),
            o1.operation_set_date as operation_date,
            o1.operation_set_time as timeoper,
            o1.hn,
@@ -227,9 +226,9 @@ module.exports = {
            LEFT OUTER JOIN operation_emergency e ON e.emergency_id = o1.emergency_id
            LEFT OUTER JOIN opdscreen ss ON ss.vn = o1.vn  
          WHERE	o1.set_complete = 'N' 
-            AND o1.operation_set_date = '${date}' 
-            AND o2.operation_set_type_id  = '1'
-            AND o5.room_id ${room_id == null ? 'is null ': '= '+room_id}`,
+            AND o1.operation_set_date BETWEEN '${date}' AND '${moment(date).format("YYYY-MM-DD")}'
+            AND o2.operation_set_type_id NOT IN ('2','3','9')
+            AND o5.room_id ${room_id == null ? 'is null ': '= '+room_id} `,
         (error, result) => {
           if (error) return reject(error);
           resolve(result);

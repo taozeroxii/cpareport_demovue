@@ -78,6 +78,13 @@ export const router = new Router({
       meta: { requiresAuth: true },
     },
 
+    {
+      path: "/errorcode",
+      name: "errorcode",
+      component: () => import("../views/form/formErrorcode.vue"),
+      meta: { requiresAuth: true },
+    },
+
 
 
     {
