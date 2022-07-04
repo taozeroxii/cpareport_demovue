@@ -62,6 +62,7 @@ export default {
         ["mdi-chart-line", "รายการผู้ป่วย OR", "/dashboardor"],
         ["mdi-account-group-outline", "about", "/about"],
         ["mdi-archive-edit-outline", "ขอข้อมูล ดึงรายงาน", "/requestreport"],
+        ["mdi-account-plus", "ขอเพิ่ม User Hosxp", "/requestuserhos"], 
         ["mdi-television", "Admin", "/admin"],
       ],
     };

@@ -93,6 +93,13 @@ export const router = new Router({
       component: () => import("@/views/Requestreport.vue"),
       meta: { requiresAuth: true },
     },
+    
+    {
+      path: "/requestuserhos",
+      name: "requestuserhos",
+      component: () => import("@/views/RequestuserHos.vue"),
+    },
+
 
     {
       path: "*",
@@ -103,7 +110,7 @@ export const router = new Router({
 
 router.beforeEach(async (to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ["/login", "/", "/about", "/dashboard","/dashboardor"]; // หน้าที่ไม่ต้อง login -- , "/tableshowdata"
+  const publicPages = ["/login", "/", "/about", "/dashboard","/dashboardor",'/requestuserhos']; // หน้าที่ไม่ต้อง login -- , "/tableshowdata"
   // const adminPage = ["/admin","/admin/register","/admin/tableuser","/admin/addquery","/admin/menuEditquery"];
   const authRequired = !publicPages.includes(to.path);
   // const loggedIn = localStorage.getItem("token");
