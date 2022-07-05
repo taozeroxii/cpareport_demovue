@@ -8,4 +8,5 @@ router.use('/dashboard-or',require('./dashboardOr'));
 router.use('/tableshowdata',require('./tableshowdata'));
 router.use('/selectinput',require('./selectinput'));
 router.use('/menu',require('./menu'));
+router.use('/requestUserHos',require('./requestUserHos'));
 module.exports = router;
