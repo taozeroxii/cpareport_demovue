@@ -145,6 +145,7 @@ export default {
       this.detailuser.datetime = moment(new Date()).format(
         "YYYY-MM-DD HH:mm:ss"
       );
+      localStorage.ip = response.data;
       console.log("Client Ip : " + response.data);
     });
   },
