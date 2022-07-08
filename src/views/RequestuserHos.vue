@@ -1,12 +1,11 @@
 <template>
   <v-container>
+    <a target="blank" href="http://172.16.0.251/report/frm_res/checkreg_hosxp.php"> <v-btn dark>รายการคำขอ</v-btn></a>
     <v-row>
-      <v-col cols="1"></v-col>
+      <v-col cols="1"> </v-col>
       <v-col cols="10">
         <h4 class="mt-5 mb-3 ">
-          <v-icon> mdi-account-plus </v-icon> ขอเพิ่ม User เพื่อเข้าใช้งาน ระบบ
-          hosxp
-        </h4>
+          <v-icon> mdi-account-plus </v-icon> ขอเพิ่ม User เพื่อเข้าใช้งาน ระบบhosxp </h4>
         <hr />
 
         <v-form ref="form" v-model="valid" lazy-validation>
@@ -90,9 +89,7 @@
                 label="เลขที่บัตรประชาชน"
                 maxlength="13"
                 :rules="[
-                  (v) =>
-                    /^[0-9]+$/.test(v) ||
-                    'โปรดกรอกเลขบัตรประชาชนตัวเลขเท่านั้น',
+                  (v) =>  /^[0-9]+$/.test(v) ||  'โปรดกรอกเลขบัตรประชาชนตัวเลขเท่านั้น',
                   (v) => (v && v.length >= 13) || 'โปรดกรอก 13 หลัก',
                 ]"
                 required
@@ -456,7 +453,7 @@ export default {
       },
       nameRules: [(v) => !!v || " โปรดระบุชื่อ"],
       lnameRules: [(v) => !!v || "โปรดระบุนามสกุล"],
-      engfullnameRules: [(v) => !!v || "โปรดกรอกชื่อภาษาอังกฤษ"],
+      engfullnameRules: [ (v) =>  /^[a-zA-Z ]+$/.test(v) ||  'โปรดกรอกชื่อภาษาอังกฤษ'],
       // emailRules: [(v) => /.+@.+\..+/.test(v) || "โปรดระบุ email ให้ถูกต้อง"],
       errorMessage:null,
     };
