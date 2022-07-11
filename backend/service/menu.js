@@ -16,7 +16,7 @@ module.exports = {
   findById(id) {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT menu_sub,menu_title,menu_file,menu_head,menu_name,menu_status FROM cpareport_menu WHERE menu_status = '1' and  menu_main = ?`,
+        `SELECT menu_sub,menu_title,menu_file,menu_head,menu_name,menu_status,menu_link FROM cpareport_menu WHERE menu_status = '1' and  menu_main = ?`,
         [id],
         (error, result) => {
           if (error) return reject(error);
@@ -30,7 +30,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const  txt = value.select ;
       connection.query(
-        `SELECT menu_sub,menu_title,menu_file,menu_head,menu_name,menu_status FROM cpareport_menu WHERE menu_status = '1' and  menu_sub like ${connection.escape(`%${txt}%`)}`,
+        `SELECT menu_sub,menu_title,menu_file,menu_head,menu_name,menu_status,menu_link FROM cpareport_menu WHERE menu_status = '1' and  menu_sub like ${connection.escape(`%${txt}%`)}`,
         (error, result) => {
           if (error) return reject(error);
           resolve(result);

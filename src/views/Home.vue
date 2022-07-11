@@ -54,11 +54,11 @@ export default {
         .then((result) => {
         this.searchmenu = result.data;
         this.clicksubmit = true;
-        console.log(  this.searchmenu);
      });
     this.clicksubmit = false;
     // console.log(this.form.select);
     },
+    
   },
 };
 </script>

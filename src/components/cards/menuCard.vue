@@ -66,8 +66,8 @@
         <h3>{{HeadMenuname}}</h3> <hr>
         <small>**สามารถเปิด tab ใหม่ได้โดยคลิ๊กขวาที่ชื่อเมนูตัวสีฟ้าๆ**</small>
         <hr>
-        <v-card  class="mb-3" style="padding:6px" elevation="2" v-for="(item, index) in menusss"  :key="index" @click="onClickMenu(item.menu_file)" >
-          <router-link style="text-decoration: none;" :to="'/tableshowdata/'+item.menu_file" >{{  (index + 1) + " : " + item.menu_sub }}</router-link>
+        <v-card  class="mb-3" style="padding:6px" elevation="2" v-for="(item, index) in menusss"  :key="index" @click="onClickMenu(item.menu_file,item.menu_link)" >
+          <p style="text-decoration: none;"  >{{  (index + 1) + " : " + item.menu_sub }}</p>
         </v-card>
       </v-col>
     </v-row>
@@ -162,13 +162,22 @@ export default {
         this.$router.push("./login")
       });
     },
-    async onClickMenu(link) {
-      // console.log(link);
-      this.detailuser.sql_file = link;
+    async onClickMenu(menu_file,menu_link) {
+      console.log(menu_file,menu_link);
+      this.detailuser.sql_file = menu_file;
       // console.log(this.detailuser);
       await Axios.post( `http://172.16.0.251:3010/api/menu/stampviewer`, this.detailuser).then(() => {
-        // console.log(res.data);
-        this.$router.push(`/tableshowdata/${link}`);
+
+        if( (menu_file == null || menu_file == '') && (!menu_file.match(/sql_.*/)) ){
+          if(menu_link.match(/report.*/)){
+            window.open ("http://172.16.0.251/"+menu_link,"_blank");
+          }else if(menu_link.match(/https.*/)){
+            window.open (menu_link,"_blank");
+          } 
+        }else {
+          this.$router.push(`./tableshowdata/${menu_file}`).catch(() => {});
+        }
+
       });
     },
     goTologin() {
