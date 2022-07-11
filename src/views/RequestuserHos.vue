@@ -520,7 +520,9 @@ export default {
       this.$refs.form.validate();
       if (this.$refs.form.validate()) {
         //บันทึกข้อมูลลงฐานข้อมูล
-        console.log(this.formData);
+        this.formData.fname = this.formData.fname.trim();
+        this.formData.lname = this.formData.lname.trim();
+        // console.log(this.formData);
         axios.post(`http://172.16.0.251:3010/api/requestUserHos/insertreq`,this.formData) .then(() => { 
           this.alertify.success("แจ้งข้อมูลไปยังผู้ดูแลระบบเรียบร้อย");
           this.errorMessage = null;
