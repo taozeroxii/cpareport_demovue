@@ -64,10 +64,10 @@
       </v-col>
       <v-col  cols="8" v-if="HeadMenuname">  
         <h3>{{HeadMenuname}}</h3> <hr>
-        <small>**สามารถเปิด tab ใหม่ได้โดยคลิ๊กขวาที่ชื่อเมนูตัวสีฟ้าๆ**</small>
+        <small>**สามารถเปิด tab ใหม่ได้โดยคลิ๊กขวาที่ชื่อเมนูตัวสีฟ้าๆ เปิดลิงก์ในแท็บใหม่**</small>
         <hr>
         <v-card  class="mb-3" style="padding:6px" elevation="2" v-for="(item, index) in menusss"  :key="index" @click="onClickMenu(item.menu_file,item.menu_link)" >
-          <p style="text-decoration: none;"  >{{  (index + 1) + " : " + item.menu_sub }}</p>
+          <router-link style="text-decoration: none;" :to="'./tableshowdata/'+item.menu_file"> {{  (index + 1) + " : " + item.menu_sub }}</router-link>
         </v-card>
       </v-col>
     </v-row>
